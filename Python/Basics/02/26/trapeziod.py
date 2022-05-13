@@ -1,0 +1,5 @@
+lower_base = float(input())
+upper_base = float(input())
+side = float(input())
+area = (((lower_base + upper_base) * side) / 2)
+print(f'{area:.2f}')

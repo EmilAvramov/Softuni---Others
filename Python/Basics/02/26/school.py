@@ -1,0 +1,11 @@
+pens = float(input())
+markers = float(input())
+chemicals = float(input())
+discount = float(input())
+pen_price = float(5.8)
+markers_price = float(7.2)
+chemicals_price = float(1.2)
+base_price = (pens * pen_price + markers * markers_price + chemicals * chemicals_price)
+discount_total = (pens * pen_price + markers * markers_price + chemicals * chemicals_price) * (discount/100)
+money_needed = base_price - discount_total
+print(f'{money_needed:.2f}')

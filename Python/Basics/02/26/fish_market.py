@@ -1,0 +1,10 @@
+clam_price = float(7.5)
+mackerel_price = float(input())
+small_fish_price = float(input())
+bonito_price = float(mackerel_price * 1.6)
+scad_price = float(small_fish_price * 1.8)
+bonito_qty = float(input())
+scad_qty = float(input())
+clam_qty = int(input())
+total_price = clam_price * clam_qty + bonito_price * bonito_qty + scad_qty * scad_price
+print(f'{total_price:.2f}')
