@@ -50,10 +50,9 @@ class PrimarySchool extends School {
      * @param {string} name
      * @param {number} students
      * @param {string} pickUp
-     * @param {string} level
      */
-    constructor(name, level, students, pickUp) {
-        super(name, level = "primary", students);
+    constructor(name, students, pickUp) {
+        super(name, "primary", students);
         this._pickUpPolicy = pickUp;
     }
     get pickUpPolicy() {
@@ -64,23 +63,21 @@ class PrimarySchool extends School {
 class Middle extends School {
     /**
      * @param {string} name
-     * @param {string} level
      * @param {number} students
      */
-    constructor(name, level, students) {
-        super(name, (level = "middle"), students);
+    constructor(name, students) {
+        super(name, "middle", students);
     }
 }
 
-class High extends School {
+class HighSchool extends School {
     /**
      * @param {string} name
-     * @param {string} level
      * @param {number} students
      * @param {Array} sportsTeams
      */
-    constructor(name, level, students, sportsTeams) {
-        super(name, (level = "high"), students);
+    constructor(name, students, sportsTeams) {
+        super(name, "high", students);
         this._sportsTeams = sportsTeams;
     }
     get sportsTeams() {
@@ -90,8 +87,24 @@ class High extends School {
 
 const lorraineHansbury = new PrimarySchool(
     "Lorraine Hansbury",
-    "primary",
     514,
     "Students must be picked up by a parent, guardian, or a family member over the age of 13."
 );
 console.log(lorraineHansbury);
+lorraineHansbury.quickFacts();
+School.pickSubstituteTeacher([
+    "Jamal Crawford",
+    "Lou Williams",
+    "J. R. Smith",
+    "James Harden",
+    "Jason Terry",
+    "Manu Ginobli",
+]);
+
+const alSmith = new HighSchool("Al E. Smith", 415, [
+    "Baseball",
+    "Basketball",
+    "Volleyball",
+    "Track and Field",
+]);
+console.log(alSmith.sportsTeams);
