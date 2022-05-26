@@ -1,10 +1,8 @@
 function treasureFinder(arr = []) {
     var key = arr.shift().split(" ");
-    const command = arr.pop();
+    arr.pop();
     let coords = [];
     let count = 0;
-    var material = /&(\w+?)&/;
-    var location = /<(\w+?)>/;
     for (let line of arr) {
         let tempWord = "";
         for (let letter of line) {
@@ -19,9 +17,17 @@ function treasureFinder(arr = []) {
         count = 0;
     }
     for (let coord of coords) {
-        console.log(
-            `Found ${coord.match(material)[1]} at ${coord.match(location)[1]}`
-        );
+        let material, location;
+        material = coord.split("&")[1];
+        location = coord.split("<")[1];
+        if (location) {
+            location = location.slice(0, location.length - 1);
+        }
+        if (material) {
+            console.log(
+                `Found ${coord.match(material)} at ${coord.match(location)}`
+            );
+        }
     }
 }
 
@@ -29,5 +35,12 @@ treasureFinder([
     "1 2 1 3",
     "ikegfp'jpne)bv=41P83X@",
     "ujfufKt)Tkmyft'duEprsfjqbvfv=53V55XA",
+    "find",
+]);
+
+treasureFinder([
+    "1 2 1 3",
+    "asdf",
+    "udasd",
     "find",
 ]);
