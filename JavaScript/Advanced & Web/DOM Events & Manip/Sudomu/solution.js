@@ -5,21 +5,17 @@ function solve() {
     var result = document.querySelector("#check p");
     var sudokuTable = document.querySelector("table");
 
-    check.addEventListener("click", test);
+    check.addEventListener("click", checkResult);
     clear.addEventListener("click", clearBoard);
 
-    function test() {
-        // Rows
-        let row1 = fields[0].value + fields[1].value + fields[2].value;
-        let row2 = fields[3].value + fields[4].value + fields[5].value;
-        let row3 = fields[6].value + fields[7].value + fields[8].value;
-        // Columns
-        let col1 = fields[0].value + fields[3].value + fields[6].value;
-        let col2 = fields[1].value + fields[4].value + fields[7].value;
-        let col3 = fields[2].value + fields[5].value + fields[8].value;
-        // Table
-        let table = [row1, row2, row3, col1, col2, col3].map(Number);
-        if (table.forEach(element => {return element === table[0]})) {
+    let matrix = [
+        [fields[0].value, fields[1].value, fields[2].value],
+        [fields[3].value, fields[4].value, fields[5].value],
+        [fields[6].value, fields[7].value, fields[8].value],
+    ];
+
+    function checkResult() {    
+        if (traverseMatrix(matrix)) {
             result.textContent = "You solve it! Congratulations!";
             result.style.color = "green";
             sudokuTable.style.border = "2px solid green";
@@ -36,5 +32,19 @@ function solve() {
             result.textContent = "";
             sudokuTable.style.border = "none";
         }
+    }
+
+    function traverseMatrix(mtx) {
+        for (let i = 1; i < mtx.length; i++) {
+            let row = mtx[i];
+            let col = mtx.map((row) => row[i]);
+            if (
+                col.length != [...new Set(col)].length ||
+                row.length != [...new Set(row)].length
+            ) {
+                return false;
+            }
+        }
+        return true
     }
 }
