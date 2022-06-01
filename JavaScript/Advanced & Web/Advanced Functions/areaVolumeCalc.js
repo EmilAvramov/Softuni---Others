@@ -13,17 +13,12 @@ function vol() {
  * @param {string} string
  */
 function areaVolume(func1, func2, string) {
-    let arr = JSON.parse(string)
-    let output = []
-    for (let item of arr) {
-        item.x = Number(item.x)
-        item.y = Number(item.y)
-        item.z = Number(item.z)
-        item.area = func1()
-        item.volume = func2()
-        output.push({area: item.area, volume: item.volume})
-    }
-    console.log(output)
+    let arr = JSON.parse(string);
+    const result = arr.map((/** @type {any} */ el) => ({
+        area: func1.call(el),
+        volume: func2.call(el),
+    }));
+    return result;
 }
 
 areaVolume(
