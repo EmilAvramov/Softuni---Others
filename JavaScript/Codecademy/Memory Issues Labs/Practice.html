@@ -1,0 +1,60 @@
+
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+</head>
+<body>
+<div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+  <div>
+    <button id="callOrder1">Task 1</button>
+    <div style="overflow-wrap: break-word; inline-size: 400px;"> <span>First result:</span><span id="result1"></span></div>
+  </div>
+
+  <div>
+    <button id="callOrder2">Task 2</button>
+    <div style="overflow-wrap: break-word; inline-size: 400px;"> <span>Second result:</span><span id="result2"></span></div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+let orders1 = [];
+function makeDrink(order, idx) {
+  orders1.push({order: order});
+  this.order += order;
+}
+
+function makeDrinks1() {
+  for (let customer = 0; customer < 10000; customer++) {
+    let drinks = ["Horchata", "Kvas", "Atole", "Lemondae", "Frappe", "Telba", "Lassi", "Tej", "Masala Chai"];
+    let idx = Math.floor(Math.random()) * drinks.length;
+    
+    makeDrink(drinks[idx]);
+  }
+}
+
+let orders2 = [];
+function makeDrink2(order) {
+  this.order = order;
+}
+
+function makeDrinks2() {
+  for (let customer = 0; customer < 10000; customer++) {
+    let drinks = ["Horchata", "Kvas", "Atole", "Lemondae", "Frappe", "Telba", "Lassi", "Tej", "Masala Chai"];
+    let idx = Math.floor(Math.random() * drinks.length);
+    orders2.push(new makeDrink2(drinks[idx]));
+  }
+}
+document.getElementById('callOrder1').onclick = function() {
+  makeDrinks1();
+  console.log(order);
+  document.getElementById("result1").innerText = order;
+}
+document.getElementById('callOrder2').onclick = function() {
+  makeDrinks2();
+  document.getElementById("result2").innerText = orders2;
+}
+</script></body></html>

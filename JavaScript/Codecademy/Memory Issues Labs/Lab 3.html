@@ -1,0 +1,166 @@
+
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <style>
+@keyframes cloud-drift {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+.stars, .drift {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.stars {
+  background: url(https://images.unsplash.com/photo-1447433819943-74a20887a81e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2292&q=80);
+  z-index:0;
+  background-size: 100%;
+}
+
+.drift{
+  background:transparent url(https://irp.cdn-website.com/530aeed4/dms3rep/multi/stars.svg) repeat top center;
+  z-index:1;
+  animation:cloud-drift 200s linear infinite;
+}
+
+
+
+.button {
+  z-index: 100;
+  position: absolute;
+  bottom: 30px;
+  width: 120px;
+  border: none;
+  border-radius: 10px;
+  height: 40px;
+  
+}
+
+.start {
+  background-color: #F6CE6E;
+}
+
+
+.ship {
+  position: relative;
+  z-index: 20;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  visibility: hidden;
+}
+
+
+.visible {
+  visibility: visible;
+}
+    	
+    </style>
+
+
+
+<script>
+  
+
+  
+
+</script>
+<script async="" src="./Lab 3_files/api.js.download"></script></head>
+<body>
+
+  
+
+
+<button id="add" class="button" style="right: 140px;">Add ships</button> 
+<button id="clear" class="button" style="right: 10px;">Clear Ships</button>
+<button id="start" class="button start" style="right: 270px;">START</button>
+<div class="stars"></div>
+<div class="drift"></div>
+
+<div class="ships">
+  <img class="ship" src="./Lab 3_files/spaceship.png">
+  </div>
+
+
+
+
+
+  <script>
+    let app;
+    function createApp() { 
+  this.count = 10;
+  this.bodySize = document.body.getBoundingClientRect();
+}
+
+createApp.prototype.makeShips = function() {
+  let save = document.querySelector('.ship').cloneNode();
+  document.querySelectorAll('.ship').forEach(function(x){
+x.remove()});
+  for (let i = 0; i < this.count; i++) {
+    this.bodySize = document.body.getBoundingClientRect()
+      let ship = save.cloneNode();
+      ship.style.left = (i / (this.count / 100)) + 'vw';
+      ship.classList.add("visible");
+      let top = Math.floor(Math.random() * this.bodySize.height);
+      ship.style.top = top + "px";
+      let name = `customRule${top}`;
+      let time = Math.floor(Math.random() * 20);
+      let rule = `@keyframes ${name} {
+      from { transform: rotateZ(0deg);   }
+      to   { transform: rotateZ(360deg); }
+      }`
+      document.styleSheets[0].insertRule(rule);
+      let str = `${name} ${time}s linear infinite`;
+      ship.style.animation = str;
+
+      document.body.appendChild(ship);
+    }
+  }
+
+createApp.prototype.addShips = function() {
+  this.count += 10;
+}
+
+createApp.prototype.clearShips = function() {
+  this.count = 10;
+  let ship = document.getElementsByClassName('ship')[0].cloneNode();
+  document.querySelectorAll('.ship').forEach(function(x){
+x.remove()});
+
+    document.body.appendChild(ship);
+
+}
+
+
+
+
+function add() {
+  app.addShips();
+  app.makeShips();
+}
+
+document.getElementById('clear').onclick = function() {
+  app.clearShips();
+  app.makeShips();
+}
+
+document.getElementById('add').onclick = function() {
+  app.addShips();
+  app.makeShips();
+}
+
+
+document.getElementById('start').onclick = function() {
+  app = new createApp();
+  app.makeShips();
+}
+  </script>
+
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'7159d4364a5e8ef0',m:'ZqlazTIFg4BGsMkgcNIgzLBX5sS0Z0kaCHKCOzBcWIk-1654273990-0-AfBaGeNUN//9n++WX92dBKjZRGYBoOy+bSybITmbcpKEQBS1EMccnF7gnPV9UypE44Ne9So+MRgdYEUR4rJ1UrEXYbWq4TTn56iORYrXmu8ezF27iMnSZcvtUtt+18e0WFz/o/sVUG/oLmjxIGCUipIvwp0qfKYpsh27WzSHHi+gogbBpOU53jc1yCyt/VmmcEjRAev5sgnfNGj192YVqfE=',s:[0xff78be199c,0x72404317cd],}})();</script>
+</body></html>

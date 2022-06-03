@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <meta
+            http-equiv="content-type"
+            content="text/html; charset=windows-1252"
+        />
+        <script>
+            function getRandomArbitrary(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const strings = [];
+
+            function stringBuilder() {
+                let idx = Math.floor(Math.random() * 26);
+                let letter = "abcdefghijklmnopqrstuvwxyz".substr(idx, 1);
+                let len = getRandomArbitrary(1000, 1000000);
+                let str = letter.repeat(len);
+                this.string = str;
+                console.log(this.string, ":", this.string.length);
+            }
+
+            function allocateMemory() {
+                strings.push(new stringBuilder());
+            }
+
+            function allocateExtraMemory(max) {
+                for (let i = 0; i < max; i++) {
+                    allocateMemory();
+                }
+            }
+        </script>
+        <script async="" src="Lab%201_files/api.js"></script>
+        <style>
+            @media print {
+                #ghostery-tracker-tally {
+                    display: none !important;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <button onclick="allocateMemory()">Allocate Memory</button>
+        <button onclick="allocateExtraMemory(1000)">
+            Allocate A Large Amount of Memory
+        </button>
+        <button onclick="allocateExtraMemory(10000)">
+            Allocate Too Much Memory
+        </button>
+        <script type="text/javascript">
+            (function () {
+                window["__CF$cv$params"] = {
+                    r: "7159a740cd521c43",
+                    m: "4kFE2AodX8b94yrIb9SFrUvLczkirWg566massf2.O4-1654272149-0-AXfB/2bc9h6nIx/Cla7EkIghgUZMPoAbofZ+fAtwoiPI8nj+/fLrHmQv8t0/JeJ5Rk/Ai0fhepE0jokxLTB/xyjdFaZnNldT+2ikY1wwzOkOGGKYN/XMpSiqA6xmBu0pYxa0xFz/112TNbnf2DVMFGt22bjs4thgwZCkldMAkYe4TyYrE31+WiEFyeYwne4e8xDas173iiZGA+EEYt58cig=",
+                    s: [0xc2e2dbf080, 0x2ff6f696db],
+                };
+            })();
+        </script>
+    </body>
+</html>

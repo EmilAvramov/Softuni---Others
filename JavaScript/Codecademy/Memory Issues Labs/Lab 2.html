@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <meta
+            http-equiv="content-type"
+            content="text/html; charset=windows-1252"
+        />
+        <script async="" src="Lab%202_files/api.js"></script>
+        <style>
+            @media print {
+                #ghostery-tracker-tally {
+                    display: none !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <button id="detachDomElements">Detach</button>
+        <button id="deleteDomElements">Delete</button>
+        <script type="text/javascript">
+            (function () {
+                window["__CF$cv$params"] = {
+                    r: "7159c471ac288ef6",
+                    m: "G0g9xr1FLf1sgrhI9ejjpWapXimxKbEYCybQWrl3Lxg-1654273344-0-AR2I8B0xWyReSXZSPxV35nGcSG+OvvTNRtWL3wyCk7rM8gPq3CIgESX1mx9UMMVd8rhTk0p97d3TG+QfQgO1qOa0J1cSkeMdIszYa/jkkc+wqugCconTIpGF/rBQbDdD9ZDgiQX1FZ17mdaGfSMmXxylegz2W5tnn9gmPBZHn+El/wpy3NEe2Yo979jVJ3vfWmLK3Js6RgMNbKVZQeDCIlE=",
+                    s: [0x8923cd85c7, 0x02ec7b71f4],
+                };
+            })();
+        </script>
+                <script>
+                  let detachedElements;
+      
+                  function create() {
+                      let ul = document.createElement("ul");
+                      for (let i = 0; i < 100; i++) {
+                          var li = document.createElement("li");
+                          ul.appendChild(li);
+                      }
+                      detachedElements = ul;
+                  }
+      
+                  function removeEl() {
+                      detachedElements = null;
+                  }
+      
+                  document
+                      .getElementById("detachDomElements")
+                      .addEventListener("click", create);
+                  document
+                      .getElementById("deleteDomElements")
+                      .addEventListener("click", removeEl);
+              </script>
+    </body>
+</html>
