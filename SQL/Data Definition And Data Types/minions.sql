@@ -107,3 +107,18 @@ VALUES
 ("Jane Doe", "jdoe"),
 ("Nicky Doe", "ane"), 
 ("Nana Doe", "n_doe");
+
+-- 8
+ALTER TABLE users
+DROP PRIMARY KEY,
+ADD CONSTRAINT pk_users PRIMARY KEY (id, username);
+
+-- 9
+ALTER TABLE users
+MODIFY last_login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- 10
+ALTER TABLE users
+DROP PRIMARY KEY,
+ADD CONSTRAINT pk_person PRIMARY KEY(id),
+ADD CONSTRAINT un_users UNIQUE(username);
