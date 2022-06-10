@@ -288,3 +288,82 @@ VALUES
 (1, 2, 3),
 (3, 2, 1),
 (2, 3, 1);
+
+-- 13
+CREATE SCHEMA soft_uni;
+USE soft_uni;
+
+CREATE TABLE towns (
+    id INT AUTO_INCREMENT NOT NULL,
+    name NVARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE addresses (
+    id INT AUTO_INCREMENT NOT NULL,
+    address_text NVARCHAR(200) NOT NULL,
+    town_id INT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE addresses
+ADD FOREIGN KEY (town_id) REFERENCES towns (id);
+
+CREATE TABLE departments (
+    id INT AUTO_INCREMENT NOT NULL,
+    name NVARCHAR(150) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name NVARCHAR(50) NOT NULL,
+    middle_name NVARCHAR(50),
+    last_name NVARCHAR(50) NOT NULL,
+    job_title NVARCHAR(50),
+    department_id INT NOT NULL,
+    hire_date DATE,
+    salary NUMERIC(10, 2),
+    address_id INT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE employees
+ADD FOREIGN KEY (department_id) REFERENCES departments (id),
+ADD FOREIGN KEY (address_id) REFERENCES addresses (id);
+
+ALTER TABLE employees
+CHANGE COLUMN address_id address_id INT NULL;
+
+INSERT INTO towns (name)
+VALUES ("Sofia"), ("Plovdiv"), ("Varna"), ("Burgas");
+
+INSERT INTO departments (name)
+VALUES 
+("Engineering"), 
+("Sales"), 
+("Marketing"), 
+("Software Development"),
+("Quality Assurance");
+
+INSERT INTO employees (
+    first_name, middle_name, last_name, 
+    job_title, department_id, hire_date, 
+    salary)
+VALUES 
+("Ivan", "Ivanov", "Ivanov", ".NET Developer", 4, "2013-02-01", 3500.00),
+("Petar", "Petrov", "Petrov", "Senior Engineer", 1, "2004-03-02", 4000.00),
+("Maria", "Petrova", "Ivanova", "Intern", 5, "2016-08-28", 525.25),
+("Georgi", "Terziev", "Ivanov", "CEO", 2, "2007-12-09", 3000),
+("Peter", "Pan", "Pan", "Intern", 3, "2016-08-28", 599.88);
+
+-- 14
+SELECT * FROM towns;
+SELECT * FROM departments;
+SELECT * FROM employees;
+
+-- 15
+
+SELECT * FROM towns ORDER BY name ASC;
+SELECT * FROM departments ORDER BY name ASC;
+SELECT * FROM employees ORDER BY salary DESC;
