@@ -175,3 +175,116 @@ INSERT INTO movies (title)
 VALUES ("Big Ben"), ("Suits"), ("Jurassic Park"), ("Andromeda"), ("Happy Hour");
 
 -- 12
+CREATE SCHEMA car_rental;
+GO;
+USE car_rental;
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT NOT NULL,
+    category NVARCHAR(50) NOT NULL,
+    daily_rate DECIMAL(10, 2),
+    weekly_rate DECIMAL(10, 2),
+    monthly_rate DECIMAL(10, 2),
+    weekend_rate DECIMAL(10, 2),
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE categories
+ADD CONSTRAINT Ck_rate CHECK(
+    (daily_rate IS NOT NULL) OR 
+    (weekly_rate IS NOT NULL) OR 
+    (monthly_rate IS NOT NULL) OR
+    (weekend_rate IS NOT NULL));
+
+INSERT INTO categories (category, daily_rate, weekly_rate, monthly_rate, weekend_rate)
+VALUES 
+("First", 10, 20, 30, 40),
+("Second", 100, 200, 300, 400),
+("Third", 1000, 2000, 3000, 4000);
+
+CREATE TABLE cars (
+    id INT AUTO_INCREMENT NOT NULL,
+    plate_number NVARCHAR(50) NOT NULL,
+    manufacturer NVARCHAR(50) NOT NULL,
+    model NVARCHAR(50) NOT NULL,
+    car_year INT,
+    category_id INT,
+    doors TINYINT,
+    picture VARBINARY(2000),
+    car_condition NVARCHAR(200),
+    available BIT DEFAULT 1,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE cars
+ADD FOREIGN KEY (category_id) REFERENCES categories (id);
+
+INSERT INTO cars (plate_number, manufacturer, model) 
+VALUES 
+("CA2341AB", "Toyota", "Supra"),
+("CA1234AA", "Skoda", "Octavia"),
+("CB9999CB", "Skoda", "Kamiq");
+
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name NVARCHAR(50) NOT NULL,
+    last_name NVARCHAR(50) NOT NULL,
+    title NVARCHAR(20),
+    notes NVARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+INSERT INTO employees (first_name, last_name)
+VALUES
+("John", "Doe"),
+("Max", "Williams"),
+("Jessica", "Roberts");
+
+CREATE TABLE customers (
+    id INT AUTO_INCREMENT NOT NULL,
+    driver_license NVARCHAR(50) NOT NULL,
+    full_name NVARCHAR(100) NOT NULL,
+    address_ NVARCHAR(250),
+    city NVARCHAR(50),
+    zip_code NVARCHAR(50),
+    notes NVARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+
+INSERT INTO customers (driver_license, full_name)
+VALUES
+("21321312AA", "John Doe"),
+("29A2938W99", "Marta Borg"),
+("999ASD2222", "Max Smith");
+
+CREATE TABLE rental_orders (
+    id INT AUTO_INCREMENT NOT NULL,
+    employee_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    car_id INT NOT NULL,
+    car_condition NVARCHAR(200),
+    tank_level NUMERIC(5, 2),
+    kilometrage_start INT,
+    kilometrage_end INT,
+    total_kilometrage INT,
+    startDate DATE,
+    endDate DATE,
+    total_days INT,
+    rate_applied Numeric(10, 2),
+    tax_rate Numeric(10, 2),
+    order_status NVARCHAR(50),
+    notes NVARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE rental_orders
+ADD FOREIGN KEY (employee_id) REFERENCES employees (id),
+ADD FOREIGN KEY (customer_id) REFERENCES customers (id),
+ADD FOREIGN KEY (car_id) REFERENCES cars (id);
+
+INSERT INTO rental_orders (employee_id, customer_id, car_id)
+VALUES
+(1, 2, 3),
+(3, 2, 1),
+(2, 3, 1);
