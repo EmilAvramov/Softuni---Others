@@ -122,3 +122,56 @@ ALTER TABLE users
 DROP PRIMARY KEY,
 ADD CONSTRAINT pk_person PRIMARY KEY(id),
 ADD CONSTRAINT un_users UNIQUE(username);
+
+-- 11
+CREATE SCHEMA movies;
+GO;
+USE movies;
+
+CREATE TABLE directors (
+    id INT AUTO_INCREMENT NOT NULL,
+    director_name NVARCHAR(50) NOT NULL,
+    notes NVARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE genres (
+    id INT AUTO_INCREMENT NOT NULL,
+    genre_name NVARCHAR(50) NOT NULL,
+    notes NVARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT NOT NULL,
+    category_name NVARCHAR(50) NOT NULL,
+    notes NVARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE movies (
+    id INT AUTO_INCREMENT NOT NULL,
+    title NVARCHAR(50) NOT NULL,
+    director_id INT,
+    copyright_year DATE,
+    length NVARCHAR(20),
+    genre_id INT,
+    category_id INT,
+    rating INT,
+    notes NVARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+INSERT INTO directors (director_name)
+VALUES ("Mike"), ("Smith"), ("Robert"), ("Samantha"), ("Angela");
+
+INSERT INTO genres (genre_name)
+VALUES ("Drama"), ("Horror"), ("Thriller"), ("Sci-Fi"), ("Action");
+
+INSERT INTO categories (category_name)
+VALUES ("For Kids"), ("Over 13"), ("Over 16"), ("Over 18"), ("No Restriction");
+
+INSERT INTO movies (title)
+VALUES ("Big Ben"), ("Suits"), ("Jurassic Park"), ("Andromeda"), ("Happy Hour");
+
+-- 12
