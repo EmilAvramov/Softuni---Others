@@ -108,3 +108,34 @@ SET salary = salary + salary * 0.12
 WHERE department_id = 1 OR department_id = 2 OR department_id = 4 OR department_id = 11;
 
 SELECT salary FROM employees;
+
+-- 21
+USE geography;
+
+SELECT peak_name
+FROM peaks
+ORDER BY peak_name ASC;
+
+-- 22
+SELECT * FROM continents;
+
+SELECT country_name, population
+FROM countries
+WHERE continent_code = "EU"
+ORDER BY population DESC, country_name ASC
+LIMIT 30;
+
+-- 23
+SELECT * FROM currencies;
+
+SELECT 
+country_name, country_code, IF(currency_code = "EUR", "Euro", "Not Euro") AS currency
+FROM countries
+ORDER BY country_name ASC;
+
+-- 24
+USE diablo;
+
+SELECT name 
+FROM characters 
+ORDER BY name ASC;

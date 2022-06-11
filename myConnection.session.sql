@@ -1,1 +1,3 @@
-SELECT salary FROM employees;
+SELECT name 
+FROM characters 
+ORDER BY name ASC;
