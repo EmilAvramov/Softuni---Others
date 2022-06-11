@@ -67,3 +67,46 @@ LOWER(CONCAT(LEFT(peaks.peak_name, LENGTH(peaks.peak_name) - 1), rivers.river_na
 FROM peaks JOIN rivers
 ON RIGHT(peaks.peak_name, 1) = LEFT(rivers.river_name, 1)
 ORDER BY mix;
+
+-- 12
+USE diablo;
+
+SELECT name, CAST(start AS DATE) AS start
+FROM games
+WHERE YEAR(start) BETWEEN "2011" AND "2012"
+ORDER BY start ASC, name ASC
+LIMIT 50;
+
+-- 13
+SELECT 
+user_name, 
+RIGHT(email, LENGTH(email) - LOCATE("@", email)) AS email_provider
+FROM users
+ORDER BY email_provider ASC, user_name ASC
+
+-- 14
+SELECT user_name, ip_address
+FROM users
+WHERE ip_address LIKE "___.1%.%.___"
+ORDER BY user_name ASC;
+
+-- 15
+SELECT
+name, 
+IF(HOUR(start) BETWEEN 0 AND 11, "Morning",
+IF(HOUR(start) BETWEEN 12 and 17, "Afternoon", "Evening")) AS "Part of the Day",
+IF(duration <= 3, "Extra Short", 
+IF(duration > 3 AND duration <= 6, "Short",
+IF(duration > 6 AND duration <= 10, "Long", "Extra Long"
+))) AS duration
+FROM games
+
+-- 16
+USE orders;
+
+SELECT 
+product_name, 
+order_date,
+DATE_ADD(order_date, INTERVAL 3 DAY) AS payment_date,
+DATE_ADD(order_date, INTERVAL 1 MONTH) AS delivery_date
+FROM orders

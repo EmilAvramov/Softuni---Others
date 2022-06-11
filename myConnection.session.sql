@@ -1,7 +1,6 @@
 SELECT 
-peaks.peak_name, 
-rivers.river_name,
-LOWER(CONCAT(LEFT(peaks.peak_name, LENGTH(peaks.peak_name) - 1), rivers.river_name)) AS mix
-FROM peaks JOIN rivers
-ON RIGHT(peaks.peak_name, 1) = LEFT(rivers.river_name, 1)
-ORDER BY mix;
+product_name, 
+order_date,
+DATE_ADD(order_date, INTERVAL 3 DAY) AS payment_date,
+DATE_ADD(order_date, INTERVAL 1 MONTH) AS delivery_date
+FROM orders
