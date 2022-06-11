@@ -44,3 +44,41 @@ WHERE salary = 25000
 SELECT first_name, last_name
 FROM employees
 WHERE manager_id IS NULL;
+
+-- 11
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > 50000
+ORDER BY salary DESC;
+
+-- 12
+SELECT first_name, last_name
+FROM employees
+ORDER BY salary DESC
+LIMIT 5;
+
+-- 13
+SELECT first_name, last_name
+FROM employees
+WHERE department_id != 4;
+
+-- 14
+SELECT * FROM employees
+ORDER BY 
+salary DESC,
+first_name ASC,
+last_name DESC,
+middle_name ASC,
+employee_id;
+
+-- 15
+CREATE VIEW v_employees_salaries AS
+SELECT first_name, last_name, salary
+FROM employees;
+
+-- 16
+CREATE VIEW v_employees_job_titles AS
+SELECT IF(middle_name IS NOT NULL, 
+CONCAT(first_name, " ", middle_name, " ", last_name),
+CONCAT(first_name, " ", last_name)) AS full_name, job_title
+FROM employees;
