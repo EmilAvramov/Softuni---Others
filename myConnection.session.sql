@@ -1,7 +1,7 @@
-SELECT * FROM towns
-WHERE 
-name LIKE "M%" OR
-name LIKE "K%" OR
-name LIKE "B%" OR
-name LIKE "E%"
-ORDER BY name ASC;
+SELECT 
+peaks.peak_name, 
+rivers.river_name,
+LOWER(CONCAT(LEFT(peaks.peak_name, LENGTH(peaks.peak_name) - 1), rivers.river_name)) AS mix
+FROM peaks JOIN rivers
+ON RIGHT(peaks.peak_name, 1) = LEFT(rivers.river_name, 1)
+ORDER BY mix;
