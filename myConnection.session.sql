@@ -1,3 +1,7 @@
-SELECT title
-FROM books
-WHERE title LIKE "Harry%"
+SELECT * FROM towns
+WHERE 
+name LIKE "M%" OR
+name LIKE "K%" OR
+name LIKE "B%" OR
+name LIKE "E%"
+ORDER BY name ASC;
