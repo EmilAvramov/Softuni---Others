@@ -82,3 +82,29 @@ SELECT IF(middle_name IS NOT NULL,
 CONCAT(first_name, " ", middle_name, " ", last_name),
 CONCAT(first_name, " ", last_name)) AS full_name, job_title
 FROM employees;
+
+-- 17
+SELECT DISTINCT(job_title)
+FROM employees
+ORDER BY job_title ASC;
+
+-- 18
+SELECT * FROM projects
+ORDER BY start_date ASC, name ASC, project_id ASC
+LIMIT 10;
+
+-- 19
+SELECT first_name, last_name, hire_date
+FROM employees
+ORDER BY hire_date DESC
+LIMIT 7;
+
+-- 20
+SELECT DISTINCT(department_id), name
+FROM departments;
+
+UPDATE employees
+SET salary = salary + salary * 0.12
+WHERE department_id = 1 OR department_id = 2 OR department_id = 4 OR department_id = 11;
+
+SELECT salary FROM employees;
