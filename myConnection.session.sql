@@ -1,6 +1,7 @@
-SELECT 
-product_name, 
-order_date,
-DATE_ADD(order_date, INTERVAL 3 DAY) AS payment_date,
-DATE_ADD(order_date, INTERVAL 1 MONTH) AS delivery_date
-FROM orders
+SELECT
+category_id,
+ROUND(AVG(price), 2) AS "Average Price",
+ROUND(MIN(price), 2) AS "Cheapest Product",
+ROUND(MAX(price), 2) AS "Most Expensive Product"
+FROM products
+GROUP BY category_id;
