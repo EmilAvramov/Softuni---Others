@@ -1,7 +1,5 @@
-SELECT
-category_id,
-ROUND(AVG(price), 2) AS "Average Price",
-ROUND(MIN(price), 2) AS "Cheapest Product",
-ROUND(MAX(price), 2) AS "Most Expensive Product"
-FROM products
-GROUP BY category_id;
+SELECT deposit_group
+FROM wizzard_deposits
+GROUP BY deposit_group
+ORDER BY AVG(magic_wand_size)
+LIMIT 1;
