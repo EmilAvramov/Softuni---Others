@@ -1,8 +1,9 @@
-SELECT 
-deposit_group, 
-ROUND(is_deposit_expired, 1),
-AVG(deposit_interest)
-FROM wizzard_deposits
-WHERE deposit_start_date >= '1985/01/01'
-GROUP BY deposit_group, is_deposit_expired
-ORDER BY deposit_group DESC, is_deposit_expired ASC
+SELECT first_name, last_name, department_id
+FROM employees AS orig
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees AS copy
+    WHERE orig.department_id = copy.department_id
+)
+ORDER BY department_id, employee_id
+LIMIT 10;

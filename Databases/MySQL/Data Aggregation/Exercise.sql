@@ -79,3 +79,78 @@ FROM wizzard_deposits
 WHERE deposit_start_date >= '1985/01/01'
 GROUP BY deposit_group, is_deposit_expired
 ORDER BY deposit_group DESC, is_deposit_expired ASC
+
+
+-- 12
+USE soft_uni;
+
+SELECT department_id, MIN(salary) AS minimum_salary
+FROM employees
+WHERE 
+(department_id = 2 OR department_id = 5 OR department_id = 7) 
+AND hire_date > "2000/01/01"
+GROUP BY department_id
+ORDER BY department_id ASC;
+
+-- 13
+CREATE TABLE employees_modified AS
+SELECT * FROM employees
+WHERE salary > 30000;
+
+DELETE FROM employees_modified
+WHERE manager_id = 42;
+
+UPDATE employees_modified
+SET salary = salary + 5000
+WHERE department_id = 1;
+
+SELECT 
+department_id,
+AVG(salary) AS avg_salary
+FROM employees_modified
+GROUP BY department_id
+ORDER BY department_id ASC;
+
+-- 14
+SELECT department_id, MAX(salary) AS max_salary
+FROM employees
+GROUP BY department_id
+HAVING MAX(salary) NOT BETWEEN 30000 AND 70000
+ORDER BY department_id ASC;
+
+-- 15
+SELECT COUNT(salary)
+FROM employees
+WHERE manager_id IS NULL;
+
+-- 16
+SELECT department_id, salary
+FROM (
+    SELECT 
+    department_id, 
+    salary, 
+    DENSE_RANK() OVER(
+        PARTITION BY department_id 
+        ORDER BY salary DESC) AS numbered
+    FROM employees
+    GROUP BY department_id, salary
+) AS filtered_table
+WHERE numbered = 3
+GROUP BY department_id, salary;
+
+-- 17
+SELECT first_name, last_name, department_id
+FROM employees AS orig
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees AS copy
+    WHERE orig.department_id = copy.department_id
+)
+ORDER BY department_id, employee_id
+LIMIT 10;
+
+-- 18
+SELECT department_id, SUM(salary)
+FROM employees
+GROUP BY department_id
+ORDER BY department_id;
