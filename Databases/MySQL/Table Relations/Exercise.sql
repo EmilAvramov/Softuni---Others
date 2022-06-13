@@ -117,3 +117,53 @@ VALUES
 
 ALTER TABLE teachers
 ADD CONSTRAINT fk_teachers FOREIGN KEY (manager_id) REFERENCES teachers (teacher_id);
+
+
+-- 5
+CREATE DATABASE online_store;
+
+USE online_store;
+
+CREATE TABLE item_types (
+    item_type_id INT(11) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_types PRIMARY KEY (item_type_id)
+);
+
+CREATE TABLE items (
+    item_id INT(11) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    item_type_id INT(11) NOT NULL,
+    CONSTRAINT pk_items PRIMARY KEY (item_id),
+    CONSTRAINT fk_types FOREIGN KEY (item_type_id) REFERENCES item_types (item_type_id)
+);
+
+CREATE TABLE cities (
+    city_id INT(11) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_cities PRIMARY KEY (city_id)
+);
+
+CREATE TABLE customers (
+    customer_id INT(11) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    birthday DATE NOT NULL,
+    city_id INT(11) NOT NULL,
+    CONSTRAINT pk_customers PRIMARY KEY (customer_id),
+    CONSTRAINT fk_customers FOREIGN KEY (city_id) REFERENCES cities (city_id)
+);
+
+CREATE TABLE orders (
+    order_id INT(11) NOT NULL,
+    customer_id INT(11) NOT NULL,
+    CONSTRAINT pk_orders PRIMARY KEY (order_id),
+    CONSTRAINT fk_orders FOREIGN KEY (customer_id) REFERENCES customers (customer_id)
+);
+
+CREATE TABLE order_items (
+    order_id INT(11) NOT NULL,
+    item_id INT(11) NOT NULL,
+    CONSTRAINT pk_order_items PRIMARY KEY (order_id, item_id),
+    CONSTRAINT fk_order_ids FOREIGN KEY (order_id) REFERENCES orders (order_id),
+    CONSTRAINT fk_items FOREIGN KEY (item_id) REFERENCES items (item_id)
+);
