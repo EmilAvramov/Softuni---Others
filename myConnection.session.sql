@@ -1,6 +1,6 @@
 SELECT 
-ROUND(AVG(salary), 4) AS min_average_salary
-FROM employees
-GROUP BY department_id
-ORDER BY min_average_salary ASC
-LIMIT 1;
+COUNT(c.country_code) AS country_code
+FROM countries AS c
+LEFT OUTER JOIN mountains_countries AS mc 
+ON c.country_code = mc.country_code
+WHERE mc.country_code IS NULL;

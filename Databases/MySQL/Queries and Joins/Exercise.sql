@@ -121,3 +121,54 @@ FROM employees
 GROUP BY department_id
 ORDER BY min_average_salary ASC
 LIMIT 1;
+
+-- 12
+USE geography;
+
+SELECT 
+c.country_code,
+m1.mountain_range,
+p.peak_name,
+p.elevation
+FROM countries AS c
+JOIN mountains_countries AS m2 ON c.country_code = m2.country_code AND c.country_code = "BG"
+JOIN mountains AS m1 ON m1.id = m2.mountain_id
+JOIN peaks AS p on p.mountain_id = m2.mountain_id
+WHERE p.elevation > 2835
+ORDER BY p.elevation DESC
+
+-- 13
+SELECT 
+c.country_code,
+COUNT(m1.mountain_range) AS mountain_range
+FROM countries AS c
+JOIN mountains_countries AS m2 ON c.country_code = m2.country_code AND c.country_code IN ("BG", "US", "RU")
+JOIN mountains AS m1 ON m1.id = m2.mountain_id
+GROUP BY c.country_code
+ORDER BY mountain_range DESC;
+
+-- 14
+SELECT
+c.country_name,
+r.river_name
+FROM countries AS c
+LEFT JOIN countries_rivers AS cr ON c.country_code = cr.country_code
+LEFT JOIN rivers AS r ON cr.river_id = r.id
+JOIN continents AS co ON c.continent_code = co.continent_code
+WHERE co.continent_name = "Africa"
+ORDER BY c.country_name
+LIMIT 5;
+
+-- 15
+
+
+
+-- 16
+SELECT 
+COUNT(c.country_code) AS country_code
+FROM countries AS c
+LEFT OUTER JOIN mountains_countries AS mc 
+ON c.country_code = mc.country_code
+WHERE mc.country_code IS NULL;
+
+-- 17
