@@ -160,8 +160,28 @@ ORDER BY c.country_name
 LIMIT 5;
 
 -- 15
-
-
+SELECT
+cc.continent_code,
+cc.currency_code,
+cc.currency_usage
+FROM (
+    SELECT
+    c.continent_code,
+    c.currency_code,
+    c.currency_usage,
+    DENSE_RANK() OVER (PARTITION BY c.continent_code ORDER BY c.currency_usage DESC) AS ranked
+    FROM (
+        SELECT
+        continent_code,
+        currency_code,
+        COUNT(currency_code) AS currency_usage
+        FROM countries
+        GROUP BY currency_code, continent_code
+        HAVING COUNT(currency_code) > 1
+    ) AS c
+) AS cc
+WHERE ranked = 1
+ORDER BY cc.continent_code;
 
 -- 16
 SELECT 
@@ -172,3 +192,26 @@ ON c.country_code = mc.country_code
 WHERE mc.country_code IS NULL;
 
 -- 17
+SELECT
+ranked.country_name,
+ranked.elevation,
+ranked.length
+FROM (
+    SELECT
+    c.country_name,
+    p.elevation,
+    r.length,
+    DENSE_RANK() OVER (PARTITION BY c.country_name ORDER BY p.elevation DESC) AS peak,
+    DENSE_RANK() OVER (PARTITION BY c.country_name ORDER BY r.length DESC) AS river
+    FROM countries AS c
+    JOIN mountains_countries AS mc ON c.country_code = mc.country_code
+    JOIN peaks AS p ON mc.mountain_id = p.mountain_id
+    LEFT JOIN countries_rivers AS cr ON c.country_code = cr.country_code
+    LEFT JOIN rivers AS r on cr.river_id = r.id
+    ORDER BY 
+    p.elevation DESC,
+    r.length DESC,
+    c.country_name ASC
+) AS ranked
+WHERE ranked.peak = 1 AND ranked.river = 1
+LIMIT 5;
