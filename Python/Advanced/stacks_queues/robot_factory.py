@@ -1,10 +1,10 @@
+from datetime import datetime, timedelta
 from collections import deque
 
 # Setup data
 queue = deque()
 robots = [i.split("-") for i in input().split(";")]
-time = [int(i) for i in input().split(":")]
-sec = time[0] * 3600 + time[1] * 60 + time[2]
+time = datetime.strptime(input(), "%H:%M:%S")
 
 # Create queue
 product = input()
@@ -15,28 +15,22 @@ while product != "End":
 # Prepare robots
 for robot in robots:
     robot[1] = int(robot[1])
-    robot.append(True)
-    robot.append(robot[1])
+    robot.append(0)
 
 # Process orders
 while len(queue) > 0:
-    sec += 1
-    c_product = queue[0]
+    is_free = True
+    time += timedelta(seconds=1)
+    product = queue.popleft()
     for robot in robots:
-        if robot[3] == 0:
-            robot[2] = True
+        if robot[2] == 0:
             robot.pop()
             robot.append(robot[1])
-        if robot[2]:
-            robot[2] = False
-            current_time = "{:02}:{:02}:{:02}".format(
-                sec // 3600, sec % 3600 // 60, sec % 60
-            )
-            print(f"{robot[0]} - {queue.popleft()} [{current_time}]")
+            print(f"{robot[0]} - {product} [{time.strftime('%H:%M:%S')}]")
+            is_free = False
             break
     for robot in robots:
-        if robot[2] is False and robot[3] > 0:
-            robot[3] -= 1
-    if len(queue) > 0:
-        if c_product == queue[0]:
-            queue.append(queue.popleft())
+        if robot[2] > 0:
+            robot[2] -= 1
+    if is_free:
+        queue.append(product)
