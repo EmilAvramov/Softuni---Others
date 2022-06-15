@@ -10,7 +10,6 @@ def check(text):
     for symbol in text:
         if symbol in open_:
             queue.append(combined[symbol])
-            print(queue)
         elif symbol in close_:
             if not queue or symbol != queue.pop():
                 return "NO"
