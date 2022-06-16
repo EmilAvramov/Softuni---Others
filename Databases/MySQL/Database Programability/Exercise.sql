@@ -115,3 +115,93 @@ BEGIN
     JOIN accounts AS a ON ah.id = a.account_holder_id 
     WHERE a.id = target_id;
 END;
+
+-- 12
+CREATE PROCEDURE usp_deposit_money(target_id INT, money_amount DECIMAL(19,4))
+BEGIN
+    START TRANSACTION;
+    IF (money_amount > 0) 
+    THEN
+        UPDATE accounts SET balance = balance + money_amount WHERE target_id = id;
+        COMMIT;
+    ELSE ROLLBACK;
+    END IF;
+END
+
+-- 13
+CREATE PROCEDURE usp_withdraw_money (target_id INT, money_amount DECIMAL(19, 4))
+BEGIN
+    START TRANSACTION;
+    IF (money_amount > 0 AND
+    (SELECT balance FROM accounts WHERE target_id = id) > money_amount) 
+    THEN
+        UPDATE accounts SET balance = balance - money_amount WHERE target_id = id;
+        COMMIT;
+    ELSE ROLLBACK;
+    END IF;
+END
+
+-- 14
+CREATE FUNCTION usp_check_id (target_id INT)
+RETURNS BIT
+DETERMINISTIC
+BEGIN
+    RETURN (SELECT EXISTS(SELECT id FROM accounts WHERE id = target_id));
+END;
+
+CREATE PROCEDURE usp_transfer_money (sender INT, receiver INT, amount DECIMAL(19, 4))
+BEGIN
+    START TRANSACTION;
+    IF (
+        usp_check_id(sender) = 1 AND 
+        usp_check_id(receiver) = 1 AND
+        amount > 0 AND
+        (SELECT balance FROM accounts WHERE id = sender) >= amount
+        ) 
+    THEN 
+        UPDATE accounts SET balance = balance + amount WHERE id = receiver;
+        UPDATE accounts SET balance = balance - amount WHERE id = sender;
+        COMMIT;
+    ELSE 
+		ROLLBACK;
+    END IF;
+END;
+
+-- 15
+CREATE TABLE logs (
+    log_id INT AUTO_INCREMENT NOT NULL,
+    account_id INT NOT NULL,
+    old_sum DECIMAL(19, 4) NOT NULL,
+    new_sum DECIMAL(19, 4) NOT NULL,
+    CONSTRAINT pk_logs PRIMARY KEY (log_id)
+);
+
+CREATE TRIGGER tr_logs
+AFTER UPDATE ON accounts
+FOR EACH ROW
+BEGIN
+    INSERT INTO logs (account_id, old_sum, new_sum)
+    VALUES (OLD.id, OLD.balance, NEW.balance);
+END;
+
+-- 16
+CREATE TABLE notification_emails(
+    id INT AUTO_INCREMENT NOT NULL,
+    recipient NVARCHAR(100) NOT NULL,
+    subject NVARCHAR(200) NOT NULL,
+    body NVARCHAR(1000) NOT NULL,
+    CONSTRAINT pk_notif PRIMARY KEY (id)
+);
+
+CREATE TRIGGER tr_notifications
+AFTER INSERT ON logs
+FOR EACH ROW
+BEGIN
+    INSERT INTO notification_emails (recipient, subject, body)
+    VALUES 
+    (
+    NEW.account_id,
+    CONCAT('Balance change for account: ', NEW.account_id),
+    CONCAT('On ', DATE_FORMAT(NOW(), '%b %d %Y at %r'), ' your balance was changed from ', NEW.old_sum, ' to ', NEW.new_sum)
+    );
+END;
