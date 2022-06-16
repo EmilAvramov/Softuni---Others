@@ -2,39 +2,39 @@ from collections import deque
 
 green_light = int(input())
 free_window = int(input())
-time_left = 0
 passed = 0
-end = False
+crash = False
 
 command = input()
 queue = deque()
-sub_queue = deque()
 
 while command != "END":
-    queue.append(command)
+    if command == "green":
+        if queue:
+            time_left = green_light
+            while time_left > 0:
+                if queue:
+                    if len(queue[0]) <= time_left:
+                        passed += 1
+                        time_left -= len(queue[0])
+                        queue.popleft()
+                    else:
+                        if time_left + free_window >= len(queue[0]):
+                            queue.popleft()
+                            passed += 1
+                            break
+                        else:
+                            hit_car = queue.popleft()
+                            index = (time_left + free_window) - len(hit_car)
+                            crash = True
+                            print("A crash happened!")
+                            print(f"{hit_car} was hit at {hit_car[index]}.")
+                            break
+                else:
+                    break
+    else:
+        queue.append(command)
     command = input()
 
-while queue:
-    while queue[0] != "green":
-        sub_queue.append(queue.popleft())
-    queue.popleft()
-    time_left = green_light
-    while sub_queue:
-        passed += 1
-        car = sub_queue.popleft()
-        if len(car) <= time_left:
-            time_left -= len(car)
-        else:
-            if time_left + free_window >= len(car):
-                break
-            else:
-                index = (time_left + free_window) - len(car)
-                end = True
-                print("A crash happened!")
-                print(f"{car} was hit at {car[index]}.")
-                break
-    if end:
-        break
-
-if end is False:
+if crash is False:
     print(f"Everyone is safe.\n{passed} total cars passed the crossroads.")
