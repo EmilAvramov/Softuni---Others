@@ -57,3 +57,61 @@ BEGIN
 END;
 
 -- 7
+CREATE FUNCTION ufn_is_word_comprised (set_of_letters VARCHAR(50), word VARCHAR(50))
+RETURNS BIT
+DETERMINISTIC
+BEGIN
+    DECLARE idx INT;
+    DECLARE current_letter VARCHAR(1);
+    SET idx = 1;
+    WHILE(idx <= LENGTH(word)) DO
+		SET current_letter = SUBSTRING(word, idx, 1);
+		IF (LOCATE(current_letter, set_of_letters) <= 0) THEN
+			RETURN 0;
+		END IF;
+		SET idx = idx + 1;
+	END WHILE;
+    RETURN 1;
+-- REGEX => RETURN word REGEXP(CONCAT('^[', set_of_letters, ']+$'))
+END;
+
+-- 8
+CREATE PROCEDURE usp_get_holders_full_name()
+BEGIN
+    SELECT CONCAT(first_name, " ", last_name) AS full_name
+    FROM account_holders
+    ORDER BY CONCAT(first_name, " ", last_name), id;
+END
+
+-- 9
+CREATE PROCEDURE usp_get_holders_with_balance_higher_than (numb DOUBLE(19, 2))
+BEGIN
+    SELECT ah.first_name, ah.last_name
+    FROM account_holders AS ah
+    JOIN accounts AS a ON ah.id = a.account_holder_id
+    GROUP BY ah.id
+    HAVING SUM(balance) > numb
+    ORDER BY ah.id;
+END
+
+-- 10
+CREATE FUNCTION ufn_calculate_future_value (total DECIMAL(19,4), interest DECIMAL(19, 2), years INT)
+RETURNS DECIMAL(19, 4)
+DETERMINISTIC
+BEGIN
+    RETURN total * (POWER(1 + interest, years));
+END
+
+-- 11
+CREATE PROCEDURE usp_calculate_future_value_for_account (target_id INT, interest DECIMAL(19, 4))
+BEGIN
+    SELECT 
+    a.id AS account_id,
+    ah.first_name,
+    ah.last_name,
+    a.balance AS cureent_balance,
+    ufn_calculate_future_value(a.balance, interest, 5) AS balance_in_5_years
+    FROM account_holders AS ah
+    JOIN accounts AS a ON ah.id = a.account_holder_id 
+    WHERE a.id = target_id;
+END;
