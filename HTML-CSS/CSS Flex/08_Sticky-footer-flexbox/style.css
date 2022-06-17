@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    background-color: rgb(238, 238, 238);
+    width: 100vw;
+    height: 100vh;
+    font-family: Helvetica, sans-serif;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+body footer {
+    position: sticky;
+    color: RGB(255,255,255);
+    background-color: RGB(102, 102, 102);
+    height: 50px;
+}
+
+header, main, footer {
+    flex-basis: 100%;
+}
+
+header > p {
+    font-size: 40px;
+    font-weight: bold;
+    border-bottom: 3px solid black;
+    padding-bottom: 30px;
+    margin-bottom: 0px;
+}
+
+main > h2 {
+    margin-top: 0px;
+}
