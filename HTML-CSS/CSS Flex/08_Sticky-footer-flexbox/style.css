@@ -10,8 +10,8 @@ body {
 
 body footer {
     position: sticky;
-    color: RGB(255,255,255);
-    background-color: RGB(102, 102, 102);
+    color: rgb(255,255,255);
+    background-color: rgb(102, 102, 102);
     height: 50px;
 }
 
