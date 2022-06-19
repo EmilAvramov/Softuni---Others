@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Old XML Requests</title>
+    </head>
+
+    <!-- 1. XHR (XmlHttpRequest) Your task is to write a JS function that loads a
+    github repository asynchronously with AJAX. You should create an instance of
+    XmlHttpRequest and attach an onreadystatechange event to it. (An
+    EventHandler that is called whenever the readyState attribute changes).
+    Obtain the data by making a GET request to the following URL:
+    https://api.github.com/users/testnakov/repos. -->
+
+    <body>
+        <button id="load">Load Repos</button>
+        <div id="res"></div>
+
+        <script>
+            let button = document.querySelector("#load");
+            button.addEventListener("click", () => {
+                let url = "https://api.github.com/users/testnakov/repos";
+                const request = new XMLHttpRequest();
+                request.addEventListener("readystatechange", () => {
+                    if (request.readyState == 4 && request.status == 200) {
+                        let data = JSON.parse(request.responseText);
+                        document.getElementById("res").textContent = data
+                            .map((x) => x.name)
+                            .join(", ");
+                    }
+                });
+                request.open("GET", url);
+                request.send();
+            });
+        </script>
+    </body>
+</html>
