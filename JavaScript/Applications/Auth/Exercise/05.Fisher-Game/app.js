@@ -1,3 +1,8 @@
+/* To finish - 
+update request to be finished
+delete request to only allow deletion for owner
+update and delete buttons visible to user only
+*/
 const urlLogin = 'http://localhost:3030/users/login';
 const urlReg = 'http://localhost:3030/users/register';
 const urlLogout = 'http://localhost:3030/users/logout';
@@ -8,16 +13,18 @@ const viewGuest = document.getElementById('guest');
 const viewReg = document.getElementById('register-view');
 const viewLogin = document.getElementById('login-view');
 const viewHome = document.getElementById('home-view');
-const allViews = document.getElementById('views');
 const btnLogin = document.getElementById('login');
 const btnLogout = document.getElementById('logout');
 const btnRegister = document.getElementById('register');
+const btnLoad = document.querySelector('.load');
+const btnAdd = document.querySelector('.add');
 const welcome = document.querySelector('.email > span');
 const formLogin = document.querySelector('#loginForm');
 const formReg = document.querySelector('#registerForm');
+const formCatch = document.getElementById('addForm');
 
-async function getData(url) {
-	const request = await fetch(url);
+async function getCatches() {
+	const request = await fetch(urlCatches);
 	return request.json();
 }
 
@@ -29,6 +36,21 @@ async function logout(token) {
 			'X-Authorization': token,
 		},
 	});
+}
+
+async function doPostAuth(obj, token) {
+	const request = await fetch(`${urlCatches}`, {
+		method: 'POST',
+		headers: {
+			'content-type': 'application/json',
+			'X-Authorization': token,
+		},
+		body: JSON.stringify(obj),
+	});
+	if (request.status === 200) {
+		return request.json();
+	}
+	return undefined;
 }
 
 async function authUser(obj) {
@@ -49,7 +71,29 @@ async function regUser(obj) {
 		headers: { 'content-type': 'application/json' },
 		body: JSON.stringify(obj),
 	});
+	if (request.status === 200) {
+		return request.json();
+	}
+	return undefined;
+}
+
+async function updCatch(id, obj, token) {
+	const request = await fetch(`${urlCatches}/${id}`, {
+		method: 'PATCH',
+		headers: {
+			'content-type': 'application/json',
+			'X-Authorization': token,
+		},
+		body: JSON.stringify(obj),
+	});
 	return request.json();
+}
+
+async function delCatch(id, token) {
+	fetch(`${urlCatches}/${id}`, {
+		method: 'DELETE',
+		headers: { 'X-Authorization': token },
+	});
 }
 
 function setAuthView() {
@@ -59,8 +103,97 @@ function setAuthView() {
 	viewHome.style.display = 'block';
 	viewReg.style.display = 'none';
 	main.innerHTML = '';
+	btnAdd.disabled = false;
+	welcome.textContent = localStorage.getItem('username');
 	main.appendChild(viewHome);
 }
+
+function setGuestView() {
+	viewGuest.style.display = 'block';
+	viewUser.style.display = 'none';
+	viewLogin.style.display = 'none';
+	viewHome.style.display = 'block';
+	viewReg.style.display = 'none';
+	main.innerHTML = '';
+	btnAdd.disabled = true;
+	welcome.textContent = 'guest';
+	main.appendChild(viewHome);
+}
+
+function setStorage(obj) {
+	localStorage.setItem('email', obj.email);
+	localStorage.setItem('password', obj.password);
+	localStorage.setItem('username', obj.username);
+	localStorage.setItem('token', obj.accessToken);
+	welcome.textContent = obj.username;
+}
+
+function createE(
+	tag,
+	cls,
+	type = '',
+	value = '',
+	dataId = '',
+	textC = '',
+	func = ''
+) {
+	const el = document.createElement(tag);
+	el.type = type;
+	el.classList.add(cls);
+	el.value = value;
+	el.setAttribute('data-id', dataId);
+	el.textContent = textC;
+	el.addEventListener('click', () => {
+		func(dataId, localStorage.getItem('token'));
+	});
+	return el;
+}
+
+function createL(content) {
+	const label = document.createElement('label');
+	label.textContent = content;
+	return label;
+}
+
+function createHTML() {
+	const mainE = document.getElementById('catches');
+	getCatches().then((data) => {
+		Object.values(data).forEach((e) => {
+			const parent = document.createElement('div');
+			parent.classList.add('catch');
+
+			parent.appendChild(createL('Angler'));
+			parent.appendChild(createE('input', 'angler', 'text', e.angler));
+			parent.appendChild(createL('Weight'));
+			parent.appendChild(createE('input', 'weight', 'text', e.weight));
+			parent.appendChild(createL('Species'));
+			parent.appendChild(createE('input', 'species', 'text', e.species));
+			parent.appendChild(createL('Location'));
+			parent.appendChild(
+				createE('input', 'location', 'text', e.location)
+			);
+			parent.appendChild(createL('Bait'));
+			parent.appendChild(createE('input', 'bait', 'text', e.bait));
+			parent.appendChild(createL('Capture Time'));
+			parent.appendChild(
+				createE('input', 'captureTime', 'text', e.captureTime)
+			);
+			parent.appendChild(
+				// eslint-disable-next-line no-underscore-dangle
+				createE('button', 'update', '', '', e._id, 'Update')
+			);
+			parent.appendChild(
+				// eslint-disable-next-line no-underscore-dangle
+				createE('button', 'delete', '', '', e._id, 'Delete', delCatch)
+			);
+			mainE.appendChild(parent);
+		});
+	});
+}
+
+btnLoad.addEventListener('click', () => {
+	createHTML();
+});
 
 btnLogin.addEventListener('click', () => {
 	main.innerHTML = '';
@@ -77,11 +210,7 @@ btnLogin.addEventListener('click', () => {
 			const request = { email, password };
 			authUser(request)
 				.then((res) => {
-					localStorage.setItem('email', res.email);
-					localStorage.setItem('password', res.password);
-					localStorage.setItem('username', res.username);
-					localStorage.setItem('token', res.accessToken);
-					welcome.textContent = res.username;
+					setStorage(res);
 					validEmail.value = '';
 					validPw.value = '';
 					setAuthView();
@@ -100,11 +229,7 @@ btnLogin.addEventListener('click', () => {
 btnLogout.addEventListener('click', () => {
 	logout(localStorage.getItem('token'));
 	localStorage.clear();
-	main.innerHTML = '';
-	welcome.textContent = 'guest';
-	viewUser.style.display = 'none';
-	viewGuest.style.display = 'block';
-	welcome.textContent = localStorage.getItem('username');
+	setGuestView();
 });
 
 btnRegister.addEventListener('click', () => {
@@ -126,17 +251,18 @@ btnRegister.addEventListener('click', () => {
 			validPw2.value
 		) {
 			const request = { email, password };
-			regUser(request).then((res) => {
-				localStorage.setItem('email', res.email);
-				localStorage.setItem('password', res.password);
-				localStorage.setItem('username', res.username);
-				localStorage.setItem('token', res.accessToken);
-				welcome.textContent = res.username;
-				validEmail.value = '';
-				validPw1.value = '';
-				validPw2.value = '';
-			});
-			setAuthView();
+			regUser(request)
+				.then((res) => {
+					setStorage(res);
+					validEmail.value = '';
+					validPw1.value = '';
+					validPw2.value = '';
+					setAuthView();
+				})
+				.catch((err) => {
+					// eslint-disable-next-line no-alert
+					window.alert(err);
+				});
 		} else {
 			// eslint-disable-next-line no-alert
 			window.alert('Wrong username or password');
@@ -144,18 +270,30 @@ btnRegister.addEventListener('click', () => {
 	});
 });
 
+formCatch.addEventListener('submit', (e) => {
+	e.preventDefault();
+	const data = new FormData(e.currentTarget);
+	const angler = data.get('angler');
+	const weight = data.get('weight');
+	const species = data.get('species');
+	const location = data.get('location');
+	const bait = data.get('bait');
+	const captureTime = data.get('captureTime');
+	const request = {
+		angler,
+		weight,
+		species,
+		location,
+		bait,
+		captureTime,
+	};
+	doPostAuth(request, localStorage.getItem('token'));
+});
+
 window.addEventListener('load', async () => {
-	viewUser.style.display = 'none';
-	viewGuest.style.display = 'none';
-	viewLogin.style.display = 'none';
-	viewHome.style.display = 'none';
-	viewReg.style.display = 'none';
 	if (localStorage.email) {
-		viewUser.style.display = 'block';
-		viewHome.style.display = 'block';
-		main.appendChild(viewHome);
-		welcome.textContent = localStorage.getItem('username');
+		setAuthView();
 	} else {
-		viewGuest.style.display = 'block';
+		setGuestView();
 	}
 });
