@@ -1,0 +1,13 @@
+input {
+	width: 300px;
+}
+
+.textBox {
+	background-color: beige;
+}
+
+button {
+	background-color: greenyellow;
+	width: 100px;
+	border-radius: 20%;
+}
