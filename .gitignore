@@ -1,5 +1,9 @@
+# VS Code Internals
 .vscode/settings.json
 .vscode/launch.json
+.eslintrc.*
+.prettierrc
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -62,7 +62,7 @@ function createUpcoming(obj) {
     let deg = "&#176;";
 
     for (const property of Object.values(obj)) {
-        let container = document.createElement("span")
+        let container = document.createElement("span");
         let sym = document.createElement("p");
         let degrees = document.createElement("p");
         let text = document.createElement("p");
@@ -75,10 +75,10 @@ function createUpcoming(obj) {
         container.appendChild(sym);
         container.appendChild(degrees);
         container.appendChild(text);
-        container.style.display = "inline-block"
-        container.style.padding = "0px 30px"
-        container.style.width = "100px"
-        e.appendChild(container)
+        container.style.display = "inline-block";
+        container.style.padding = "0px 30px";
+        container.style.width = "100px";
+        e.appendChild(container);
     }
     return e;
 }
