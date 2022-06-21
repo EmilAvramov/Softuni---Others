@@ -32,6 +32,7 @@ form.addEventListener('submit', (e) => {
 	postData(combined);
 	const inputs = document.querySelectorAll('input');
 	inputs.forEach((el) => {
+		// eslint-disable-next-line no-param-reassign
 		el.value = '';
 	});
 });
