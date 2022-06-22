@@ -1,5 +1,6 @@
 /* To finish - 
 update request to be finished
+clear buttons on new catch submit
 delete request to only allow deletion for owner
 update and delete buttons visible to user only
 */
