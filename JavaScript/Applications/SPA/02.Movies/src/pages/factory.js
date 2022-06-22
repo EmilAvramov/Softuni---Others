@@ -56,7 +56,6 @@ export function movieCard(obj) {
 	const l1 = createElement('a', ['btn', 'btn-danger'], 'Delete', '', '', '#');
 	const l2 = createElement('a', ['btn', 'btn-warning'], 'Edit', '', '', '#');
 	const l3 = createElement('a', ['btn', 'btn-primary'], 'Like', '', '', '#');
-
 	const span = createElement('span', ['enrolled-span'], `Liked ${obj.likes}`);
 	divSubCSub2.appendChild(h3);
 	divSubCSub2.appendChild(p);

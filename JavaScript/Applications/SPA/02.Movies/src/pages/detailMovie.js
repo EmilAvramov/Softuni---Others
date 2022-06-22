@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import { movieList, movieCard } from './factory.js';
-import * as request from '../requests.js';
+import * as request from '../services/requests.js';
 
 const detailsMovieView = document.getElementById('movie');
 const title = document.querySelector('.text-center');

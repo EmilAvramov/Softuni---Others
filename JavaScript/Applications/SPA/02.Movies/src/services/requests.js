@@ -4,6 +4,8 @@ const urlReg = 'http://localhost:3030/users/register';
 const urlLogout = 'http://localhost:3030/users/logout';
 const urlLikes = 'http://localhost:3030/data/likes';
 
+// Likes
+
 export async function getLikes() {
 	const request = await fetch(urlLikes);
 	return request.json();
@@ -25,6 +27,8 @@ export async function removeLike(id, token) {
 		},
 	});
 }
+
+// Movie requests
 
 export async function getMovies() {
 	const request = await fetch(urlMovies);
@@ -69,6 +73,8 @@ export async function delMovie(id, token) {
 		headers: { 'X-Authorization': token },
 	});
 }
+
+// User requests
 
 export async function authUser(obj) {
 	const request = await fetch(urlLogin, {

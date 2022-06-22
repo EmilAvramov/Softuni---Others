@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable import/extensions */
-import * as view from './views.js';
-import * as request from './requests.js';
+import * as view from './services/views.js';
+import * as request from './services/requests.js';
 import { clearInputsAuth, validateAuth } from './pages/login.js';
 import { clearInputsReg, validateReg } from './pages/register.js';
 import { clearInputsMovie, validateMovie } from './pages/addMovie.js';
@@ -19,6 +19,13 @@ const formNewMovie = document.querySelector('#add-movie > form');
 const btnAddMovie = document.getElementById('add-movie-button');
 const movieParent = document.querySelector('#movie > div > div > div');
 
+/*
+Could add more - 
+1) Better UX/UI functionality
+2) Could finish/make better - like/edit/delete buttons on selecting movie
+3) Possibly auth for likes and person not being able to like his own like
+	(On the last point, most functionality is already there, need to link it)
+*/
 function updateView() {
 	movieParent.innerHTML = '';
 	generateMovies();
