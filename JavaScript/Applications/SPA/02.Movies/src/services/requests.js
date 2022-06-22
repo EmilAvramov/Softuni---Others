@@ -6,39 +6,25 @@ const urlLikes = 'http://localhost:3030/data/likes';
 
 // Likes
 
-export async function getLikes() {
-	const request = await fetch(urlLikes);
-	return request.json();
-}
-
-export async function getMovieLikes(id, userId) {
-	const request = await fetch(
+export const getLikes = () => fetch(urlLikes).then((res) => res.json);
+export const getMovieLikes = (id, userId) => {
+	fetch(
 		`${urlLikes}?where=movieId%3D%22${id}%22%20and%20_ownerId%3D%22${userId}%22`
-	);
-	return request.json();
-}
-
-export async function removeLike(id, token) {
-	await fetch(`${urlLikes}/${id}`, {
+	).then((res) => res.json());
+};
+export const removeLike = (id, token) =>
+	fetch(`${urlLikes}/${id}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
 			'X-Authorization': token,
 		},
-	});
-}
+	}).then((res) => res.json());
 
 // Movie requests
-
-export async function getMovies() {
-	const request = await fetch(urlMovies);
-	return request.json();
-}
-
-export async function getMovie(id) {
-	const request = await fetch(`${urlMovies}/${id}`);
-	return request.json();
-}
+export const getMovies = () => fetch(urlMovies).then((res) => res.json());
+export const getMovie = (id) =>
+	fetch(`${urlMovies}/${id}`).then((res) => res.json());
 
 export async function postMovies(obj, token) {
 	const request = await fetch(urlMovies, {

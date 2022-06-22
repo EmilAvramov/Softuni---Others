@@ -3,6 +3,11 @@
 .vscode/launch.json
 .eslintrc.*
 .prettierrc
+package.json
+package-lock.json
+node_modules
+tests
+playwright.config.ts
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -133,3 +138,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+node_modules/
+/test-results/
+/playwright-report/
+/playwright/.cache/
