@@ -2,9 +2,37 @@ const urlMovies = 'http://localhost:3030/jsonstore/data/movies';
 const urlLogin = 'http://localhost:3030/users/login';
 const urlReg = 'http://localhost:3030/users/register';
 const urlLogout = 'http://localhost:3030/users/logout';
+const urlLikes = 'http://localhost:3030/data/likes';
+
+export async function getLikes() {
+	const request = await fetch(urlLikes);
+	return request.json();
+}
+
+export async function getMovieLikes(id, userId) {
+	const request = await fetch(
+		`${urlLikes}?where=movieId%3D%22${id}%22%20and%20_ownerId%3D%22${userId}%22`
+	);
+	return request.json();
+}
+
+export async function removeLike(id, token) {
+	await fetch(`${urlLikes}/${id}`, {
+		method: 'PATCH',
+		headers: {
+			'content-type': 'application/json',
+			'X-Authorization': token,
+		},
+	});
+}
 
 export async function getMovies() {
 	const request = await fetch(urlMovies);
+	return request.json();
+}
+
+export async function getMovie(id) {
+	const request = await fetch(`${urlMovies}/${id}`);
 	return request.json();
 }
 

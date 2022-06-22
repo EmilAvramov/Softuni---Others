@@ -4,6 +4,8 @@ import * as view from './views.js';
 import * as request from './requests.js';
 import { clearInputsAuth, validateAuth } from './pages/login.js';
 import { clearInputsReg, validateReg } from './pages/register.js';
+import { clearInputsMovie, validateMovie } from './pages/addMovie.js';
+import { generateMovies, getDetails } from './pages/detailMovie.js';
 import { adjustNav } from './pages/nav.js';
 
 const logout = document.querySelectorAll('.nav-link')[1];
@@ -15,14 +17,23 @@ const formRegister = document.querySelector('#form-sign-up > form');
 const formNewMovie = document.querySelector('#add-movie > form');
 
 const btnAddMovie = document.getElementById('add-movie-button');
+const movieParent = document.querySelector('#movie > div > div > div');
 
 function updateView() {
+	movieParent.innerHTML = '';
+	generateMovies();
 	adjustNav();
 	if (localStorage.token) {
 		view.landingPageAuth();
 	} else {
 		view.landingPageGuest();
 	}
+	movieParent.addEventListener('click', (e) => {
+		if (e.target.tagName === 'BUTTON') {
+			const id = e.target.dataset.data;
+			getDetails(id);
+		}
+	});
 }
 
 updateView();
@@ -101,4 +112,22 @@ formNewMovie.addEventListener('submit', (e) => {
 	const title = data.get('title');
 	const description = data.get('description');
 	const imageUrl = data.get('imageUrl');
+	const user = localStorage.getItem('email');
+	const likes = 0;
+	if (validateMovie()) {
+		movieParent.innerHTML = '';
+		const obj = { title, description, imageUrl, user, likes };
+		request
+			.postMovies(obj, localStorage.token)
+			.then(() => {
+				updateView();
+				clearInputsMovie();
+			})
+			.catch((err) => {
+				alert(err);
+				clearInputsMovie();
+			});
+	} else {
+		alert('Please provide valid input');
+	}
 });
