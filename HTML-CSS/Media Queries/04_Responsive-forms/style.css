@@ -1,0 +1,68 @@
+.container {
+	position: relative;
+	background-color: #f8f8f8;
+	width: 300px;
+	margin-left: 100px;
+	margin-top: 100px;
+	border: 1px solid black;
+}
+
+.login {
+	position: absolute;
+	font-weight: bold;
+	top: -10px;
+	left: -1px;
+	width: 120px;
+	background-color: #f8f8f8;
+	border: 1px solid black;
+	padding: 5px;
+	padding-left: 10px;
+}
+
+.first,
+.second {
+	margin: 20px;
+	font-weight: bold;
+}
+
+.first {
+	padding-top: 20px;
+}
+
+#label1,
+#label2 {
+	width: 27%;
+	display: inline-block;
+}
+
+#input1,
+#input2 {
+	width: 65%;
+	display: inline-block;
+	position: relative;
+}
+
+button {
+	background-color: #2d2d2d;
+	color: white;
+	font-weight: bold;
+	padding: 5px 10px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+input {
+	font-family: 'Font Awesome\ 5 Free';
+	font-weight: 900;
+}
+
+input:focus::placeholder {
+	color: transparent;
+}
+
+@media screen and (max-width: 600px) {
+	#label2,
+	#label1 {
+		display: block;
+	}
+}
