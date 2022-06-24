@@ -1,0 +1,39 @@
+@media screen and (max-width: 600px) {
+	h1,
+	h2,
+	h5,
+	h6,
+	a {
+		text-align: center;
+	}
+
+	.container > p {
+		text-align: center;
+	}
+
+	.container-fluid > img {
+		display: none;
+	}
+
+	a {
+		display: block;
+		width: 60%;
+		margin: 0 auto;
+	}
+
+	.contact-btn > a {
+		display: none;
+	}
+
+	.contact-nav > li > a {
+		padding: 0px 20px;
+	}
+
+	.about > div > div > div > h5 {
+		padding-top: 100px;
+	}
+
+	.nav > a {
+		text-align: center;
+	}
+}
