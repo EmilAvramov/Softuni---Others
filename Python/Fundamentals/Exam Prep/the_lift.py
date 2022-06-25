@@ -1,6 +1,6 @@
 people = int(input())
 wagons = [int(i) for i in input().split(" ")]
-no_space = False
+no_people = False
 
 
 for i in range(len(wagons)):
@@ -11,14 +11,15 @@ for i in range(len(wagons)):
         else:
             wagons[i] += people
             people = 0
-            no_space = True
+            no_people = True
             break
 
-if people > 0:
-    print(f"There isn't enough space! {people} people in a queue!")
-    print(*wagons, sep=" ")
-elif no_space:
+
+if no_people and (sum(wagons) / 4) != len(wagons):
     print("The lift has empty spots!")
+    print(*wagons, sep=" ")
+elif people > 0 and (sum(wagons) / 4) == len(wagons):
+    print(f"There isn't enough space! {people} people in a queue!")
     print(*wagons, sep=" ")
 else:
     print(*wagons, sep=" ")
