@@ -43,10 +43,13 @@ export const logout = async () => fetch(`${regBaseUrl}logout`);
 
 // Data
 
-export const create = async (data) => {
+export const create = async (data, token) => {
 	const request = await fetch(dataBaseUrl, {
 		method: 'POST',
-		headers: { 'content-type': 'application/json' },
+		headers: {
+			'content-type': 'application/json',
+			'X-Authorization': token,
+		},
 		body: JSON.stringify(data),
 	});
 	return request.json();

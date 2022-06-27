@@ -34,7 +34,10 @@ const register = () => {
 };
 
 const details = (ctx) => {
-	render(template.details(request.getSingle(ctx)), main);
+	render(
+		template.details(request.getSingle(ctx.page.current.split('/')[2])),
+		main
+	);
 };
 
 const create = () => {
@@ -42,7 +45,10 @@ const create = () => {
 };
 
 const edit = (ctx) => {
-	render(template.edit(request.getSingle(ctx)), main);
+	render(
+		template.edit(request.getSingle(ctx.page.current.split('/')[2])),
+		main
+	);
 };
 
 // Views

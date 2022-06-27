@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-return-assign */
+/* eslint-disable no-param-reassign */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-relative-packages */
 import { html } from '../node_modules/lit-html/lit-html.js';
@@ -61,7 +64,10 @@ const createData = (e) => {
 	const material = formData.get('material');
 
 	const data = { make, model, year, description, price, img, material };
-	request.create(data);
+	request.create(data, localStorage.token);
+	const inputs = document.querySelectorAll('input');
+	inputs.forEach((el) => (el.value = ''));
+	page.redirect('/dashboard');
 };
 
 const editData = (e) => {
@@ -189,7 +195,7 @@ export const register = (ctx) => html`
 
 export const user = () => html`<h1><a href="/">Furniture Store</a></h1>
 	<nav>
-		<a id="catalogLink" href="/">Dashboard</a>
+		<a id="catalogLink" href="/dashboard">Dashboard</a>
 		<div id="user">
 			<a id="createLink" href="/create">Create Furniture</a>
 			<a id="profileLink" href="/">My Publications</a>
@@ -211,7 +217,9 @@ const renderItems = (obj) =>
 									<p>Price: <span>${x.price}</span></p>
 								</footer>
 								<div>
-									<a href="/details/:id" class="btn btn-info"
+									<a
+										href="/details/${x._id}"
+										class="btn btn-info"
 										>Details</a
 									>
 								</div>
@@ -360,7 +368,7 @@ export const details = (obj) => html`
 				<p>Price: <span>${obj.price}</span></p>
 				<p>Material: <span>${obj.material}</span></p>
 				<div>
-					<a href="/edit" class="btn btn-info">Edit</a>
+					<a href="/edit/${obj._id}" class="btn btn-info">Edit</a>
 					<a
 						@click=${() =>
 							// eslint-disable-next-line no-underscore-dangle
