@@ -1,5 +1,7 @@
 const regBaseUrl = 'http://localhost:3030/users/';
 const dataBaseUrl = 'http://localhost:3030/data/catalog';
+const eml = document.getElementById('email');
+const pw = document.getElementById('password');
 
 // Users
 
@@ -9,7 +11,15 @@ export const register = async (user) => {
 		headers: { 'content-type': 'application/json' },
 		body: JSON.stringify(user),
 	});
-	return request.json();
+	if (request.status !== 200) {
+		// eslint-disable-next-line no-alert
+		alert('Wrong details entered.');
+		eml.value = '';
+		pw.value = '';
+	} else {
+		return request.json();
+	}
+	return undefined;
 };
 
 export const login = async (user) => {
@@ -18,7 +28,15 @@ export const login = async (user) => {
 		headers: { 'content-type': 'application/json' },
 		body: JSON.stringify(user),
 	});
-	return request.json();
+	if (request.status !== 200) {
+		// eslint-disable-next-line no-alert
+		alert('Wrong details entered.');
+		eml.value = '';
+		pw.value = '';
+	} else {
+		return request.json();
+	}
+	return undefined;
 };
 
 export const logout = async () => fetch(`${regBaseUrl}logout`);

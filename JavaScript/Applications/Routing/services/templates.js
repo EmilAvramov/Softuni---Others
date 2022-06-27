@@ -2,8 +2,87 @@
 /* eslint-disable import/no-relative-packages */
 import { html } from '../node_modules/lit-html/lit-html.js';
 import { until } from '../node_modules/lit-html/directives/until.js';
-import * as request from './requests.js';
 import page from '../node_modules/page/page.mjs';
+import * as request from './requests.js';
+
+// Click Events
+const loginUser = (e) => {
+	e.preventDefault();
+	const formData = new FormData(e.currentTarget);
+	const email = formData.get('email');
+	const password = formData.get('password');
+	const req = request.login({ email, password });
+	req.then((data) => {
+		if (data.email !== undefined) {
+			localStorage.setItem('email', data.email);
+			localStorage.setItem('username', data.username);
+			localStorage.setItem('token', data.accessToken);
+			page.redirect('/dashboard');
+		}
+	});
+	const eml = document.getElementById('email');
+	const pw = document.getElementById('password');
+	eml.value = '';
+	pw.value = '';
+};
+
+const registerUser = (e) => {
+	e.preventDefault();
+	const formData = new FormData(e.currentTarget);
+	const email = formData.get('email');
+	const password = formData.get('password');
+	const pw = document.getElementById('password');
+	const pwRe = document.getElementById('rePass');
+	if (pw.value === pwRe.value) {
+		const req = request.register({ email, password });
+		req.then((data) => {
+			localStorage.setItem('email', data.email);
+			localStorage.setItem('username', data.username);
+			localStorage.setItem('token', data.accessToken);
+			page.redirect('/dashboard');
+		});
+	} else {
+		// eslint-disable-next-line no-alert
+		alert('Passwords do not match');
+		pw.value = '';
+		pwRe.value = '';
+	}
+};
+
+const createData = (e) => {
+	e.preventDefault();
+	const formData = new FormData(e.currentTarget);
+	const make = formData.get('make');
+	const model = formData.get('model');
+	const year = formData.get('year');
+	const description = formData.get('description');
+	const price = formData.get('price');
+	const img = formData.get('img');
+	const material = formData.get('material');
+
+	const data = { make, model, year, description, price, img, material };
+	request.create(data);
+};
+
+const editData = (e) => {
+	e.preventDefault();
+	const formData = new FormData(e.currentTarget);
+	const make = formData.get('make');
+	const model = formData.get('model');
+	const year = formData.get('year');
+	const description = formData.get('description');
+	const price = formData.get('price');
+	const img = formData.get('img');
+	const material = formData.get('material');
+
+	const data = { make, model, year, description, price, img, material };
+	return data;
+};
+
+const logOut = () => {
+	localStorage.clear();
+	page.redirect('/');
+};
 
 // Guest templates
 
@@ -14,24 +93,6 @@ export const guest = () => html`<h1><a href="/">Furniture Store</a></h1>
 			<a id="registerLink" href="/register">Register</a>
 		</div>
 	</nav>`;
-
-const loginUser = (e) => {
-	e.preventDefault();
-	const formData = new FormData(e.currentTarget);
-	const email = formData.get('email');
-	const password = formData.get('password');
-	const req = request.login({ email, password });
-	req.then((data) => {
-		localStorage.setItem('email', data.email);
-		localStorage.setItem('username', data.username);
-		localStorage.setItem('token', data.accessToken);
-	});
-	const eml = document.getElementById('email');
-	const pw = document.getElementById('password');
-	eml.value = '';
-	pw.valie = '';
-	page.redirect('/');
-};
 
 export const login = () => html`<div class="container">
 	<div class="row space-top">
@@ -68,29 +129,6 @@ export const login = () => html`<div class="container">
 		</div>
 	</form>
 </div>`;
-
-const registerUser = (e) => {
-	e.preventDefault();
-	const formData = new FormData(e.currentTarget);
-	const email = formData.get('email');
-	const password = formData.get('password');
-	const pw = document.getElementById('password');
-	const pwRe = document.getElementById('rePass');
-	if (pw.value === pwRe.value) {
-		const req = request.register({ email, password });
-		req.then((data) => {
-			localStorage.setItem('email', data.email);
-			localStorage.setItem('username', data.username);
-			localStorage.setItem('token', data.accessToken);
-			page.redirect('/');
-		});
-	} else {
-		// eslint-disable-next-line no-alert
-		alert('Passwords do not match');
-		pw.value = '';
-		pwRe.value = '';
-	}
-};
 
 export const register = (ctx) => html`
 	<div class="container">
@@ -149,26 +187,6 @@ export const register = (ctx) => html`
 
 // User templates
 
-const createData = (e) => {
-	e.preventDefault();
-	const formData = new FormData(e.currentTarget);
-	const make = formData.get('make');
-	const model = formData.get('model');
-	const year = formData.get('year');
-	const description = formData.get('description');
-	const price = formData.get('price');
-	const img = formData.get('img');
-	const material = formData.get('material');
-
-	const data = { make, model, year, description, price, img, material };
-	request.create(data);
-};
-
-const logOut = () => {
-	localStorage.clear();
-	page.redirect('/');
-};
-
 export const user = () => html`<h1><a href="/">Furniture Store</a></h1>
 	<nav>
 		<a id="catalogLink" href="/">Dashboard</a>
@@ -178,37 +196,6 @@ export const user = () => html`<h1><a href="/">Furniture Store</a></h1>
 			<a @click=${logOut} id="logoutBtn" href="/">Logout</a>
 		</div>
 	</nav>`;
-
-export const details = (obj) => html`
-	<div class="container">
-		<div class="row space-top">
-			<div class="col-md-12">
-				<h1>Furniture Details</h1>
-			</div>
-		</div>
-		<div class="row space-top">
-			<div class="col-md-4">
-				<div class="card text-white bg-primary">
-					<div class="card-body">
-						<img src=${obj.img} />
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<p>Make: <span>${obj.make}</span></p>
-				<p>Model: <span>${obj.model}</span></p>
-				<p>Year: <span>${obj.year}</span></p>
-				<p>Description: <span>${obj.description}</span></p>
-				<p>Price: <span>${obj.price}</span></p>
-				<p>Material: <span>${obj.material}</span></p>
-				<div>
-					<a href="/edit" class="btn btn-info">Edit</a>
-					<a href="/delete" class="btn btn-red">Delete</a>
-				</div>
-			</div>
-		</div>
-	</div>
-`;
 
 const renderItems = (obj) =>
 	html` ${until(
@@ -224,7 +211,7 @@ const renderItems = (obj) =>
 									<p>Price: <span>${x.price}</span></p>
 								</footer>
 								<div>
-									<a href="/details" class="btn btn-info"
+									<a href="/details/:id" class="btn btn-info"
 										>Details</a
 									>
 								</div>
@@ -350,6 +337,44 @@ export const createNew = () => html`
 	</div>
 `;
 
+export const details = (obj) => html`
+	<div class="container">
+		<div class="row space-top">
+			<div class="col-md-12">
+				<h1>Furniture Details</h1>
+			</div>
+		</div>
+		<div class="row space-top">
+			<div class="col-md-4">
+				<div class="card text-white bg-primary">
+					<div class="card-body">
+						<img src=${obj.img} />
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<p>Make: <span>${obj.make}</span></p>
+				<p>Model: <span>${obj.model}</span></p>
+				<p>Year: <span>${obj.year}</span></p>
+				<p>Description: <span>${obj.description}</span></p>
+				<p>Price: <span>${obj.price}</span></p>
+				<p>Material: <span>${obj.material}</span></p>
+				<div>
+					<a href="/edit" class="btn btn-info">Edit</a>
+					<a
+						@click=${() =>
+							// eslint-disable-next-line no-underscore-dangle
+							request.del(obj._id, localStorage.token)}
+						href="/delete"
+						class="btn btn-red"
+						>Delete</a
+					>
+				</div>
+			</div>
+		</div>
+	</div>
+`;
+
 export const edit = (obj) => html`
 	<div class="container">
 		<div class="row space-top">
@@ -358,7 +383,11 @@ export const edit = (obj) => html`
 				<p>Please fill all fields.</p>
 			</div>
 		</div>
-		<form>
+		<form
+			@submit=${() =>
+				// eslint-disable-next-line no-underscore-dangle
+				request.update(obj._id, editData(), localStorage.token)}
+		>
 			<div class="row space-top">
 				<div class="col-md-4">
 					<div class="form-group">
