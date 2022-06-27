@@ -1,11 +1,14 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-relative-packages */
-import { render } from './node_modules/lit-html/lit-html.js';
-import * as template from './services/templates.js';
-import * as request from './services/requests.js';
+import page from './node_modules/page/page.mjs';
+import * as view from './services/views.js';
 
-const head = document.querySelector('header');
-const main = document.querySelector('main');
+page('/', view.guestView);
+page('/login', view.loginView);
+page('/register', view.regReview);
+page('/logout', view.guestView);
+page('/details', view.detailsView);
+page('/create', view.createView);
+page('/edit', view.editView);
 
-render(template.guest(), head);
-render(template.dashboard(request.getAll()), main);
+page.start();

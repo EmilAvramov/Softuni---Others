@@ -2,16 +2,36 @@
 /* eslint-disable import/no-relative-packages */
 import { html } from '../node_modules/lit-html/lit-html.js';
 import { until } from '../node_modules/lit-html/directives/until.js';
+import * as request from './requests.js';
+import page from '../node_modules/page/page.mjs';
 
 // Guest templates
 
 export const guest = () => html`<h1><a href="/">Furniture Store</a></h1>
 	<nav>
 		<div id="guest">
-			<a id="loginLink" href="login.html">Login</a>
-			<a id="registerLink" href="register.html">Register</a>
+			<a id="loginLink" href="/login">Login</a>
+			<a id="registerLink" href="/register">Register</a>
 		</div>
 	</nav>`;
+
+const loginUser = (e) => {
+	e.preventDefault();
+	const formData = new FormData(e.currentTarget);
+	const email = formData.get('email');
+	const password = formData.get('password');
+	const req = request.login({ email, password });
+	req.then((data) => {
+		localStorage.setItem('email', data.email);
+		localStorage.setItem('username', data.username);
+		localStorage.setItem('token', data.accessToken);
+	});
+	const eml = document.getElementById('email');
+	const pw = document.getElementById('password');
+	eml.value = '';
+	pw.valie = '';
+	page.redirect('/');
+};
 
 export const login = () => html`<div class="container">
 	<div class="row space-top">
@@ -20,7 +40,7 @@ export const login = () => html`<div class="container">
 			<p>Please fill all fields.</p>
 		</div>
 	</div>
-	<form>
+	<form @submit=${(e) => loginUser(e)}>
 		<div class="row space-top">
 			<div class="col-md-4">
 				<div class="form-group">
@@ -49,7 +69,30 @@ export const login = () => html`<div class="container">
 	</form>
 </div>`;
 
-export const register = () => html`
+const registerUser = (e) => {
+	e.preventDefault();
+	const formData = new FormData(e.currentTarget);
+	const email = formData.get('email');
+	const password = formData.get('password');
+	const pw = document.getElementById('password');
+	const pwRe = document.getElementById('rePass');
+	if (pw.value === pwRe.value) {
+		const req = request.register({ email, password });
+		req.then((data) => {
+			localStorage.setItem('email', data.email);
+			localStorage.setItem('username', data.username);
+			localStorage.setItem('token', data.accessToken);
+			page.redirect('/');
+		});
+	} else {
+		// eslint-disable-next-line no-alert
+		alert('Passwords do not match');
+		pw.value = '';
+		pwRe.value = '';
+	}
+};
+
+export const register = (ctx) => html`
 	<div class="container">
 		<div class="row space-top">
 			<div class="col-md-12">
@@ -57,7 +100,7 @@ export const register = () => html`
 				<p>Please fill all fields.</p>
 			</div>
 		</div>
-		<form>
+		<form @submit=${(e) => registerUser(ctx, e)}>
 			<div class="row space-top">
 				<div class="col-md-4">
 					<div class="form-group">
@@ -106,13 +149,33 @@ export const register = () => html`
 
 // User templates
 
+const createData = (e) => {
+	e.preventDefault();
+	const formData = new FormData(e.currentTarget);
+	const make = formData.get('make');
+	const model = formData.get('model');
+	const year = formData.get('year');
+	const description = formData.get('description');
+	const price = formData.get('price');
+	const img = formData.get('img');
+	const material = formData.get('material');
+
+	const data = { make, model, year, description, price, img, material };
+	request.create(data);
+};
+
+const logOut = () => {
+	localStorage.clear();
+	page.redirect('/');
+};
+
 export const user = () => html`<h1><a href="/">Furniture Store</a></h1>
 	<nav>
-		<a id="catalogLink" href="index.html">Dashboard</a>
+		<a id="catalogLink" href="/">Dashboard</a>
 		<div id="user">
 			<a id="createLink" href="/create">Create Furniture</a>
-			<a id="profileLink" href="/home">My Publications</a>
-			<a id="logoutBtn" href="/">Logout</a>
+			<a id="profileLink" href="/">My Publications</a>
+			<a @click=${logOut} id="logoutBtn" href="/">Logout</a>
 		</div>
 	</nav>`;
 
@@ -139,8 +202,8 @@ export const details = (obj) => html`
 				<p>Price: <span>${obj.price}</span></p>
 				<p>Material: <span>${obj.material}</span></p>
 				<div>
-					<a href="”#”" class="btn btn-info">Edit</a>
-					<a href="”#”" class="btn btn-red">Delete</a>
+					<a href="/edit" class="btn btn-info">Edit</a>
+					<a href="/delete" class="btn btn-red">Delete</a>
 				</div>
 			</div>
 		</div>
@@ -161,7 +224,7 @@ const renderItems = (obj) =>
 									<p>Price: <span>${x.price}</span></p>
 								</footer>
 								<div>
-									<a href="”#”" class="btn btn-info"
+									<a href="/details" class="btn btn-info"
 										>Details</a
 									>
 								</div>
@@ -194,7 +257,7 @@ export const createNew = () => html`
 				<p>Please fill all fields.</p>
 			</div>
 		</div>
-		<form>
+		<form @submit=${(e) => createData(e)}>
 			<div class="row space-top">
 				<div class="col-md-4">
 					<div class="form-group">
