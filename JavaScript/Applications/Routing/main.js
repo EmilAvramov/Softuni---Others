@@ -3,6 +3,8 @@
 import page from './node_modules/page/page.mjs';
 import * as view from './services/views.js';
 
+// need to implement the last functionality for author restrictions
+
 page('/', view.guestView);
 page('/login', view.loginView);
 page('/register', view.regReview);

@@ -70,7 +70,7 @@ const createData = (e) => {
 	page.redirect('/dashboard');
 };
 
-const editData = (e) => {
+const editData = (e, id) => {
 	e.preventDefault();
 	const formData = new FormData(e.currentTarget);
 	const make = formData.get('make');
@@ -82,12 +82,18 @@ const editData = (e) => {
 	const material = formData.get('material');
 
 	const data = { make, model, year, description, price, img, material };
-	return data;
+	request.update(id, data, localStorage.token);
+	page.redirect('/dashboard');
 };
 
 const logOut = () => {
 	localStorage.clear();
 	page.redirect('/');
+};
+
+const delItem = (id, token) => {
+	request.del(id, token);
+	page.redirect('/dashboard');
 };
 
 // Guest templates
@@ -136,7 +142,7 @@ export const login = () => html`<div class="container">
 	</form>
 </div>`;
 
-export const register = (ctx) => html`
+export const register = () => html`
 	<div class="container">
 		<div class="row space-top">
 			<div class="col-md-12">
@@ -144,7 +150,7 @@ export const register = (ctx) => html`
 				<p>Please fill all fields.</p>
 			</div>
 		</div>
-		<form @submit=${(e) => registerUser(ctx, e)}>
+		<form @submit=${(e) => registerUser(e)}>
 			<div class="row space-top">
 				<div class="col-md-4">
 					<div class="form-group">
@@ -345,148 +351,174 @@ export const createNew = () => html`
 	</div>
 `;
 
-export const details = (obj) => html`
-	<div class="container">
-		<div class="row space-top">
-			<div class="col-md-12">
-				<h1>Furniture Details</h1>
-			</div>
-		</div>
-		<div class="row space-top">
-			<div class="col-md-4">
-				<div class="card text-white bg-primary">
-					<div class="card-body">
-						<img src=${obj.img} />
+export const details = (obj) =>
+	until(
+		obj.then(
+			(data) => html`
+				<div class="container">
+					<div class="row space-top">
+						<div class="col-md-12">
+							<h1>Furniture Details</h1>
+						</div>
+					</div>
+					<div class="row space-top">
+						<div class="col-md-4">
+							<div class="card text-white bg-primary">
+								<div class="card-body">
+									<img src=".${data.img}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<p>Make: <span>${data.make}</span></p>
+							<p>Model: <span>${data.model}</span></p>
+							<p>Year: <span>${data.year}</span></p>
+							<p>Description: <span>${data.description}</span></p>
+							<p>Price: <span>${data.price}</span></p>
+							<p>Material: <span>${data.material}</span></p>
+							<div>
+								<a href="/edit/${data._id}" class="btn btn-info"
+									>Edit</a
+								>
+								<a
+									@click=${() =>
+										delItem(data._id, localStorage.token)}
+									href="/delete"
+									class="btn btn-red"
+									>Delete</a
+								>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-4">
-				<p>Make: <span>${obj.make}</span></p>
-				<p>Model: <span>${obj.model}</span></p>
-				<p>Year: <span>${obj.year}</span></p>
-				<p>Description: <span>${obj.description}</span></p>
-				<p>Price: <span>${obj.price}</span></p>
-				<p>Material: <span>${obj.material}</span></p>
-				<div>
-					<a href="/edit/${obj._id}" class="btn btn-info">Edit</a>
-					<a
-						@click=${() =>
-							// eslint-disable-next-line no-underscore-dangle
-							request.del(obj._id, localStorage.token)}
-						href="/delete"
-						class="btn btn-red"
-						>Delete</a
-					>
-				</div>
-			</div>
-		</div>
-	</div>
-`;
+			`
+		)
+	);
 
-export const edit = (obj) => html`
-	<div class="container">
-		<div class="row space-top">
-			<div class="col-md-12">
-				<h1>Edit Furniture</h1>
-				<p>Please fill all fields.</p>
-			</div>
-		</div>
-		<form
-			@submit=${() =>
-				// eslint-disable-next-line no-underscore-dangle
-				request.update(obj._id, editData(), localStorage.token)}
-		>
-			<div class="row space-top">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="form-control-label" for="new-make"
-							>Make</label
-						>
-						<input
-							class="form-control"
-							id="new-make"
-							type="text"
-							name="make"
-							value=${obj.make}
-						/>
+export const edit = (obj) =>
+	until(
+		obj.then(
+			(data) =>
+				html`
+					<div class="container">
+						<div class="row space-top">
+							<div class="col-md-12">
+								<h1>Edit Furniture</h1>
+								<p>Please fill all fields.</p>
+							</div>
+						</div>
+						<form @submit=${(e) => editData(e, data._id)}>
+							<div class="row space-top">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="new-make"
+											>Make</label
+										>
+										<input
+											class="form-control"
+											id="new-make"
+											type="text"
+											name="make"
+											value=${data.make}
+										/>
+									</div>
+									<div class="form-group has-success">
+										<label
+											class="form-control-label"
+											for="new-model"
+											>Model</label
+										>
+										<input
+											class="form-control is-valid"
+											id="new-model"
+											type="text"
+											name="model"
+											value=${data.model}
+										/>
+									</div>
+									<div class="form-group has-danger">
+										<label
+											class="form-control-label"
+											for="new-year"
+											>Year</label
+										>
+										<input
+											class="form-control is-invalid"
+											id="new-year"
+											type="number"
+											name="year"
+											value=${data.year}
+										/>
+									</div>
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="new-description"
+											>Description</label
+										>
+										<input
+											class="form-control"
+											id="new-description"
+											type="text"
+											name="description"
+											value=${data.description}
+										/>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="new-price"
+											>Price</label
+										>
+										<input
+											class="form-control"
+											id="new-price"
+											type="number"
+											name="price"
+											value=${data.price}
+										/>
+									</div>
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="new-image"
+											>Image</label
+										>
+										<input
+											class="form-control"
+											id="new-image"
+											type="text"
+											name="img"
+											value=${data.img}
+										/>
+									</div>
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="new-material"
+											>Material (optional)</label
+										>
+										<input
+											class="form-control"
+											id="new-material"
+											type="text"
+											name="material"
+											value=${data.material}
+										/>
+									</div>
+									<input
+										type="submit"
+										class="btn btn-info"
+										value="Edit"
+									/>
+								</div>
+							</div>
+						</form>
 					</div>
-					<div class="form-group has-success">
-						<label class="form-control-label" for="new-model"
-							>Model</label
-						>
-						<input
-							class="form-control is-valid"
-							id="new-model"
-							type="text"
-							name="model"
-							value=${obj.model}
-						/>
-					</div>
-					<div class="form-group has-danger">
-						<label class="form-control-label" for="new-year"
-							>Year</label
-						>
-						<input
-							class="form-control is-invalid"
-							id="new-year"
-							type="number"
-							name="year"
-							value=${obj.year}
-						/>
-					</div>
-					<div class="form-group">
-						<label class="form-control-label" for="new-description"
-							>Description</label
-						>
-						<input
-							class="form-control"
-							id="new-description"
-							type="text"
-							name="description"
-							value=${obj.description}
-						/>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="form-control-label" for="new-price"
-							>Price</label
-						>
-						<input
-							class="form-control"
-							id="new-price"
-							type="number"
-							name="price"
-							value=${obj.price}
-						/>
-					</div>
-					<div class="form-group">
-						<label class="form-control-label" for="new-image"
-							>Image</label
-						>
-						<input
-							class="form-control"
-							id="new-image"
-							type="text"
-							name="img"
-							value=${obj.img}
-						/>
-					</div>
-					<div class="form-group">
-						<label class="form-control-label" for="new-material"
-							>Material (optional)</label
-						>
-						<input
-							class="form-control"
-							id="new-material"
-							type="text"
-							name="material"
-							value=${obj.material}
-						/>
-					</div>
-					<input type="submit" class="btn btn-info" value="Edit" />
-				</div>
-			</div>
-		</form>
-	</div>
-`;
+				`
+		)
+	);
