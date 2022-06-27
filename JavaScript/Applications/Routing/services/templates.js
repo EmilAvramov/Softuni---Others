@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-relative-packages */
-import { html, render } from '../node_modules/lit-html/lit-html.js';
+import { html } from '../node_modules/lit-html/lit-html.js';
 import { until } from '../node_modules/lit-html/directives/until.js';
 
 // Guest templates
@@ -49,6 +49,61 @@ export const login = () => html`<div class="container">
 	</form>
 </div>`;
 
+export const register = () => html`
+	<div class="container">
+		<div class="row space-top">
+			<div class="col-md-12">
+				<h1>Register New User</h1>
+				<p>Please fill all fields.</p>
+			</div>
+		</div>
+		<form>
+			<div class="row space-top">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="form-control-label" for="email"
+							>Email</label
+						>
+						<input
+							class="form-control"
+							id="email"
+							type="text"
+							name="email"
+						/>
+					</div>
+					<div class="form-group">
+						<label class="form-control-label" for="password"
+							>Password</label
+						>
+						<input
+							class="form-control"
+							id="password"
+							type="password"
+							name="password"
+						/>
+					</div>
+					<div class="form-group">
+						<label class="form-control-label" for="rePass"
+							>Repeat</label
+						>
+						<input
+							class="form-control"
+							id="rePass"
+							type="password"
+							name="rePass"
+						/>
+					</div>
+					<input
+						type="submit"
+						class="btn btn-primary"
+						value="Register"
+					/>
+				</div>
+			</div>
+		</form>
+	</div>
+`;
+
 // User templates
 
 export const user = () => html`<h1><a href="/">Furniture Store</a></h1>
@@ -92,40 +147,44 @@ export const details = (obj) => html`
 	</div>
 `;
 
-export const dashboard = (data) => html`
-	<div class="container">
-		<div class="row space-top">
-			<div class="col-md-12">
-				<h1>Welcome to Furniture System</h1>
-				<p>Select furniture from the catalog to view details.</p>
-			</div>
-		</div>
-		${data.then((res) =>
-			res.map(
-				(x) => html`
-					<div class="row space-top">
-						<div class="col-md-4">
-							<div class="card text-white bg-primary">
-								<div class="card-body">
-									<img src=${x.img} />
-									<p>Description here</p>
-									<footer>
-										<p>Price: <span>${x.price}</span></p>
-									</footer>
-									<div>
-										<a href="”#”" class="btn btn-info"
-											>Details</a
-										>
-									</div>
+const renderItems = (obj) =>
+	html` ${until(
+		obj.then((res) =>
+			Object.values(res).map(
+				(x) => html` <div class="row space-top">
+					<div class="col-md-4">
+						<div class="card text-white bg-primary">
+							<div class="card-body">
+								<img src=${x.img} />
+								<p>Description here</p>
+								<footer>
+									<p>Price: <span>${x.price}</span></p>
+								</footer>
+								<div>
+									<a href="”#”" class="btn btn-info"
+										>Details</a
+									>
 								</div>
 							</div>
 						</div>
 					</div>
-				`
+				</div>`
 			)
-		)}
-	</div>
-`;
+		)
+	)}`;
+
+export const dashboard = (data) =>
+	html`
+		<div class="container">
+			<div class="row space-top">
+				<div class="col-md-12">
+					<h1>Welcome to Furniture System</h1>
+					<p>Select furniture from the catalog to view details.</p>
+				</div>
+			</div>
+			${renderItems(data)}
+		</div>
+	`;
 
 export const createNew = () => html`
 	<div class="container">
@@ -222,6 +281,110 @@ export const createNew = () => html`
 						class="btn btn-primary"
 						value="Create"
 					/>
+				</div>
+			</div>
+		</form>
+	</div>
+`;
+
+export const edit = (obj) => html`
+	<div class="container">
+		<div class="row space-top">
+			<div class="col-md-12">
+				<h1>Edit Furniture</h1>
+				<p>Please fill all fields.</p>
+			</div>
+		</div>
+		<form>
+			<div class="row space-top">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="form-control-label" for="new-make"
+							>Make</label
+						>
+						<input
+							class="form-control"
+							id="new-make"
+							type="text"
+							name="make"
+							value=${obj.make}
+						/>
+					</div>
+					<div class="form-group has-success">
+						<label class="form-control-label" for="new-model"
+							>Model</label
+						>
+						<input
+							class="form-control is-valid"
+							id="new-model"
+							type="text"
+							name="model"
+							value=${obj.model}
+						/>
+					</div>
+					<div class="form-group has-danger">
+						<label class="form-control-label" for="new-year"
+							>Year</label
+						>
+						<input
+							class="form-control is-invalid"
+							id="new-year"
+							type="number"
+							name="year"
+							value=${obj.year}
+						/>
+					</div>
+					<div class="form-group">
+						<label class="form-control-label" for="new-description"
+							>Description</label
+						>
+						<input
+							class="form-control"
+							id="new-description"
+							type="text"
+							name="description"
+							value=${obj.description}
+						/>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="form-control-label" for="new-price"
+							>Price</label
+						>
+						<input
+							class="form-control"
+							id="new-price"
+							type="number"
+							name="price"
+							value=${obj.price}
+						/>
+					</div>
+					<div class="form-group">
+						<label class="form-control-label" for="new-image"
+							>Image</label
+						>
+						<input
+							class="form-control"
+							id="new-image"
+							type="text"
+							name="img"
+							value=${obj.img}
+						/>
+					</div>
+					<div class="form-group">
+						<label class="form-control-label" for="new-material"
+							>Material (optional)</label
+						>
+						<input
+							class="form-control"
+							id="new-material"
+							type="text"
+							name="material"
+							value=${obj.material}
+						/>
+					</div>
+					<input type="submit" class="btn btn-info" value="Edit" />
 				</div>
 			</div>
 		</form>
