@@ -9,6 +9,7 @@ import page from '../node_modules/page/page.mjs';
 import * as request from './requests.js';
 
 // Click Events
+// Login Form
 const loginUser = (e) => {
 	e.preventDefault();
 	const formData = new FormData(e.currentTarget);
@@ -29,6 +30,7 @@ const loginUser = (e) => {
 	pw.value = '';
 };
 
+// Register User
 const registerUser = (e) => {
 	e.preventDefault();
 	const formData = new FormData(e.currentTarget);
@@ -52,6 +54,7 @@ const registerUser = (e) => {
 	}
 };
 
+// Submit new item
 const createData = (e) => {
 	e.preventDefault();
 	const formData = new FormData(e.currentTarget);
@@ -70,6 +73,7 @@ const createData = (e) => {
 	page.redirect('/dashboard');
 };
 
+// Edit existing data
 const editData = (e, id) => {
 	e.preventDefault();
 	const formData = new FormData(e.currentTarget);
@@ -86,18 +90,20 @@ const editData = (e, id) => {
 	page.redirect('/dashboard');
 };
 
+// Logout function
 const logOut = () => {
 	localStorage.clear();
 	page.redirect('/');
 };
 
+// Delete function
 const delItem = (id, token) => {
 	request.del(id, token);
 	page.redirect('/dashboard');
 };
 
 // Guest templates
-
+// Guest navigation
 export const guest = () => html`<h1><a href="/">Furniture Store</a></h1>
 	<nav>
 		<div id="guest">
@@ -106,6 +112,7 @@ export const guest = () => html`<h1><a href="/">Furniture Store</a></h1>
 		</div>
 	</nav>`;
 
+// Login screen
 export const login = () => html`<div class="container">
 	<div class="row space-top">
 		<div class="col-md-12">
@@ -142,6 +149,7 @@ export const login = () => html`<div class="container">
 	</form>
 </div>`;
 
+// Register screen
 export const register = () => html`
 	<div class="container">
 		<div class="row space-top">
@@ -198,7 +206,7 @@ export const register = () => html`
 `;
 
 // User templates
-
+// User navigation
 export const user = () => html`<h1><a href="/">Furniture Store</a></h1>
 	<nav>
 		<a id="catalogLink" href="/dashboard">Dashboard</a>
@@ -209,6 +217,7 @@ export const user = () => html`<h1><a href="/">Furniture Store</a></h1>
 		</div>
 	</nav>`;
 
+// Render function for each item
 const renderItems = (obj) =>
 	html` ${until(
 		obj.then((res) =>
@@ -237,6 +246,7 @@ const renderItems = (obj) =>
 		)
 	)}`;
 
+// Dashboard screen
 export const dashboard = (data) =>
 	html`
 		<div class="container">
@@ -250,6 +260,7 @@ export const dashboard = (data) =>
 		</div>
 	`;
 
+// Create item screen
 export const createNew = () => html`
 	<div class="container">
 		<div class="row space-top">
@@ -351,6 +362,7 @@ export const createNew = () => html`
 	</div>
 `;
 
+// Individual item details screen
 export const details = (obj) =>
 	until(
 		obj.then(
@@ -395,6 +407,7 @@ export const details = (obj) =>
 		)
 	);
 
+// Edit screen
 export const edit = (obj) =>
 	until(
 		obj.then(
