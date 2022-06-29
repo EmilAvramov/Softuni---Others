@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-const loader = document.getElementById('loader');
+const loader = document.getElementById('overlay');
 
 function show() {
 	loader.style.display = '';

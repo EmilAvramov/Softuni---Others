@@ -13,3 +13,7 @@ export function getToken() {
 export function clearUserData() {
 	localStorage.removeItem('user');
 }
+
+export function setUserData(data) {
+	localStorage.setItem('user', JSON.stringify(data));
+}
