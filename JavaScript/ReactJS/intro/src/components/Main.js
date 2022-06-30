@@ -83,14 +83,14 @@ export const Main = () => {
 				</div>
 				<div id='sidebar'>
 					<div className='search'>
-						<input type='text' name='s' value='Find' />
+						<input type='text' name='s' defaultValue='Find' />
 						<button>&nbsp;</button>
 						<label htmlFor='articles'>
 							<input type='radio' id='articles' />
 							Articles
 						</label>
 						<label htmlFor='products'>
-							<input type='radio' id='products' checked />
+							<input type='radio' id='products' />
 							PetMart Products
 						</label>
 					</div>
