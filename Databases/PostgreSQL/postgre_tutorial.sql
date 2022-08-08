@@ -105,3 +105,15 @@ WHERE c.cat_id = 2;
 SELECT owner_id, owner_name, owner_age
 FROM pet_owner
 ORDER BY owner_age DESC;
+
+-- 5 COUNT
+SELECT COUNT(cat_age)
+FROM cat
+WHERE cat_age >= 3;
+
+-- 6 DELETE
+DELETE FROM cat
+WHERE cat_age <= 2;
+
+DELETE FROM dog
+WHERE dog_age <= 2;
