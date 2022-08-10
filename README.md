@@ -1,1 +1,60 @@
-### All exercises and tasks from SoftUni and other sources
+# Repository housing problems and homework tasks
+
+## This repository houses mostly problems related to Judge (SoftUni's testing system), where students need to write specific code to pass pre-built tests (input and output)
+
+- Some work done is not located in this repository (generally Web Modules and Projects).
+- For some HTML/CSS and some JavaScript exercises the HTML/CSS skeleton is supplied by SoftUni in advance and specific tasks need to be performed on the skeleton.
+- For DB courses, students need to create a specific DB based on instructions and perform different operations on the data.
+
+### Python
+
+- [Basics](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Basics) | [certificate](https://softuni.bg/certificates/details/131408/bec48461)
+- [Fundamentals](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Fundamentals) | [certificate](https://softuni.bg/certificates/details/138840/125b88f9)
+- [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | (no certificate, material passed ahead of schedule)
+- [OOP](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/OOP) | (no certificate, material passed ahead of schedule)
+
+### JavaScript
+
+- [Fundamentals](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Fundamentals) | (no certificate, not part of Python curriculum)
+- [Advanced & Web](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Advanced%20%26%20Web) | (no certificate, material passed ahead of schedule)
+- [Applications](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Applications) | (no certificate, material passed ahead of schedule)
+- [Backend](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Backend) | (no certificate, not part of Python curriculum)
+
+### HTML/CSS
+
+#### [Repo](https://github.com/EmilAvramov/Softuni---Others/tree/master/HTML-CSS) | [certificate](https://softuni.bg/certificates/details/137013/5dea7ebe)
+
+- HTML Structure
+- Typography
+- Box Model and Position
+- Flex and Grid
+- Media Queries
+
+### Computer Networking (extra course)
+
+#### [Fundamentals](https://github.com/EmilAvramov/Softuni---Others/tree/master/Networking) | [certificate](https://softuni.bg/certificates/details/134697/823c4da3)
+
+##### Note: Repo is shared with Computer Networking Advanced and consists of all homeworks and some practice/real exams. Packet Tracer is needed to open most of the files
+
+- Various networking fundamentals concepts (IPv4, IPv6, Routing, Vlans, etc.)
+- Different protocols (OSPF, DHCP, etc)
+
+#### [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Networking) | (course currently in progress)
+
+- Advanced protocols (MSTP, PVST+, OSPF with areas, etc.)
+- Advanced networking concepts (ACL, NAT/PAT, IPv6)
+- Wireless Protocols, QoS, Port Mirroring
+- Virtualization
+- Some work with MS Azure
+
+### Databases (extra course)
+
+#### [MySQL](https://github.com/EmilAvramov/Softuni---Others/tree/master/Databases/MySQL) | (no certificate, course not part of Python curriculum)
+
+- CRUD operations, database programability, table/db creation
+- Table relations, joins and data aggregation
+
+#### [PostgreSQL](https://github.com/EmilAvramov/Softuni---Others/tree/master/Databases/PostgreSQL) | not a standalone course
+
+- Mostly tutorial session on how to connect Python with Postgre with psycopg2
+- Introducton to syntax and how to launch a Postgre server
