@@ -1,9 +1,7 @@
 const http = require('http');
-const homePage = require('./views/home');
-const siteCSS = require('./styles/site');
-const addCat = require('./views/addCat');
-const addBreed = require('./views/addBreed');
-const cats = require('./cats.json')
+const fs = require('fs/promises');
+const qs = require('querystring');
+const { render } = require('./functions/renderPage');
 
 const catTemplate = (cat) => `
         <li>
@@ -22,22 +20,41 @@ const catTemplate = (cat) => `
             </ul>
         </li>`;
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, {
-        'content-type': 'text/html',
-    });
+const server = http.createServer(async (req, res) => {
+	let [pathname, queryString] = req.url.split('?');
+	let params = qs.parse(queryString);
+
+	res.writeHead(200, {
+		'content-type': 'text/html',
+	});
 
 	if (req.url == '/styles/site.css') {
+		let siteCSS = await fs.readFile(
+			'./courseMiniProject/styles/site.css',
+			'utf-8'
+		);
 		res.writeHead(200, {
 			'content-type': 'text/css',
 		});
 		res.write(siteCSS);
 	} else if (req.url == '/cats/add-cat') {
-		res.write(addCat);
+		await render(res, './courseMiniProject/views/addCat.html');
 	} else if (req.url == '/cats/add-breed') {
-		res.write(addBreed);
+		await render(res, './courseMiniProject/views/addBreed.html');
 	} else {
-        const dynamicHomePage = homePage.replace('{{cats}}', cats.map(catTemplate).join(''))
+		let homePage = await fs.readFile(
+			'./courseMiniProject/views/home.html',
+			'utf-8'
+		);
+		let catsRes = await fs.readFile('./courseMiniProject/cats.json');
+		let catsFilter = JSON.parse(catsRes)
+			.filter((x) =>
+				params.name ? x.name.toLowerCase().includes(params.name) : true
+			)
+			.map((x) => catTemplate(x))
+			.join('');
+
+		const dynamicHomePage = homePage.replace('{{cats}}', catsFilter);
 		res.write(dynamicHomePage);
 	}
 
