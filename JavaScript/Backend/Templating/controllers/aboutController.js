@@ -1,3 +1,3 @@
-exports.about = (req, res) => {
+exports.view = (req, res) => {
     res.render('about')
 }

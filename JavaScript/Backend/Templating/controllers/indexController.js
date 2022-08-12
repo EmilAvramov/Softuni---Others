@@ -1,5 +1,5 @@
 const cubes = require('./../config/database.json')
 
-exports.index = (req, res) => {
+exports.view = (req, res) => {
     res.render('index', {cubes})
 }

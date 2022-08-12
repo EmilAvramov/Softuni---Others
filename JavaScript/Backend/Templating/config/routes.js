@@ -6,10 +6,11 @@ const notFoundController = require('./../controllers/notFoundController')
 
 const router = require('express').Router()
 
-router.get('/', homeController.index)
-router.get('/about', aboutController.about)
-router.get('/create', createController.create)
-router.get('/details/:id', detailsController.details)
-router.get('*', notFoundController.notFound)
+router.get('/', homeController.view)
+router.get('/about', aboutController.view)
+router.get('/create', createController.view)
+router.post('/create', createController.create)
+router.get('/details/:id', detailsController.view)
+router.get('*', notFoundController.view)
 
 module.exports = router

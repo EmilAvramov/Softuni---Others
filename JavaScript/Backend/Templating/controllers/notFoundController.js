@@ -1,3 +1,3 @@
-exports.notFound = (req, res) => {
+exports.view = (req, res) => {
     res.render('404')
 }
