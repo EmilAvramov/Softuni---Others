@@ -1,4 +1,6 @@
+const cubeService = require('../services/cubeService')
+
 exports.view = (req, res) => {
-    let id = req.path.split("/")[2]
-    res.render('details', {id})
+    const cube = cubeService.getOne(req.params.id)[0]
+    res.render('details', {cube})
 }

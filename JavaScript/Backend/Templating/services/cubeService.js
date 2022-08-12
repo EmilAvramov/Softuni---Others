@@ -12,3 +12,7 @@ exports.save = (cube) => {
 		}
 	)
 }
+
+exports.getOne = (id) => {
+	return cubes.filter(x => x.id == id)
+}
