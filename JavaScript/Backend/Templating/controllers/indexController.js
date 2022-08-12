@@ -1,5 +1,7 @@
-const cubes = require('./../config/database.json')
+const cubeService = require('../services/cubeService');
 
 exports.view = (req, res) => {
-    res.render('index', {cubes})
-}
+	let { search, from, to } = req.query;
+	const cubes = cubeService.getAll(search, from, to);
+	res.render('index', { cubes });
+};
