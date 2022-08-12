@@ -18,7 +18,7 @@ app.engine(
 );
 
 app.set('view engine', 'hbs');
-
+app.use(express.urlencoded({ extended: false }));
 app.use(router)
 
 app.listen(5000, () => console.log('Server listening to port 5000...'));
