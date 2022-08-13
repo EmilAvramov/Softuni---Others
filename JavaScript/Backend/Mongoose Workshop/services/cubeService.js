@@ -1,16 +1,5 @@
 const Cube = require('../models/cube');
 
-// exports.create = (cube) => {
-// 	cubes.push(cube);
-// 	return fs.writeFile(
-// 		path.resolve('../Templating/config/database.json'),
-// 		JSON.stringify(cubes, '', 4),
-// 		(err) => {
-// 			if (err) console.log('Error', err);
-// 		}
-// 	);
-// };
-
 exports.create = (cube) => Cube.create(cube)
 
 exports.getOne = (id) => {
@@ -19,7 +8,6 @@ exports.getOne = (id) => {
 
 exports.getAll = async (searchInput, fromInput, toInput) => {
 	let cubes = await Cube.find().lean()
-	console.log(cubes)
 	return cubes
 	// const search = searchInput || '';
 	// const from = Number(fromInput) || 0;

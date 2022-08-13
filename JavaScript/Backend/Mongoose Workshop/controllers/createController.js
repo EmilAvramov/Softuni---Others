@@ -1,14 +1,20 @@
 const cubeService = require('../services/cubeService');
+const accessoryService = require('../services/accessoryService')
 
-exports.view = (req, res) => {
-	res.render('create');
+exports.viewCube = (req, res) => {
+	res.render('createCube');
 };
 
-exports.create = (req, res) => {
-	let cube = req.body;
-	if (cube.name.length < 2) {
-		return res.status(400).send('Invalid Request');
-	}
-	cubeService.create(cube);
+exports.viewAccessory = (req, res) => {
+	res.render('createAccessory')
+}
+
+exports.createCube = (req, res) => {
+	cubeService.create(req.body);
 	res.redirect('/');
 };
+
+exports.createAccessory = (req, res) => {
+	accessoryService.create(req.body)
+	res.redirect('/')
+}

@@ -8,8 +8,10 @@ const router = require('express').Router();
 
 router.get('/', homeController.view);
 router.get('/about', aboutController.view);
-router.get('/create', createController.view);
-router.post('/create', createController.create);
+router.get('/create/cube', createController.viewCube);
+router.get('/create/accessory', createController.viewAccessory)
+router.post('/create/cube', createController.createCube);
+router.post('/create/accessory', createController.createAccessory)
 router.get('/details/:id', detailsController.view);
 router.get('*', notFoundController.view);
 

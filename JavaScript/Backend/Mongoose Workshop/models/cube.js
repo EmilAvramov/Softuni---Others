@@ -14,6 +14,12 @@ const cubeSchema = new mongoose.Schema({
 	imageUrl: {
 		type: String,
 		required: [true, 'This field is required'],
+		validate: {
+			validator: function() {
+                return this.imageUrl.startsWith('http')
+            },
+			message: 'Image url should be link',
+		},
 	},
 	difficultyLevel: {
 		type: Number,
@@ -26,11 +32,6 @@ const cubeSchema = new mongoose.Schema({
 	// 	ref: ReferenceError,
 	// },
 });
-
-cubeSchema.path('imageUrl').validate(function () {
-	return this.imageUrl.startsWith('http');
-}, 'Image url should be a link');
-
 
 const Cube = mongoose.model('Cube', cubeSchema)
 
