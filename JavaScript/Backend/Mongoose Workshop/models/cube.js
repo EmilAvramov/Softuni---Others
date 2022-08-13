@@ -15,9 +15,9 @@ const cubeSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'This field is required'],
 		validate: {
-			validator: function() {
-                return this.imageUrl.startsWith('http')
-            },
+			validator: function () {
+				return this.imageUrl.startsWith('http');
+			},
 			message: 'Image url should be link',
 		},
 	},
@@ -27,12 +27,14 @@ const cubeSchema = new mongoose.Schema({
 		min: 1,
 		max: 6,
 	},
-	// accessories: {
-	// 	ObjectId: mongoose.Types.ObjectId,
-	// 	ref: ReferenceError,
-	// },
+	accessories: [
+		{
+			type: mongoose.Types.ObjectId,
+			ref: 'Accessory',
+		},
+	],
 });
 
-const Cube = mongoose.model('Cube', cubeSchema)
+const Cube = mongoose.model('Cube', cubeSchema);
 
 module.exports = Cube;

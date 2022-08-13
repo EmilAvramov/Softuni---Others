@@ -13,6 +13,8 @@ router.get('/create/accessory', createController.viewAccessory)
 router.post('/create/cube', createController.createCube);
 router.post('/create/accessory', createController.createAccessory)
 router.get('/details/:id', detailsController.view);
+router.get('/cube/:id/attach', detailsController.attachView)
+router.post('/cube/:id/attach', detailsController.attachPost)
 router.get('*', notFoundController.view);
 
 module.exports = router;

@@ -10,9 +10,9 @@ const accessorySchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'This field is required'],
 		validate: {
-			validator: function() {
-                return this.imageUrl.startsWith('http')
-            },
+			validator: function () {
+				return this.imageUrl.startsWith('http');
+			},
 			message: 'Image url should be link',
 		},
 	},
@@ -21,9 +21,12 @@ const accessorySchema = new mongoose.Schema({
 		required: [true, 'This field is required'],
 		maxLength: 120,
 	},
-	// cubes: {
-
-	// }
+	cubes: [
+		{
+			type: mongoose.Types.ObjectId,
+			ref: 'Cube',
+		},
+	],
 });
 
 const Accessory = mongoose.model('Accessory', accessorySchema);
