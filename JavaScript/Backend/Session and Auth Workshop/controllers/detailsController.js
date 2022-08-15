@@ -3,14 +3,12 @@ const accessoryService = require('../services/accessoryService');
 
 exports.view = async (req, res) => {
 	const cube = await cubeService.getOneDetailed(req.params.id).lean();
-	res.render('items/details', { cube });
+	const isOwner = cube.owner == req.user?._id;
+	res.render('items/details', { cube, isOwner });
 };
 
 exports.attachView = async (req, res) => {
 	const cube = await cubeService.getOne(req.params.id).lean();
-
-	console.log(cube.owner)
-	console.log(req.user._id)
 
 	if (cube.owner != req.user._id) {
 		return res.redirect('/404');
@@ -42,4 +40,16 @@ exports.editView = async (req, res) => {
 exports.editPost = async (req, res) => {
 	let modified = await cubeService.edit(req.params.id, req.body);
 	res.redirect(`/details/${modified._id}`);
+};
+
+exports.deleteView = async (req, res) => {
+	const cube = await cubeService.getOne(req.params.id).lean();
+
+	res.render(`items/deleteCube`, { cube });
+};
+
+exports.deletePost = async (req, res) => {
+	await cubeService.delete(req.params.id)
+
+	res.redirect('/')
 };

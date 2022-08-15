@@ -11,6 +11,7 @@ exports.auth = async (req, res, next) => {
 		try {
 			let decodedToken = await jwtPromise(token, secret);
 			req.user = decodedToken;
+			res.locals.user = decodedToken
 		} catch (e) {
 			return false;
 		}

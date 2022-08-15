@@ -30,6 +30,8 @@ router.get('/cube/:id/attach', detailsController.attachView)
 router.post('/cube/:id/attach', detailsController.attachPost)
 router.get('/cube/:id/edit', detailsController.editView)
 router.post('/cube/:id/edit', detailsController.editPost)
+router.get('/cube/:id/delete', detailsController.deleteView)
+router.post('/cube/:id/delete', detailsController.deletePost)
 
 router.get('*', notFoundController.view);
 
