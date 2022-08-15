@@ -2,11 +2,11 @@ const cubeService = require('../services/cubeService');
 const accessoryService = require('../services/accessoryService')
 
 exports.viewCube = (req, res) => {
-	res.render('createCube');
+	res.render('items/createCube');
 };
 
 exports.viewAccessory = (req, res) => {
-	res.render('createAccessory')
+	res.render('items/createAccessory')
 }
 
 exports.createCube = (req, res) => {
