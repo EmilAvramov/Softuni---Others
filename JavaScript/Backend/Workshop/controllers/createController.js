@@ -1,22 +1,29 @@
+const router = require('express').Router()
+const { isAuth } = require('../middleware/authMiddleware');
 const cubeService = require('../services/cubeService');
 const accessoryService = require('../services/accessoryService');
+const { body, validationResult } = require('express-validator');
 
-exports.viewCube = (req, res) => {
+router.use(isAuth);
+
+router.get('/cube', (req, res) => {
 	res.render('items/createCube');
-};
+});
 
-exports.viewAccessory = (req, res) => {
+router.get('/accessory', (req, res) => {
 	res.render('items/createAccessory');
-};
+});
 
-exports.createCube = (req, res) => {
+router.post('/cube', (req, res) => {
 	const cube = req.body;
 	cube.owner = req.user._id;
 	cubeService.create(cube);
 	res.redirect('/');
-};
+});
 
-exports.createAccessory = (req, res) => {
+router.post('/accessory', (req, res) => {
 	accessoryService.create(req.body);
 	res.redirect('/');
-};
+});
+
+module.exports = router

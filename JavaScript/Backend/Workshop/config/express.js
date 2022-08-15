@@ -1,6 +1,6 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
-const routes = require('./routes');
+const router = require('./router');
 const cookieParser = require('cookie-parser');
 const { auth } = require('../middleware/authMiddleware');
 
@@ -17,6 +17,6 @@ app.use(express.static('static'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(auth);
-app.use(routes);
+app.use(router);
 
 module.exports = app;

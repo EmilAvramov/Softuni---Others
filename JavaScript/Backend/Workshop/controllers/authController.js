@@ -1,24 +1,26 @@
 const authService = require('../services/authService');
+const router = require('express').Router()
 const { sessionName } = require('../config/config');
+const { isAuth } = require('../middleware/authMiddleware');
 
-exports.registerView = (req, res) => {
+router.get('/register', (req, res) => {
 	res.render('auth/register');
-};
+});
 
-exports.registerPost = async (req, res) => {
+router.post('/register', async (req, res) => {
 	let createUser = await authService.register(req.body);
 	if (createUser) {
-		res.redirect('/login');
+		res.redirect('/auth/login');
 	} else {
 		res.redirect('/404');
 	}
-};
+});
 
-exports.loginView = (req, res) => {
+router.get('/login', (req, res) => {
 	res.render('auth/login');
-};
+});
 
-exports.loginPost = async (req, res) => {
+router.post('/login', async (req, res) => {
 	const token = await authService.login(req.body);
 	if (!token) {
 		res.redirect('/404');
@@ -26,9 +28,13 @@ exports.loginPost = async (req, res) => {
 
 	res.cookie(sessionName, token, { httpOnly: true });
 	res.redirect('/');
-};
+});
 
-exports.logout = (req, res) => {
-	res.clearCookie(sessionName)
+router.use(isAuth);
+
+router.get('/logout', (req, res) => {
+	res.clearCookie(sessionName);
 	res.redirect('/');
-};
+});
+
+module.exports = router
