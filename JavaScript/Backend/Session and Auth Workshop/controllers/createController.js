@@ -1,20 +1,22 @@
 const cubeService = require('../services/cubeService');
-const accessoryService = require('../services/accessoryService')
+const accessoryService = require('../services/accessoryService');
 
 exports.viewCube = (req, res) => {
 	res.render('items/createCube');
 };
 
 exports.viewAccessory = (req, res) => {
-	res.render('items/createAccessory')
-}
+	res.render('items/createAccessory');
+};
 
 exports.createCube = (req, res) => {
-	cubeService.create(req.body);
+	const cube = req.body;
+	cube.owner = req.user._id;
+	cubeService.create(cube);
 	res.redirect('/');
 };
 
 exports.createAccessory = (req, res) => {
-	accessoryService.create(req.body)
-	res.redirect('/')
-}
+	accessoryService.create(req.body);
+	res.redirect('/');
+};

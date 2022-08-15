@@ -10,10 +10,17 @@ exports.auth = async (req, res, next) => {
 	if (token) {
 		try {
 			let decodedToken = await jwtPromise(token, secret);
-            req.user = decodedToken
+			req.user = decodedToken;
 		} catch (e) {
 			return false;
 		}
+	}
+	next();
+};
+
+exports.isAuth = (req, res, next) => {
+	if (!req.user) {
+		return res.render('404');
 	}
 	next();
 };
