@@ -1,6 +1,6 @@
 # Repository housing problems and homework tasks
 
-## This repository houses mostly problems related to Judge (SoftUni's testing system), where students need to write specific code to pass pre-built tests (input and output)
+## Relates to Judge (SoftUni's testing system), where students need to write specific code to pass pre-built tests (input and output), or tasks where students need to build some basic web apps. Mostly for reference purposes of material covered (and for recordkeeping for myself)
 
 - Some work done is not located in this repository (generally Web Modules and Projects).
 - For some HTML/CSS and some JavaScript exercises the HTML/CSS skeleton is supplied by SoftUni in advance and specific tasks need to be performed on the skeleton.

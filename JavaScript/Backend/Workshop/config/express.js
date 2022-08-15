@@ -3,6 +3,7 @@ const handlebars = require('express-handlebars');
 const router = require('./router');
 const cookieParser = require('cookie-parser');
 const { auth } = require('../middleware/authMiddleware');
+const { errorHandler } = require('../middleware/errorHandleMiddleware');
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(auth);
 app.use(router);
+app.use(errorHandler);
 
 module.exports = app;

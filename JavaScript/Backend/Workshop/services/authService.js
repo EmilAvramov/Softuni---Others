@@ -26,6 +26,11 @@ exports.login = async ({ username, password }) => {
 
 	const isMatched = await bcrypt.compare(password, user.password);
 	// can also use promisify from utils
+	if (!isMatched) {
+		throw {
+			message: 'Credentials invalid'
+		}
+	}
 	if (isMatched) {
 		let authToken = new Promise((resolve, reject) => {
 			jwt.sign(
