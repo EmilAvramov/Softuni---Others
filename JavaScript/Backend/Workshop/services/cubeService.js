@@ -35,6 +35,6 @@ exports.attach = async (cubeId, accessoryId) => {
 };
 
 exports.edit = async (id, data) =>
-	Cube.findByIdAndUpdate(id, data, { runValidators: true });
+	Cube.findByIdAndUpdate(id, data);
 
 exports.delete = (id) => Cube.findByIdAndDelete(id);
