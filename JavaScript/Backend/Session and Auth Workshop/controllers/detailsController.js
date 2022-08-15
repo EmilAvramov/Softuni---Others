@@ -17,3 +17,16 @@ exports.attachPost = async (req, res) => {
 	await cubeService.attach(req.params.id, accessoryId);
 	res.redirect(`items/details/${req.params.id}`);
 };
+
+exports.editView = async (req, res) => {
+	const cube = await cubeService.getOne(req.params.id).lean();
+	if (!cube) {
+		res.render('404');
+	}
+	res.render('items/editCube', { cube });
+};
+
+exports.editPost = async (req, res) => {
+	let modified = await cubeService.edit(req.params.id, req.body)
+	res.redirect(`/details/${modified._id}`);
+};

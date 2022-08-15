@@ -1,9 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-const secret = 'MySecret';
-const saltRounds = 10;
+const { secret, saltRounds } = require('../config/config');
 
 exports.register = async ({ username, password, repass }) => {
 	if (password !== repass) {
@@ -38,11 +36,11 @@ exports.login = async ({ username, password }) => {
 					if (err) {
 						reject(err);
 					}
-					resolve(token)
+					resolve(token);
 				}
 			);
 		});
 		return authToken;
 	}
-	return false
+	return false;
 };

@@ -1,4 +1,5 @@
 const authService = require('../services/authService');
+const { sessionName } = require('../config/config')
 
 exports.registerView = (req, res) => {
 	res.render('auth/register');
@@ -23,8 +24,8 @@ exports.loginPost = async (req, res) => {
 		res.redirect('404');
 	}
 
-    res.cookie('session', token)
-    res.redirect('/')
+	res.cookie(sessionName, token, { httpOnly: true });
+	res.redirect('/');
 };
 
 exports.logout = (req, res) => {

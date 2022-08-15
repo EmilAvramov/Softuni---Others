@@ -16,6 +16,8 @@ router.post('/create/accessory', createController.createAccessory)
 router.get('/details/:id', detailsController.view);
 router.get('/cube/:id/attach', detailsController.attachView)
 router.post('/cube/:id/attach', detailsController.attachPost)
+router.get('/cube/:id/edit', detailsController.editView)
+router.post('/cube/:id/edit', detailsController.editPost)
 router.get('/register', authController.registerView)
 router.post('/register', authController.registerPost)
 router.get('/login', authController.loginView)

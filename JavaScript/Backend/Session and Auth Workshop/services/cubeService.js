@@ -15,9 +15,10 @@ exports.getAll = async (search, fromInput, toInput) => {
 	})
 		.where('difficultyLevel')
 		.lte(to)
-		.gte(from).lean();
+		.gte(from)
+		.lean();
 
-	return cubes
+	return cubes;
 };
 
 exports.attach = async (cubeId, accessoryId) => {
@@ -32,3 +33,5 @@ exports.attach = async (cubeId, accessoryId) => {
 
 	return [cube, accessory];
 };
+
+exports.edit = async (id, data) => Cube.findByIdAndUpdate(id, data);
