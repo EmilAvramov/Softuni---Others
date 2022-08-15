@@ -3,6 +3,8 @@ const { isAuth } = require('../middleware/authMiddleware');
 const cubeService = require('../services/cubeService');
 const accessoryService = require('../services/accessoryService');
 const { body, validationResult } = require('express-validator');
+const Accessory = require('../models/accessory');
+const {modelValidator} = require('../middleware/validatorMiddleware')
 
 router.use(isAuth);
 
@@ -36,7 +38,7 @@ router.post(
 	}
 );
 
-router.post('/accessory', (req, res) => {
+router.post('/accessory', modelValidator(Accessory), (req, res) => {
 	accessoryService.create(req.body);
 	res.redirect('/');
 });
