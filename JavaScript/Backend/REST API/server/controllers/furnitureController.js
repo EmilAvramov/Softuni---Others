@@ -3,7 +3,9 @@ const {
 	create,
 	getById,
 	updateById,
+	deleteById,
 } = require('../services/furnitureService');
+const errorMapper = require('../utils/errorMapper');
 
 const router = require('express').Router();
 
@@ -26,8 +28,8 @@ router.post('/', async (req, res) => {
 		const result = await create(item);
 		res.json(result);
 	} catch (e) {
-		console.log(e);
-		res.status(400).json({ message: 'Request Error' });
+		const message = errorMapper(e)
+		res.status(400).json({message});
 	}
 });
 
@@ -64,5 +66,15 @@ router.put('/:id', async (req, res) => {
 		}
 	}
 });
+
+router.delete('/:id', async (req, res) => {
+	try {
+		const result = await deleteById(req.params.id);
+		res.json(result);
+	} catch (e) {
+		res.status(400).json({ message: 'Not Found' });
+		
+	}
+})
 
 module.exports = router;
