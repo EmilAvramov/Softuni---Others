@@ -1,15 +1,24 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('./middlewares.js/cors');
+const furnitureController = require('./controllers/furnitureController')
 
-const app = express();
+async function start() {
+	try {
+		await mongoose.connect('mongodb://localhost:27017/furniture');
+		console.log('Database ready');
+	} catch (err) {
+		console.log('Error connecting to database');
+		return process.exit(1);
+	}
 
-app.get('/data/catalog', (req, res) => {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader(
-		'Access-Control-Allow-Origin',
-		'GET, POST, PUT, DELETE, HEAD, OPTIONS'
-	);
-    res.setHeader('Access-Control-Allow-Origin', 'X-Authorization')
-	res.json({});
-});
+	const app = express();
 
-app.listen(3030, () => 'Server listening to port 3030...');
+	app.use(express.json());
+	app.use(cors());
+	app.use('/data/catalog', furnitureController)
+
+	app.listen(3030, () => console.log('Server listening to port 3030...'));
+}
+
+start();
