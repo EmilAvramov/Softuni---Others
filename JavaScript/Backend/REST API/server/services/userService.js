@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const jwtSecret = '902713-091u293jdiwndka';
+const blackList = new Set();
 
 async function createSession(user) {
 	const payload = {
@@ -10,17 +11,21 @@ async function createSession(user) {
 		_id: user._id,
 	};
 
-	const accessToken = jwt.sign(payload, jwtSecret);
+	const accessToken = jwt.sign(payload, jwtSecret, {
+		expiresIn: '2d',
+	});
 
 	return {
 		email: user.email,
-		accessToken,
+		accessToken: accessToken,
 		_id: user._id,
 	};
 }
 
 async function register(email, password) {
-	const existing = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
+	const existing = await User.findOne({
+		email: new RegExp(`^${email}$`, 'i'),
+	});
 
 	if (existing) {
 		throw new Error('Email is taken');
@@ -35,9 +40,39 @@ async function register(email, password) {
 	return createSession(user);
 }
 
-async function login(email, password) {}
+async function login(email, password) {
+	const user = await User.findOne({
+		email: new RegExp(`^${email}$`, 'i'),
+	});
+
+	if (!user) {
+		throw new Error('Incorrect credentials');
+	}
+
+	const match = await bcrypt.compare(password, user.hashedPassword);
+
+	if (!match) {
+		throw new Error('Incorrect credentials');
+	}
+
+	return createSession(user);
+}
+
+function validateToken(token) {
+	console.log(token)
+	if (blackList.has(token)) {
+		throw new Error('Token is blacklisted');
+	}
+	return jwt.verify(token, jwtSecret);
+}
+
+function logout(token) {
+	blackList.add(token);
+}
 
 module.exports = {
 	register,
 	login,
+	validateToken,
+	logout,
 };
