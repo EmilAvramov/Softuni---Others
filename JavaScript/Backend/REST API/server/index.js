@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('./middlewares.js/cors');
-const furnitureController = require('./controllers/furnitureController')
+const furnitureController = require('./controllers/furnitureController');
+const userController = require('./controllers/userController');
 
 async function start() {
 	try {
@@ -16,7 +17,8 @@ async function start() {
 
 	app.use(express.json());
 	app.use(cors());
-	app.use('/data/catalog', furnitureController)
+	app.use('/data/catalog', furnitureController);
+	app.use('/users', userController);
 
 	app.listen(3030, () => console.log('Server listening to port 3030...'));
 }

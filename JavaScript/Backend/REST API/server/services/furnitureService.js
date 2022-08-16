@@ -5,7 +5,7 @@ async function getAll() {
 }
 
 async function create(item) {
-	const result = Item.create({
+	const result = await Item.create({
 		make: item.make,
 		model: item.model,
 		year: item.year,
