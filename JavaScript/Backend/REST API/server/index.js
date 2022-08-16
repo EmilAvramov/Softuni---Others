@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('./middlewares.js/cors');
+const cors = require('./middlewares/cors');
 const furnitureController = require('./controllers/furnitureController');
 const userController = require('./controllers/userController');
-const auth = require('./middlewares.js/auth');
+const auth = require('./middlewares/auth');
 
 async function start() {
 	try {

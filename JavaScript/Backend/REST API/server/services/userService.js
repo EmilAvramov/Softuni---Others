@@ -59,7 +59,6 @@ async function login(email, password) {
 }
 
 function validateToken(token) {
-	console.log(token)
 	if (blackList.has(token)) {
 		throw new Error('Token is blacklisted');
 	}

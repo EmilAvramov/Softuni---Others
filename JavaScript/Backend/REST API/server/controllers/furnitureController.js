@@ -1,3 +1,6 @@
+const { isAuth, isOwner } = require('../middlewares/guards');
+const preload = require('../middlewares/preload');
+
 const {
 	getAll,
 	create,
@@ -13,7 +16,7 @@ router.get('/', async (req, res) => {
 	res.json(await getAll());
 });
 
-router.post('/', async (req, res) => {
+router.post('/', isAuth(), async (req, res) => {
 	const item = {
 		make: req.body.make,
 		model: req.body.model,
@@ -22,29 +25,23 @@ router.post('/', async (req, res) => {
 		price: req.body.price,
 		img: req.body.img,
 		material: req.body.material,
+		_ownerId: req.user._id,
 	};
 
 	try {
 		const result = await create(item);
 		res.json(result);
 	} catch (e) {
-		const message = errorMapper(e)
-		res.status(400).json({message});
+		const message = errorMapper(e);
+		res.status(400).json({ message });
 	}
 });
 
-router.get('/:id', async (req, res) => {
-	const id = req.params.id;
-	const item = await getById(id);
-
-	if (item) {
-		res.json(item);
-	} else {
-		res.status(404).json({ message: `item ${id} not found` });
-	}
+router.get('/:id', preload(), async (req, res) => {
+	res.json(res.locals.item);
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', preload(), isOwner(), async (req, res) => {
 	const item = {
 		make: req.body.make,
 		model: req.body.model,
@@ -67,14 +64,13 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isAuth(), isOwner(), async (req, res) => {
 	try {
 		const result = await deleteById(req.params.id);
 		res.json(result);
 	} catch (e) {
 		res.status(400).json({ message: 'Not Found' });
-		
 	}
-})
+});
 
 module.exports = router;
