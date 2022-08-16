@@ -1,19 +1,18 @@
-function tickets(array: any[], sort: string) {
+function tickets(array: string[], sort: string) {
 	class Ticket {
-		destination: string;
-		price: number;
-		status: string;
-
-		constructor(destination: string, price: number, status: string) {
-			this.destination = destination;
-			this.price = price;
-			this.status = status;
+		constructor(
+			public destination: string,
+			public price: string,
+			private status: string
+		) {}
+		getStatus(): string {
+			return this.status;
 		}
 	}
 
-	const data: any[] = [];
+	const data: object[] = [];
 	array.forEach((el) => {
-		let destination: string, price: number, status: string;
+		let destination: string, price: string, status: string;
 		[destination, price, status] = el.split('|');
 		data.push(new Ticket(destination, price, status));
 	});
