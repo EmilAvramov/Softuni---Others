@@ -13,7 +13,7 @@ const errorMapper = require('../utils/errorMapper');
 const router = require('express').Router();
 
 router.get('/', async (req, res) => {
-	res.json(await getAll());
+	res.json(await getAll(req.query.where));
 });
 
 router.post('/', isAuth(), async (req, res) => {
@@ -42,23 +42,11 @@ router.get('/:id', preload(), async (req, res) => {
 });
 
 router.put('/:id', preload(), isOwner(), async (req, res) => {
-	const item = {
-		make: req.body.make,
-		model: req.body.model,
-		year: req.body.year,
-		description: req.body.description,
-		price: req.body.price,
-		img: req.body.img,
-		material: req.body.material,
-	};
-
 	try {
-		const result = await updateById(req.params.id, item);
+		const result = await updateById(res.locals.item, req.body);
 		res.json(result);
 	} catch (e) {
 		if (err._notFound) {
-			res.status(404).json({ message: `item ${id} not found` });
-		} else {
 			res.status(400).json({ message: 'Request Error' });
 		}
 	}
