@@ -62,3 +62,9 @@
 
 - Mostly tutorial session on how to connect Python with Postgre with psycopg2
 - Introducton to syntax and how to launch a Postgre server
+
+### Others (extra courses)
+
+#### [Agile Fundamentals with Scrum](https://softuni.bg/trainings/3679/azure-essentials-february-2022) | [cert](https://softuni.bg/certificates/details/124101/7ef4386f)
+
+#### [Azure Essentials](https://softuni.bg/trainings/3562/agile-fundamentals-with-scrum-january-2022) | [cert](https://softuni.bg/certificates/details/131679/e27ffa78)
