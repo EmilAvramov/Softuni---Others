@@ -5,6 +5,7 @@
 .prettierrc
 package.json
 package-lock.json
+tsconfig.json
 node_modules
 tests
 playwright.config.ts
