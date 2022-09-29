@@ -10,8 +10,8 @@
 
 - [Basics](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Basics) | [certificate](https://softuni.bg/certificates/details/131408/bec48461)
 - [Fundamentals](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Fundamentals) | [certificate](https://softuni.bg/certificates/details/138840/125b88f9)
-- [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | (no certificate, material passed ahead of schedule)
-- [OOP](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/OOP) | (no certificate, material passed ahead of schedule)
+- [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | (course currently in progress)
+- [Django] (no certificate, course not started yet)
 
 ### JavaScript
 
@@ -53,7 +53,7 @@
 - Various networking fundamentals concepts (IPv4, IPv6, Routing, Vlans, etc.)
 - Different protocols (OSPF, DHCP, etc)
 
-#### [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Networking) | (course currently in progress)
+#### [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Networking) | [certificate](https://softuni.bg/certificates/details/124101/7ef4386f)
 
 - Advanced protocols (MSTP, PVST+, OSPF with areas, etc.)
 - Advanced networking concepts (ACL, NAT/PAT, IPv6)
