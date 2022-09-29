@@ -32,7 +32,17 @@
 
 ### Web Frameworks
 
-#### [ReactJS](https://github.com/EmilAvramov/react-defense-project) | [certificate](https://softuni.bg/certificates/details/140696/5d4d3062)
+#### ReactJS | [certificate](https://softuni.bg/certificates/details/140696/5d4d3062)
+
+- [Front-end](https://github.com/EmilAvramov/react-defense-project)
+- Back-end via Firebase
+- Database via Firestore/NoSQL
+
+#### Angular | No certificate, course not enrolled
+
+- [Front-end](https://github.com/EmilAvramov/angular-defense-client)
+- [Back-end](https://github.com/EmilAvramov/angular-defense-server)
+- Database via PostgreSQL (hosted on AWS-RDS)
 
 ### Computer Networking (extra course)
 
