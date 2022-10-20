@@ -5,8 +5,10 @@ def func_executor(*args):
     for item in args:
         inbound_func = item[0]
         inbound_tuple = item[1]
-        result.append(inbound_func(*inbound_tuple))
-    return result
+        result.append(
+            f"{inbound_func.__name__} - {inbound_func(*inbound_tuple)}"
+        )
+    return "\n".join(result)
 
 
 def sum_numbers(num1, num2):
