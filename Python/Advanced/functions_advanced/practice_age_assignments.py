@@ -6,7 +6,11 @@ def age_assignment(*args, **kwargs):
         for name in names:
             if name[0] == key:
                 combined[name] = value
-    return combined
+
+    combined = dict(sorted(combined.items(), key=lambda x: x[0]))
+    return "\n".join(
+        f"{key} is {value} years old." for key, value in combined.items()
+    )
 
 
 print(age_assignment("Peter", "George", G=26, P=19))
