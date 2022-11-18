@@ -10,7 +10,8 @@
 
 - [Basics](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Basics) | [certificate](https://softuni.bg/certificates/details/131408/bec48461)
 - [Fundamentals](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Fundamentals) | [certificate](https://softuni.bg/certificates/details/138840/125b88f9)
-- [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | (course currently in progress)
+- [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | [certificate](https://softuni.bg/certificates/details/143074/f9e052d5)
+- [OOP](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/OOP) | No certificate, course in progress
 - [Django] (no certificate, course not started yet)
 
 ### JavaScript
