@@ -1,6 +1,3 @@
-import unittest
-
-
 class IntegerList:
     def __init__(self, *args):
         self.__data = []
@@ -45,34 +42,58 @@ class IntegerList:
         return self.get_data().index(el)
 
 
-class IntegerListTestCase(unittest.TestCase):
-    def test_data_type_correct(self):
-        self.integer_list = IntegerList(1, 2, 3)
-        self.assertIsInstance(
-            self.integer_list.get_data(), list, "Incorrect type"
-        )
+import unittest
 
-    def test_data_type_incorrect(self):
+
+class IntegerListTestCase(unittest.TestCase):
+    def setUp(self) -> None:
+        self.integer_list = IntegerList(1, 2, 3)
+
+    def tearDown(self) -> None:
+        for i in range(len(self.integer_list.get_data())):
+            self.integer_list.remove_index(0)
+
+    def test_constructor(self):
+        self.assertEqual(self.integer_list.get_data(), [1, 2, 3])
+        self.assertIsInstance(self.integer_list.get_data(), list)
+
+    def test_data_type(self):
         self.integer_list = IntegerList("string", "string")
-        self.assertEqual(
-            len(self.integer_list.get_data()), 0, "Incorrect type"
-        )
+        self.assertEqual(len(self.integer_list.get_data()), 0)
+
+        self.integer_list = IntegerList(1, 2, 3)
+        self.assertIsInstance(self.integer_list.get_data(), list)
+        self.assertEqual(len(self.integer_list.get_data()), 3)
 
     def test_assignment(self):
-        with self.assertRaises(AttributeError) as cm:
-            self.integer_list.__data = [1, 2]
-        exception = cm.exception
-        self.assertIsNot(exception, "")
+        self.assertEqual(hasattr(self.integer_list, "data"), False)
+        self.assertEqual(hasattr(self.integer_list, "__data"), False)
 
     def test_add(self):
-        self.integer_list = IntegerList(1, 2, 3)
         self.assertRaises(ValueError, self.integer_list.add, "1")
-        self.integer_list.add(4)
-        self.assertEqual(self.integer_list.get_data(), [1, 2, 3, 4])
+        items = self.integer_list.add(4)
+        self.assertEqual(items, [1, 2, 3, 4])
+
+    def test_get(self):
+        self.assertRaises(IndexError, self.integer_list.get, 3)
+        self.assertEqual(self.integer_list.get(2), 3)
+
+    def test_insert(self):
+        self.assertRaises(IndexError, self.integer_list.insert, 4, 5)
+        self.assertRaises(ValueError, self.integer_list.insert, 2, "$")
+
+    def test_get_biggest(self):
+        self.assertEqual(self.integer_list.get_biggest(), 3)
+
+    def test_get_index(self):
+        self.assertEqual(self.integer_list.get_index(1), 0)
+        self.assertRaises(ValueError, self.integer_list.get_index, 5)
 
     def test_remove_index(self):
-        self.integer_list = IntegerList(1, 2, 3)
         self.assertRaises(IndexError, self.integer_list.remove_index, 3)
+        removed = self.integer_list.remove_index(0)
+        self.assertEqual(self.integer_list.get_data(), [2, 3])
+        self.assertEqual(removed, 1)
 
 
 if __name__ == "__main__":
