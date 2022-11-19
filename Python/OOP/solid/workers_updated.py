@@ -1,21 +1,69 @@
-class Robot:
-    pass
+from abc import ABC
 
 
-class WorkManager:
-    pass
+class Eatable(ABC):
+    def eat(self):
+        pass
 
 
-class BreakManager:
-    pass
+class Workable(ABC):
+    def work(self):
+        pass
 
 
-class Worker:
-    pass
+class Manager(ABC):
+    def manage(self):
+        pass
+
+    def lunch_break(self):
+        pass
+
+    def set_worker(self, worker):
+        pass
 
 
-class SuperWorker:
-    pass
+class Worker(Eatable, Workable):
+    def eat(self):
+        return "Lunch break....(5 secs)"
+
+    def work(self):
+        return "I'm normal worker. I'm working."
+
+
+class SuperWorker(Eatable, Workable):
+    def eat(self):
+        return "Lunch break....(3 secs)"
+
+    def work(self):
+        return "I'm super worker. I work very hard!"
+
+
+class Robot(Workable):
+    def work(self):
+        return "I'm a robot. I'm working...."
+
+
+class WorkManager(Manager):
+    def __init__(self) -> None:
+        self.worker = ""
+
+    def manage(self):
+        return print(self.worker.work())
+
+    def set_worker(self, worker):
+        self.worker = worker
+
+
+class BreakManager(Manager):
+    def __init__(self) -> None:
+        self.worker = ""
+
+    def lunch_break(self):
+        if isinstance(self.worker, Eatable):
+            return print(self.worker.eat())
+
+    def set_worker(self, worker):
+        self.worker = worker
 
 
 work_manager = WorkManager()
