@@ -1,17 +1,24 @@
-from abc import ABC
+from abc import ABC, ABCMeta
+import time
 
 
 class Eatable(ABC):
+    __metaclass__ = ABCMeta
+
     def eat(self):
         pass
 
 
 class Workable(ABC):
+    __metaclass__ = ABCMeta
+
     def work(self):
         pass
 
 
 class Manager(ABC):
+    __metaclass__ = ABCMeta
+
     def manage(self):
         pass
 
@@ -24,23 +31,25 @@ class Manager(ABC):
 
 class Worker(Eatable, Workable):
     def eat(self):
-        return "Lunch break....(5 secs)"
+        print("Lunch break....(5 secs)")
+        time.sleep(5)
 
     def work(self):
-        return "I'm normal worker. I'm working."
+        print("I'm normal worker. I'm working.")
 
 
 class SuperWorker(Eatable, Workable):
     def eat(self):
-        return "Lunch break....(3 secs)"
+        print("Lunch break....(3 secs)")
+        time.sleep(3)
 
     def work(self):
-        return "I'm super worker. I work very hard!"
+        print("I'm super worker. I work very hard!")
 
 
 class Robot(Workable):
     def work(self):
-        return "I'm a robot. I'm working...."
+        print("I'm a robot. I'm working....")
 
 
 class WorkManager(Manager):
@@ -48,7 +57,7 @@ class WorkManager(Manager):
         self.worker = ""
 
     def manage(self):
-        return print(self.worker.work())
+        self.worker.work()
 
     def set_worker(self, worker):
         self.worker = worker
@@ -60,7 +69,7 @@ class BreakManager(Manager):
 
     def lunch_break(self):
         if isinstance(self.worker, Eatable):
-            return print(self.worker.eat())
+            return self.worker.eat()
 
     def set_worker(self, worker):
         self.worker = worker
