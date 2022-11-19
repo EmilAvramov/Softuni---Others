@@ -1,10 +1,11 @@
-from abc import ABC, ABCMeta
+from abc import ABC, ABCMeta, abstractmethod
 import time
 
 
 class Eatable(ABC):
     __metaclass__ = ABCMeta
 
+    @abstractmethod
     def eat(self):
         pass
 
@@ -12,13 +13,12 @@ class Eatable(ABC):
 class Workable(ABC):
     __metaclass__ = ABCMeta
 
+    @abstractmethod
     def work(self):
         pass
 
 
-class Manager(ABC):
-    __metaclass__ = ABCMeta
-
+class Manager:
     def manage(self):
         pass
 
