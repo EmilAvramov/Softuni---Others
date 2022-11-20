@@ -11,9 +11,11 @@ class YoungCoupleWithChildren(Room):
         super().__init__(
             family_name, salary_one + salary_two, 2 + len(children)
         )
-        self.room_cost = 30
-        self.children: list = [children]
+        self.room_cost: int = 30
+        self.children: list = [x for x in children]
         self.appliances: list = [TV(), Fridge(), Laptop(), Laptop()] + [
-            Laptop() for _ in len(children)
+            Laptop() for _ in range(len(children))
         ]
-        self.expenses = 0.7 + 1.2 + 1 + 1 + len(children)
+        self.expenses: float = 3.9 + len(children) + sum(
+            x.cost for x in children
+        )
