@@ -4,16 +4,21 @@ class Room:
         self.budget: float = budget
         self.members_count: int = members_count
         self.children: list = []
-        self.expenses: int = 0
+        self._expenses: float = 0
 
-    def set_expenses(self, value: int):
+    @property
+    def expenses(self):
+        return self._expenses
+
+    @expenses.setter
+    def expenses(self, value: float):
         if value < 0:
             raise ValueError("Expenses cannot be negative")
-        self.expenses = value
+        self._expenses = value
 
     def calculate_expenses(self, *args):
         total = 0
         for arg in args:
             for item in arg:
-                total += item.cost
-        self.expenses = total * 30
+                total += item * 30
+        self._expenses = total

@@ -11,4 +11,4 @@ class YoungCouple(Room):
         super().__init__(family_name, salary_one + salary_two, 2)
         self.room_cost: int = 20
         self.appliances: list = [TV(), Fridge(), Laptop(), Laptop()]
-        self.expenses: float = 3.9
+        self.expenses: float = self.calculate_expenses([x.cost for x in self.appliances])

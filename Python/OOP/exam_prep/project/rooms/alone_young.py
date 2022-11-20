@@ -7,4 +7,4 @@ class AlongYoung(Room):
         super().__init__(family_name, salary, 1)
         self.room_cost:int  = 10
         self.appliances: list = [TV()]
-        self.expenses: float = 1.5
+        self.expenses: float = self.calculate_expenses([x.cost for x in self.appliances])

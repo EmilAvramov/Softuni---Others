@@ -9,6 +9,8 @@ class OldCouple(Room):
         self, family_name: str, pension_one: float, pension_two: float
     ) -> None:
         super().__init__(family_name, pension_one + pension_two, 2)
-        self.room_cost:int = 15
-        self.appliances = [TV(), Fridge(), Stove(), Stove()]
-        self.expenses: float = 4.1
+        self.room_cost: int = 15
+        self.appliances: list = [TV(), Fridge(), Stove(), Stove()]
+        self.expenses: float = self.calculate_expenses(
+            [x.cost for x in self.appliances]
+        )

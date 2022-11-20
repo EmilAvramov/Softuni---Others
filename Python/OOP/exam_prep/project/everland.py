@@ -15,8 +15,22 @@ class Everland:
             total_consumption += room.room_cost
         return f"Monthly consumption: {total_consumption}$."
 
-    def pay():
-        pass
+    def pay(self):
+        string = []
+        new_line = "\n"
+        for room in self.rooms:
+            totals = room.room_cost + room.expenses
+            if room.budget >= totals:
+                room.budget -= totals
+                string.append(
+                    f"{room.family_name} paid {totals}$ and have {room.budget}$ left."
+                )
+            else:
+                string.append(
+                    f"{room.family_name} does not have enough budget and must leave the hotel."
+                )
+                self.rooms.remove(room)
+        return new_line.join(string)
 
-    def status():
+    def status(self):
         pass

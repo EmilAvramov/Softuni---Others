@@ -12,10 +12,10 @@ class YoungCoupleWithChildren(Room):
             family_name, salary_one + salary_two, 2 + len(children)
         )
         self.room_cost: int = 30
-        self.children: list = [x for x in children]
+        self.children: list = [*children]
         self.appliances: list = [TV(), Fridge(), Laptop(), Laptop()] + [
             Laptop() for _ in range(len(children))
         ]
-        self.expenses: float = 3.9 + len(children) + sum(
-            x.cost for x in children
+        self.expenses: float = self.calculate_expenses(
+            [x.cost for x in self.appliances], [x.cost for x in self.children]
         )
