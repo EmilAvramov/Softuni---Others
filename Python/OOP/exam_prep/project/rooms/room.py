@@ -6,12 +6,10 @@ class Room:
         self.children: list = []
         self._expenses: float = 0
 
-    @property
-    def expenses(self):
+    def get_expenses(self):
         return self._expenses
 
-    @expenses.setter
-    def expenses(self, value: float):
+    def set_expenses(self, value: float):
         if value < 0:
             raise ValueError("Expenses cannot be negative")
         self._expenses = value
@@ -21,4 +19,4 @@ class Room:
         for arg in args:
             for item in arg:
                 total += item * 30
-        self._expenses = total
+        return total
