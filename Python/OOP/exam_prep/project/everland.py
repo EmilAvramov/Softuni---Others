@@ -40,7 +40,7 @@ class Everland:
             people += room.member_count
         string.append(f"Total population: {people}")
         for room in self.rooms:
-            result = f"{room.__class__.__name__} with {room.member_count}. Budget: {room.budget}$, Expenses: {room.expenses}"
+            result = f"{room.__class__.__name__} with {room.member_count}. Budget: {room.budget}$, Expenses: {room.expenses}$"
             string.append(result)
             if len(room.children) > 0:
                 for i in range(len(room.children)):
