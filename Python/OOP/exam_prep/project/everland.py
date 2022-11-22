@@ -33,4 +33,23 @@ class Everland:
         return new_line.join(string)
 
     def status(self):
-        pass
+        people = 0
+        string = []
+        new_line = "\n"
+        for room in self.rooms:
+            people += room.member_count
+        string.append(f"Total population: {people}")
+        for room in self.rooms:
+            result = f"{room.__class__.__name__} with {room.member_count}. Budget: {room.budget}$, Expenses: {room.expenses}"
+            string.append(result)
+            if len(room.children) > 0:
+                for i in range(len(room.children)):
+                    string.append(
+                        f"--- Child {i} monthly cost: {room.children[i].cost * 30}$"
+                    )
+            if len(room.appliances) > 0:
+                total = 0
+                for appliance in room.appliances:
+                    total += appliance.get_monthly_expense()
+                string.append(f"Appliances monthly cost: {total}$")
+        return new_line.join(string)
