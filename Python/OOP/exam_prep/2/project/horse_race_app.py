@@ -1,22 +1,63 @@
 from project.horse_specification.horse import Horse
 from project.horse_specification.appaloosa import Appaloosa
 from project.horse_specification.thoroughbred import Thoroughbred
+from project.jockey import Jockey
+from project.horse_race import HorseRace
 
 
 class HorseRaceApp:
     def __init__(self) -> None:
-        self.horses: list = []
-        self.jockeys: list = []
-        self.horse_races: list = []
+        self._horses: list = []
+        self._jockeys: list = []
+        self._horse_races: list = []
+
+    def get_horses(self):
+        return self._horses
+
+    def set_horses(self, value: Horse):
+        for horse in self._horses:
+            if horse.name == value.name:
+                raise Exception(f"Horse {value.name} has been already added!")
+        self._horses.append(value)
+        print(f"{value.__class__.__name__} horse {value.name} is added.")
+
+    def get_jockeys(self):
+        return self._jockeys
+
+    def set_jockeys(self, value: Jockey):
+        for jockey in self._jockeys:
+            if jockey.name == value.name:
+                raise Exception(f"Jockey {value.name} has been already added!")
+        self._jockeys.append(value)
+        print(f"Jockey {value.name} is added.")
+
+    def get_horse_races(self):
+        return self._horse_races
+
+    def set_horse_races(self, value: HorseRace):
+        for race in self._horse_races:
+            if race.race_type == value.race_type:
+                raise Exception(
+                    f"Race {value.race_type} has been already created!"
+                )
+        self._horse_races.append(value)
+        print(f"Race {value.race_type} is created.")
 
     def add_horse(self, horse_type: str, horse_name: str, horse_speed: int):
-        pass
+        if horse_type == "Appaloosa":
+            new_horse = Appaloosa(horse_name, horse_speed)
+            self._horses.append(new_horse)
+        elif horse_type == "Thoroughbred":
+            new_horse = Thoroughbred(horse_name, horse_speed)
+            self._horses.append(new_horse)
 
-    def add_jockey(self):
-        pass
+    def add_jockey(self, jockey_name: str, age: int):
+        new_jockey = Jockey(jockey_name, age)
+        self._jockeys.append(new_jockey)
 
-    def create_horse_race(self):
-        pass
+    def create_horse_race(self, race_type: str):
+        new_race = HorseRace(race_type)
+        self._horse_races.append(new_race)
 
     def add_horse_to_jocket(self):
         pass
