@@ -2,7 +2,7 @@ class Horse:
     def __init__(self, name: str, speed: int) -> None:
         self._name = name
         self._speed = speed
-        self._is_taken = False
+        self.is_taken = False
         self.max_speed = None
         self.increase = None
 

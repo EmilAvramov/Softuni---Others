@@ -59,8 +59,43 @@ class HorseRaceApp:
         new_race = HorseRace(race_type)
         self._horse_races.append(new_race)
 
-    def add_horse_to_jocket(self):
-        pass
+    def add_horse_to_jocket(self, jockey_name: str, horse_type: str):
+        jockey_found = False
+        horse_found = False
+        horse_available = False
+        jockey_has_horse = False
+        horse_set = False
+        for jockey in self._jockeys:
+            if jockey_name == jockey.name:
+                jockey_found = True
+                for horse in self._horses:
+                    if (
+                        horse.__class__.__name__ == horse_type
+                        and horse.is_taken is False
+                        and jockey.horse is None
+                    ):
+                        horse_set = True
+                        jockey.horse = horse
+                        horse.is_taken = True
+                        return f"Jockey {jockey_name} will ride the horse {horse.name}."
+                if horse_set is False:
+                    for horse in self._horses:
+                        if horse.__class__.__name__ == horse_type:
+                            horse_found = True
+                            for horse in self._horses:
+                                if (
+                                    horse.__class__.__name__ == horse_type
+                                    and horse.is_taken is False
+                                ):
+                                    horse_available = True
+                                    jockey_has_horse = True
+                                    break
+        if jockey_found is False:
+            raise Exception(f"Jockey {jockey_name} could not be found!")
+        if horse_found is False or horse_available is False:
+            raise Exception(f"Horse breed {horse_type} could not be found!")
+        if jockey_has_horse:
+            raise Exception(f"Jockey {jockey_name} already has a horse.")
 
     def add_jockey_to_horse_race(self):
         pass
