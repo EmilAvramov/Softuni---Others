@@ -79,7 +79,13 @@ class HorseRaceApp:
             pass
 
     def add_horse_to_jockey(self, jockey_name: str, horse_type: str):
-        pass
+        jockey = self.return_jockey(jockey_name)
+        if self.check_jockey_exists(jockey_name):
+            if self.check_breed(horse_type):
+                horse = self.return_horse(horse_type)
+                if self.check_jockey_needs_horse(jockey_name):
+                    jockey.horse = horse
+                    horse.is_taken = True
 
     def add_jockey_to_horse_race(self, race_type: str, jockey_name: str):
         race = self.return_race(race_type)
@@ -96,6 +102,7 @@ class HorseRaceApp:
             self.check_participants(selected)
             self.choose_winner(selected)
 
+    # Objects
     def return_race(self, race_type: str):
         for race in self.horse_races:
             if race_type == race.race_type:
@@ -107,45 +114,31 @@ class HorseRaceApp:
                 return jockey
 
     def return_horse(self, horse_name: str):
-        for horse in self.horses:
+        for horse in reversed(self.horses):
             if horse.name == horse_name:
                 return horse
 
-    def check_horse(self, horse_name: str):
-        horse = self.return_horse(horse_name)
-        if horse.is_taken:
-            return True
-        return False
-
-    def check_breed(self, breed: str):
-        if breed == "Thoroughbred" or breed == "Appaloosa":
-            return True
-        raise Exception(f"Horse breed {breed} could not be found!")
-
-    def check_jockey_exists(self, jockey_name: str):
-        for jockey in self.jockeys:
-            if jockey_name == jockey.name:
-                return True
-        raise Exception(f"Jockey {jockey_name} could not be found!")
-
-    def check_jockey_horse(self, jockey_name: str):
-        jockey = self.return_jockey(jockey_name)
-        if jockey.horse != None:
-            return True
-        raise Exception(f"Jockey {jockey_name} cannot race without a horse!")
-
-    def check_jockey_in_race(self, jockey_name: str, race: HorseRace):
-        for jockey in race.jockeys:
-            if jockey_name == jockey.name:
-                return "Jockey {jockey_name} has been already added to the {race_type} race."
-        return False
-
+    # Existence
     def check_race(self, race_type: str):
         for race in self.horse_races:
             if race_type == race.race_type:
                 return True
         raise Exception(f"Race {race_type} could not be found!")
 
+    def check_jockey(self, jockey_name: str):
+        for jockey in self.jockeys:
+            if jockey_name == jockey.name:
+                return True
+        raise Exception(f"Jockey {jockey_name} could not be found!")
+
+    def check_horse(self, horse_name: str):
+        for horse in self.horses:
+            if horse.name == horse_name:
+                if horse.is_taken is False:
+                    return True
+        raise Exception(f"Horse breed {horse_name} could not be found!")
+
+    # Race Validation
     def check_participants(self, race: HorseRace):
         if len(race.jockeys) < 2:
             raise Exception(
@@ -162,3 +155,22 @@ class HorseRaceApp:
                 jockey_name = jockey.name
                 horse_name = jockey.horse.name
         return f"The winner of the {race.race_type} race, with a speed of {top_speed}km/h is {jockey_name}! Winner's horse: {horse_name}."
+
+    def jockey_in_race(self, jockey_name: str, race: HorseRace):
+        for jockey in race.jockeys:
+            if jockey_name == jockey.name:
+                return "Jockey {jockey_name} has been already added to the {race_type} race."
+        return False
+
+    # Jockey horse validation
+    def jockey_has_horse(self, jockey_name: str):
+        jockey = self.return_jockey(jockey_name)
+        if jockey.horse != None:
+            return True
+        raise Exception(f"Jockey {jockey_name} cannot race without a horse!")
+
+    def jockey_needs_horse(self, jockey_name: str):
+        jockey = self.return_jockey(jockey_name)
+        if jockey.horse == None:
+            return True
+        raise Exception(f"Jockey {jockey_name} already has a horse.")
