@@ -3,7 +3,8 @@ class Horse:
         self._name = name
         self._speed = speed
         self._is_taken = False
-        self.max_speed = 0
+        self.max_speed = None
+        self.increase = None
 
     def get_name(self):
         return self._name
@@ -21,4 +22,7 @@ class Horse:
         self._speed = value
 
     def train(self):
-        pass
+        if self.increase + self._speed >= self.max_speed:
+            self._speed = self.max_speed
+        else:
+            self._speed += self.increase
