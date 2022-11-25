@@ -2,7 +2,7 @@ from project.horse_specification.horse import Horse
 
 
 class Appaloosa(Horse):
-    MAX_HORSE_SPEED: None | int = 120
+    MAX_HORSE_SPEED = 120
 
     def __init__(self, name: str, speed: int) -> None:
         super().__init__(name, speed)

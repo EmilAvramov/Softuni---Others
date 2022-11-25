@@ -1,6 +1,6 @@
 class HorseRace:
     def __init__(self, race_type: str) -> None:
-        self.__race_type: str = race_type
+        self.race_type: str = race_type
         self.jockeys: list = []
 
     @property

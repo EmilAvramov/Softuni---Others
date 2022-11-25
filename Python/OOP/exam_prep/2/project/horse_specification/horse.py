@@ -2,19 +2,19 @@ from abc import ABC, abstractmethod
 
 
 class Horse(ABC):
-    MAX_HORSE_SPEED: None | int = None
+    MAX_HORSE_SPEED = None
 
     def __init__(self, name: str, speed: int) -> None:
         self.__name: str = name
         self.__speed: int = speed
-        self.is_taken: bool = False
+        self.__is_taken: bool = False
 
     @property
     def name(self):
         return self.__name
 
     @name.setter
-    def set_name(self, value: str):
+    def name(self, value: str):
         if len(value) < 4:
             raise ValueError("Horse name {value} is less than 4 symbols!")
         self.__name = value
