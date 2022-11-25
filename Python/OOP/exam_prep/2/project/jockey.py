@@ -1,7 +1,7 @@
 class Jockey:
     def __init__(self, name: str, age: int) -> None:
-        self._name = name
-        self._age = age
+        self._name: str = name
+        self._age: int = age
         self._horse = None
 
     def get_name(self):
@@ -26,4 +26,5 @@ class Jockey:
         return self._horse
 
     def set_horse(self, value):
-        self._horse = value
+        if self._horse == None:
+            self._horse = value

@@ -97,8 +97,8 @@ class HorseRaceApp:
         if jockey_has_horse:
             raise Exception(f"Jockey {jockey_name} already has a horse.")
 
-    def add_jockey_to_horse_race(self):
+    def add_jockey_to_horse_race(self, race_type: str, jockey_name: str):
         pass
 
-    def start_horse_race(self):
+    def start_horse_race(self, race_type: str):
         pass
