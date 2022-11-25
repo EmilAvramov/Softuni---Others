@@ -73,52 +73,22 @@ class HorseRaceApp:
     def create_horse_race(self, race_type: str):
         new_race = HorseRace(race_type)
         try:
-            self.__horse_races.append(new_race)
+            self.horse_races.append(new_race)
             return f"Race {race_type} is created."
         except Exception:
             pass
 
     def add_horse_to_jockey(self, jockey_name: str, horse_type: str):
         pass
-        # jockey_found = False
-        # horse_found = False
-        # horse_available = False
-        # jockey_has_horse = False
-        # horse_set = False
-        # for jockey in self._jockeys:
-        #     if jockey_name == jockey.name:
-        #         jockey_found = True
-        #         for horse in self._horses:
-        #             if (
-        #                 horse.__class__.__name__ == horse_type
-        #                 and horse.is_taken is False
-        #                 and jockey.horse is None
-        #             ):
-        #                 horse_set = True
-        #                 jockey.horse = horse
-        #                 horse.is_taken = True
-        #                 return f"Jockey {jockey_name} will ride the horse {horse.name}."
-        #         if horse_set is False:
-        #             for horse in self._horses:
-        #                 if horse.__class__.__name__ == horse_type:
-        #                     horse_found = True
-        #                     for horse in self._horses:
-        #                         if (
-        #                             horse.__class__.__name__ == horse_type
-        #                             and horse.is_taken is False
-        #                         ):
-        #                             horse_available = True
-        #                             jockey_has_horse = True
-        #                             break
-        # if jockey_found is False:
-        #     raise Exception(f"Jockey {jockey_name} could not be found!")
-        # if horse_found is False or horse_available is False:
-        #     raise Exception(f"Horse breed {horse_type} could not be found!")
-        # if jockey_has_horse:
-        #     raise Exception(f"Jockey {jockey_name} already has a horse.")
 
     def add_jockey_to_horse_race(self, race_type: str, jockey_name: str):
-        pass
+        race = self.return_race(race_type)
+        jockey = self.return_jockey(jockey_name)
+        if self.check_race(race_type):
+            if self.check_jockey_exists(jockey_name):
+                if self.check_jockey_horse(jockey_name):
+                    if self.check_jockey_in_race(jockey_name, race) is False:
+                        return f"Jockey {jockey_name} added to the {race_type} race."
 
     def start_horse_race(self, race_type: str):
         if self.check_race(race_type):
@@ -131,27 +101,49 @@ class HorseRaceApp:
             if race_type == race.race_type:
                 return race
 
-    def check_jockey_exists(self, jockey_name: str):
-        if jockey_name in self.jockeys:
+    def return_jockey(self, jockey_name: str):
+        for jockey in self.jockeys:
+            if jockey.name == jockey_name:
+                return jockey
+
+    def return_horse(self, horse_name: str):
+        for horse in self.horses:
+            if horse.name == horse_name:
+                return horse
+
+    def check_horse(self, horse_name: str):
+        horse = self.return_horse(horse_name)
+        if horse.is_taken:
             return True
+        return False
+
+    def check_breed(self, breed: str):
+        if breed == "Thoroughbred" or breed == "Appaloosa":
+            return True
+        raise Exception(f"Horse breed {breed} could not be found!")
+
+    def check_jockey_exists(self, jockey_name: str):
+        for jockey in self.jockeys:
+            if jockey_name == jockey.name:
+                return True
         raise Exception(f"Jockey {jockey_name} could not be found!")
 
     def check_jockey_horse(self, jockey_name: str):
-        if self.jockeys[jockey_name].horse == None:
-            raise Exception(
-                f"Jockey {jockey_name} cannot race without a horse!"
-            )
-        return True
+        jockey = self.return_jockey(jockey_name)
+        if jockey.horse != None:
+            return True
+        raise Exception(f"Jockey {jockey_name} cannot race without a horse!")
 
-    def check_jockey_in_rade(self, jockey_name: str, race: HorseRace):
+    def check_jockey_in_race(self, jockey_name: str, race: HorseRace):
         for jockey in race.jockeys:
             if jockey_name == jockey.name:
-                return True
+                return "Jockey {jockey_name} has been already added to the {race_type} race."
         return False
 
     def check_race(self, race_type: str):
-        if race_type in self.horse_races:
-            return True
+        for race in self.horse_races:
+            if race_type == race.race_type:
+                return True
         raise Exception(f"Race {race_type} could not be found!")
 
     def check_participants(self, race: HorseRace):

@@ -7,7 +7,7 @@ class Horse(ABC):
     def __init__(self, name: str, speed: int) -> None:
         self.__name: str = name
         self.__speed: int = speed
-        self.__is_taken: bool = False
+        self.is_taken: bool = False
 
     @property
     def name(self):
