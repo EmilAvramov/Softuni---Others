@@ -1,30 +1,36 @@
 class Jockey:
     def __init__(self, name: str, age: int) -> None:
-        self._name: str = name
-        self._age: int = age
-        self._horse = None
+        self.__name: str = name
+        self.__age: int = age
+        self.__horse = None
 
-    def get_name(self):
-        return self._horse
+    @property
+    def name(self):
+        return self.__name
 
-    def set_name(self, value: str):
-        if len(value) == 0 or value == " ":
+    @name.setter
+    def name(self, value: str):
+        if len(value) == 0 or value.strip() == "":
             raise ValueError("Name should contain at least one character!")
-        self._name = value
+        self.__name = value
 
-    def get_age(self):
-        return self._age
+    @property
+    def age(self):
+        return self.__age
 
-    def set_age(self, value: int):
+    @age.setter
+    def age(self, value: int):
         if value < 18:
             raise ValueError(
                 "Jockeys must be at least 18 to participate in the race!"
             )
-        self._age = value
+        self.__age = value
 
-    def get_horse(self):
-        return self._horse
+    @property
+    def horse(self):
+        return self.__horse
 
-    def set_horse(self, value):
-        if self._horse == None:
-            self._horse = value
+    @horse.setter
+    def horse(self, value):
+        if self.__horse == None:
+            self.__horse = value

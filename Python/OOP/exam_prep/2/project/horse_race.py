@@ -1,13 +1,15 @@
 class HorseRace:
     def __init__(self, race_type: str) -> None:
-        self._race_type: str = race_type
+        self.__race_type: str = race_type
         self.jockeys: list = []
 
-    def get_race_type(self):
-        return self._race_type
+    @property
+    def race_type(self):
+        return self.__race_type
 
-    def set_race_type(self, value: str):
+    @race_type.setter
+    def race_type(self, value: str):
         valid_races = ["Winter", "Spring", "Autumn", "Summer"]
         if value not in valid_races:
             raise ValueError("Race type does not exist!")
-        self._race_type = value
+        self.__race_type = value

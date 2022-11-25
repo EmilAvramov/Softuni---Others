@@ -2,10 +2,13 @@ from project.horse_specification.horse import Horse
 
 
 class Appaloosa(Horse):
+    MAX_HORSE_SPEED: None | int = 120
+
     def __init__(self, name: str, speed: int) -> None:
         super().__init__(name, speed)
-        self.max_speed: int = 120
-        self.increase: int = 2
 
     def train(self):
-        return super().train()
+        if self.speed <= 118:
+            self.speed += 2
+        else:
+            self.speed = self.MAX_HORSE_SPEED
