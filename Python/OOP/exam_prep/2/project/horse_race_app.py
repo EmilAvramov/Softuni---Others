@@ -81,33 +81,40 @@ class HorseRaceApp:
     def add_horse_to_jockey(self, jockey_name: str, horse_type: str):
         jockey = self.return_jockey(jockey_name)
         if self.check_jockey(jockey_name):
-            if self.check_horse(horse_type):
+            if isinstance(self.jockey_needs_horse(jockey_name), bool):
                 horse = self.return_horse(horse_type)
-                if self.jockey_needs_horse(jockey_name):
-                    index_jockey = self.jockeys.index(jockey)
-                    del self.jockeys[index_jockey]
+                if self.check_horse(horse_type):
                     jockey.horse = horse
-                    self.jockeys.append(jockey)
-                    index_horse = self.horse_races.index(horse)
-                    del self.horses[index_horse]
                     horse.is_taken = True
-                    self.horses.append(horse)
+                    index_jockey = self.jockeys.index(jockey)
+                    index_horse = self.horses.index(horse)
+                    self.horses[index_horse] = horse
+                    self.jockeys[index_jockey] = jockey
                     return f"Jockey {jockey_name} will ride the horse {horse.name}."
+            else:
+                return self.jockey_needs_horse(jockey_name)
 
     def add_jockey_to_horse_race(self, race_type: str, jockey_name: str):
         race = self.return_race(race_type)
-        jockey = self.return_jockey(jockey_name)
         if self.check_race(race_type):
             if self.check_jockey(jockey_name):
                 if self.jockey_has_horse(jockey_name):
-                    if self.check_jockey_in_race(jockey_name, race) is False:
+                    if isinstance(
+                        self.jockey_in_race(jockey_name, race), bool
+                    ):
+                        jockey = self.return_jockey(jockey_name)
+                        race.jockeys.append(jockey)
+                        race_index = self.horse_races.index(race)
+                        self.horse_races[race_index] = race
                         return f"Jockey {jockey_name} added to the {race_type} race."
+                    else:
+                        return self.jockey_in_race(jockey_name, race)
 
     def start_horse_race(self, race_type: str):
         if self.check_race(race_type):
             selected = self.return_race(race_type)
             self.check_participants(selected)
-            self.choose_winner(selected)
+            return self.choose_winner(selected)
 
     # Objects
     def return_race(self, race_type: str):
@@ -169,7 +176,7 @@ class HorseRaceApp:
     def jockey_in_race(self, jockey_name: str, race: HorseRace):
         for jockey in race.jockeys:
             if jockey_name == jockey.name:
-                return "Jockey {jockey_name} has been already added to the {race_type} race."
+                return f"Jockey {jockey_name} has been already added to the {race.race_type} race."
         return False
 
     # Jockey horse validation
