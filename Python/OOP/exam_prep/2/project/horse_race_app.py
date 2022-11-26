@@ -50,14 +50,14 @@ class HorseRaceApp:
         if horse_type == "Appaloosa":
             new_horse = Appaloosa(horse_name, horse_speed)
             try:
-                self.__horses.append(new_horse)
+                self.horses.append(new_horse)
                 return f"Appaloosa horse {horse_name} is added."
             except Exception:
                 pass
         elif horse_type == "Thoroughbred":
             new_horse = Thoroughbred(horse_name, horse_speed)
             try:
-                self.__horses.append(new_horse)
+                self.horses.append(new_horse)
                 return f"Thoroughbred horse {horse_name} is added."
             except Exception:
                 pass
@@ -80,19 +80,26 @@ class HorseRaceApp:
 
     def add_horse_to_jockey(self, jockey_name: str, horse_type: str):
         jockey = self.return_jockey(jockey_name)
-        if self.check_jockey_exists(jockey_name):
-            if self.check_breed(horse_type):
+        if self.check_jockey(jockey_name):
+            if self.check_horse(horse_type):
                 horse = self.return_horse(horse_type)
-                if self.check_jockey_needs_horse(jockey_name):
+                if self.jockey_needs_horse(jockey_name):
+                    index_jockey = self.jockeys.index(jockey)
+                    del self.jockeys[index_jockey]
                     jockey.horse = horse
+                    self.jockeys.append(jockey)
+                    index_horse = self.horse_races.index(horse)
+                    del self.horses[index_horse]
                     horse.is_taken = True
+                    self.horses.append(horse)
+                    return f"Jockey {jockey_name} will ride the horse {horse.name}."
 
     def add_jockey_to_horse_race(self, race_type: str, jockey_name: str):
         race = self.return_race(race_type)
         jockey = self.return_jockey(jockey_name)
         if self.check_race(race_type):
-            if self.check_jockey_exists(jockey_name):
-                if self.check_jockey_horse(jockey_name):
+            if self.check_jockey(jockey_name):
+                if self.jockey_has_horse(jockey_name):
                     if self.check_jockey_in_race(jockey_name, race) is False:
                         return f"Jockey {jockey_name} added to the {race_type} race."
 
@@ -113,9 +120,9 @@ class HorseRaceApp:
             if jockey.name == jockey_name:
                 return jockey
 
-    def return_horse(self, horse_name: str):
-        for horse in reversed(self.horses):
-            if horse.name == horse_name:
+    def return_horse(self, horse_type: str):
+        for horse in self.horses:
+            if horse.__class__.__name__ == horse_type:
                 return horse
 
     # Existence
@@ -131,12 +138,15 @@ class HorseRaceApp:
                 return True
         raise Exception(f"Jockey {jockey_name} could not be found!")
 
-    def check_horse(self, horse_name: str):
-        for horse in self.horses:
-            if horse.name == horse_name:
+    def check_horse(self, horse_type: str):
+        for horse in reversed(self.horses):
+            if horse.__class__.__name__ == horse_type:
                 if horse.is_taken is False:
                     return True
-        raise Exception(f"Horse breed {horse_name} could not be found!")
+                raise Exception(
+                    f"Horse breed {horse_type} could not be found!"
+                )
+        raise Exception(f"Horse breed {horse_type} could not be found!")
 
     # Race Validation
     def check_participants(self, race: HorseRace):
@@ -167,10 +177,10 @@ class HorseRaceApp:
         jockey = self.return_jockey(jockey_name)
         if jockey.horse != None:
             return True
-        raise Exception(f"Jockey {jockey_name} cannot race without a horse!")
+        return Exception(f"Jockey {jockey_name} cannot race without a horse!")
 
     def jockey_needs_horse(self, jockey_name: str):
         jockey = self.return_jockey(jockey_name)
         if jockey.horse == None:
             return True
-        raise Exception(f"Jockey {jockey_name} already has a horse.")
+        return f"Jockey {jockey_name} already has a horse."
