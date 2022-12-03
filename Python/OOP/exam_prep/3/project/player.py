@@ -46,3 +46,9 @@ class Player:
 
     def __str__(self) -> str:
         return f"Player: {self.__name}, {self.__age}, {self.__stamina}, {self.__need_sustenance}"
+
+    def increase_stamina(self, value: int):
+        if self.__stamina + value >= 100:
+            self.__stamina = 100
+        else:
+            self.__stamina += value
