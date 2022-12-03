@@ -14,6 +14,17 @@ class Controller:
                 return player
         return False
 
+    def find_supply(self, supply_type: str):
+        for supply in self.supplies[::-1]:
+            if supply.__class__.__name__ == supply_type:
+                index = [
+                    i
+                    for i, v in enumerate(self.supplies)
+                    if v.__class__.__name__ == supply_type
+                ][-1]
+                return supply, index
+        return False
+
     def add_player(self, *players: Player):
         names: list = []
         for player in players:
@@ -30,31 +41,21 @@ class Controller:
         player: Union[Player, bool] = self.find_player(player_name)
         if player:
             if sustenance_type == "Food" or sustenance_type == "Drink":
-                if player.need_sustenance is False:
+                if player.stamina == 100:
                     return f"{player.name} have enough stamina."
                 if sustenance_type == "Food":
-                    for supply in reversed(self.supplies):
-                        if supply.__class__.__name__ == "Food":
-                            if player.stamina + supply.energy >= 100:
-                                player.stamina = 100
-                            else:
-                                player.stamina += supply.energy
-                            self.supplies.remove(supply)
-                            player_index = self.players.index(player)
-                            self.players[player_index] = player
-                            return f"{player_name} sustained successfully with {supply.name}."
+                    if self.find_supply("Food"):
+                        supply, index = self.find_supply("Food")
+                        player.increase_stamina(supply.energy)
+                        self.supplies.pop(index)
+                        return f"{player.name} sustained successfully with {supply.name}."
                     return Exception("There are no food supplies left!")
                 elif sustenance_type == "Drink":
-                    for supply in reversed(self.supplies):
-                        if supply.__class__.__name__ == "Drink":
-                            if player.stamina + supply.energy >= 100:
-                                player.stamina = 100
-                            else:
-                                player.stamina += supply.energy
-                            self.supplies.remove(supply)
-                            player_index = self.players.index(player)
-                            self.players[player_index] = player
-                            return f"{player_name} sustained successfully with {supply.name}."
+                    if self.find_supply("Drink"):
+                        supply, index = self.find_supply("Drink")
+                        player.increase_stamina(supply.energy)
+                        self.supplies.pop(index)
+                        return f"{player.name} sustained successfully with {supply.name}."
                     return Exception("There are no drink supplies left!")
 
     def duel(self, first_player_name: str, second_player_name: str):
@@ -63,11 +64,11 @@ class Controller:
         winner = None
 
         if player_1.stamina == 0 and player_2.stamina == 0:
-            return f"Player {first_player_name} does not have enough stamina.\nPlayer {second_player_name} does not have enough stamina."
+            return f"Player {player_1.name} does not have enough stamina.\nPlayer {player_2.name} does not have enough stamina."
         elif player_1.stamina == 0:
-            return f"Player {first_player_name} does not have enough stamina."
+            return f"Player {player_1.name} does not have enough stamina."
         elif player_2.stamina == 0:
-            return f"Player {second_player_name} does not have enough stamina."
+            return f"Player {player_2.name} does not have enough stamina."
         else:
             if player_1.stamina > player_2.stamina:
                 if player_1.stamina - player_2.stamina / 2 <= 0:
@@ -76,7 +77,7 @@ class Controller:
                     return f"Winner: {winner.name}"
                 else:
                     player_1.stamina -= player_2.stamina / 2
-                    if player_2.stamina - int(player_1.stamina / 2) <= 0:
+                    if player_2.stamina - player_1.stamina / 2 <= 0:
                         player_2.stamina = 0
                         winner = player_1
                         return f"Winner: {winner.name}"
@@ -106,26 +107,14 @@ class Controller:
                 player.stamina = 0
             else:
                 player.stamina -= player.age * 2
-            for supply in self.supplies:
-                if supply.__class__.__name__ == "Food":
-                    player.increase_stamina(supply.energy)
-                    self.supplies.remove(supply)
-                    break
-            for supply in self.supplies:
-                if supply.__class__.__name__ == "Drink":
-                    player.increase_stamina(supply.energy)
-                    self.supplies.remove(supply)
-                    break
+            self.sustain(player.name, "Food")
+            self.sustain(player.name, "Drink")
 
     def __str__(self) -> str:
         result: list = []
         new_line = "\n"
         for player in self.players:
-            result.append(
-                f"Player: {player.name}, {player.age}, {player.stamina}, {player.need_sustenance}"
-            )
+            result.append(str(player))
         for supply in self.supplies:
-            result.append(
-                f"{supply.__class__.__name__}: {supply.name}, {supply.energy}"
-            )
+            result.append(supply.details())
         return new_line.join(result)

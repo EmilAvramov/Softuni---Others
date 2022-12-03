@@ -5,7 +5,10 @@ class Player:
         self.__name = name
         self.__age = age
         self.__stamina = stamina
-        self.__need_sustenance: bool = self.__stamina < 100
+
+    @property
+    def need_sustenance(self):
+        return self.__stamina < 100
 
     @property
     def name(self):
@@ -40,15 +43,11 @@ class Player:
             raise ValueError("Stamina not valid!")
         self.__stamina = value
 
-    @property
-    def need_sustenance(self):
-        return self.__need_sustenance
-
     def __str__(self) -> str:
-        return f"Player: {self.__name}, {self.__age}, {self.__stamina}, {self.__need_sustenance}"
+        return f"Player: {self.__name}, {self.__age}, {self.__stamina}, {self.need_sustenance}"
 
     def increase_stamina(self, value: int):
-        if self.__stamina + value >= 100:
-            self.__stamina = 100
+        if self.stamina + value >= 100:
+            self.stamina = 100
         else:
-            self.__stamina += value
+            self.stamina += value
