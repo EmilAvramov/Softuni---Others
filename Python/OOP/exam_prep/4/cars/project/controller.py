@@ -29,17 +29,10 @@ class Controller:
         return False
 
     def get_last_free_car(self, car_type: str):
-        indexes = [
-            i
-            for i, v in enumerate(self.cars[::-1])
-            if car_type == v.__class__.__name__ and v.is_taken == False
-        ]
-        if len(indexes) > 1:
-            return indexes[-1], self.cars[indexes[-1]]
-        elif len(indexes) == 1:
-            return indexes[0], self.cars[indexes[0]]
-        else:
-            return False
+        for i, v in enumerate(self.cars[::-1]):
+            if car_type == v.__class__.__name__ and v.is_taken is False:
+                return self.cars.index(v), v
+        return False
 
     def create_car(self, car_type: str, model: str, speed_limit: int):
         valid_cars = ["MuscleCar", "SportsCar"]
@@ -79,7 +72,8 @@ class Controller:
                     index, car = self.get_last_free_car(car_type)
                     if driver.car:
                         old_model = driver.car.model
-                        driver.car.is_taken = False
+                        old_index = self.cars.index(driver.car)
+                        self.cars[old_index].is_taken = False
                         driver.car = car
                         self.cars[index].is_taken = True
                         return f"Driver {driver_name} changed his car from {old_model} to {driver.car.model}."
@@ -122,9 +116,20 @@ class Controller:
             if len(race.drivers) >= 3:
                 fastest = {}
                 for driver in race.drivers:
-                    fastest[driver.name] = driver.car.speed_limit
-                fastest = sorted(fastest.items(), key=lambda x: x[0])
-                print(fastest)
+                    fastest[driver] = driver.car.speed_limit
+                fastest = dict(sorted(fastest.items(), key=lambda x: -x[1]))
+                count = 0
+                message = []
+                for key, value in fastest.items():
+                    count += 1
+                    index = self.drivers.index(key)
+                    self.drivers[index].number_of_wins += 1
+                    message.append(
+                        f"Driver {key.name} wins the {race_name} race with a speed of {value}."
+                    )
+                    if count == 3:
+                        break
+                return "\n".join(message)
             else:
                 raise Exception(
                     f"Race {race_name} cannot start with less than 3 participants!"
