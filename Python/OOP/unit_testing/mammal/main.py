@@ -18,7 +18,7 @@ class TestMammal(TestCase):
         self.assertEqual("animals", self.mammal.get_kingdom())
 
     def test_info(self):
-        self.assertEqual("Test is of type Type Test", self.mammal.info())
+        self.assertEqual('Test is of type Type Test', self.mammal.info())
 
 
 if __name__ == "__main__":
