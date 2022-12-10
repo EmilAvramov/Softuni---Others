@@ -8,9 +8,13 @@ class ChristmasPastryShopApp:
     def __init__(self) -> None:
         self.booths: list = []
         self.delicacies: list = []
-        self.income: float = 0
+        self.income: float = 0.0
 
     def add_delicacy(self, type_delicacy: str, name: str, price: float):
+        for food in self.delicacies:
+            if food.name == name:
+                raise Exception(f"{name} already exists!")
+
         food = None
         if type_delicacy == "Gingerbread":
             food = Gingerbread(name, price)
@@ -19,19 +23,14 @@ class ChristmasPastryShopApp:
         else:
             raise Exception(f"{type_delicacy} is not on our delicacy menu!")
 
-        for food in self.delicacies:
-            if food.name == name:
-                raise Exception(f"{name} already exists!")
-
-        if food:
-            self.delicacies.append(food)
-            return (
-                f"Added delicacy {name} - {type_delicacy} to the pastry shop."
-            )
-        else:
-            raise Exception("Check this")
+        self.delicacies.append(food)
+        return f"Added delicacy {name} - {type_delicacy} to the pastry shop."
 
     def add_booth(self, type_booth: str, booth_number: int, capacity: int):
+        for booth in self.booths:
+            if booth.booth_number == booth_number:
+                raise Exception(f"Booth number {booth_number} already exists!")
+
         booth = None
         if type_booth == "Open Booth":
             booth = OpenBooth(booth_number, capacity)
@@ -40,19 +39,15 @@ class ChristmasPastryShopApp:
         else:
             raise Exception(f"{type_booth} is not a valid booth!")
 
-        for booth in self.booths:
-            if booth.booth_number == booth_number:
-                raise Exception(f"Booth number {booth_number} already exists!")
-
-        if booth:
-            self.booths.append(booth)
-            return f"Added booth number {booth_number} in the pastry shop."
-        else:
-            raise Exception("Check this")
+        self.booths.append(booth)
+        return f"Added booth number {booth_number} in the pastry shop."
 
     def reserve_booth(self, number_of_people: int):
         for booth in self.booths:
-            if not booth.is_reserved and booth.capacity >= number_of_people:
+            if (
+                booth.is_reserved is False
+                and booth.capacity >= number_of_people
+            ):
                 booth.reserve(number_of_people)
                 return f"Booth {booth.booth_number} has been reserved for {number_of_people} people."
         raise Exception(f"No available booth for {number_of_people} people!")
@@ -74,9 +69,10 @@ class ChristmasPastryShopApp:
                 bill += booth.price_for_reservation
                 for order in booth.delicacy_orders:
                     bill += order.price
-                booth.delicacy_orders = []
+                booth.delicacy_orders.clear()
                 booth.is_reserved = False
                 booth.price_for_reservation = 0
+                break
         self.income += bill
         return f"Booth {booth_number}:\nBill: {bill:.2f}lv."
 

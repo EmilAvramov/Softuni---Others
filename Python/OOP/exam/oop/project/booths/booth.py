@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 
+
 class Booth(ABC):
-    def __init__(self, booth_number: int,  capacity: int) -> None:
-        self.booth_number = booth_number
-        self.__capacity = capacity
+    def __init__(self, booth_number: int, capacity: int) -> None:
+        self.booth_number: int = booth_number
+        self.__capacity: int = capacity
         self.delicacy_orders: list = []
         self.price_for_reservation: float = 0
-        self.is_reserved: bool = False 
+        self.is_reserved: bool = False
 
     @property
     def capacity(self):

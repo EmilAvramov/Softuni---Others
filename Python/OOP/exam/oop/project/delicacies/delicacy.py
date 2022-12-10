@@ -23,7 +23,7 @@ class Delicacy(ABC):
 
     @price.setter
     def price(self, value: float):
-        if value <= 0:
+        if value <= 0.0:
             raise ValueError("Price cannot be less or equal to zero!")
         self.__price = value
 
