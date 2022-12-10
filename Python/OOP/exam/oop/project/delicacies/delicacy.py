@@ -2,31 +2,16 @@ from abc import ABC, abstractmethod
 
 
 class Delicacy(ABC):
-    def __init__(self, name: str, portion: int, price: float) -> None:
-        self.__name = name
-        self.portion = portion
-        self.__price = price
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, value: str):
-        if value.strip() == "":
+    def __init__(self, name: str, portion: int, price: float):
+        if not name.strip():
             raise ValueError("Name cannot be null or whitespace!")
-        self.__name = value
-
-    @property
-    def price(self):
-        return self.__price
-
-    @price.setter
-    def price(self, value: float):
-        if value <= 0.0:
+        if price <= 0:
             raise ValueError("Price cannot be less or equal to zero!")
-        self.__price = value
+
+        self.name = name
+        self.portion = portion
+        self.price = price
 
     @abstractmethod
     def details(self):
-        ...
+        pass
