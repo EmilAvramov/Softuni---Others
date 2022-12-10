@@ -2,43 +2,17 @@ from abc import ABC
 
 
 class Drink(ABC):
-    def __init__(
-        self, name: str, portion: float, price: float, brand: str
-    ) -> None:
-        self.__name = name
-        self.__portion = portion
-        self.price = price
-        self.__brand = brand
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, value: str):
-        if value.strip() == "":
+    def __init__(self, name: str, portion: float, price: float, brand: str):
+        if name.isspace() or name == "":
             raise ValueError("Name cannot be empty string or white space!")
-        self.__name = value
-
-    @property
-    def portion(self):
-        return self.__portion
-
-    @portion.setter
-    def portion(self, value: float):
-        if value <= 0:
+        if portion <= 0:
             raise ValueError("Portion cannot be less than or equal to zero!")
-        self.__portion = value
-
-    @property
-    def brand(self):
-        return self.__brand
-
-    @brand.setter
-    def brand(self, value: str):
-        if value.strip() == "":
+        if brand.isspace() or brand == "":
             raise ValueError("Brand cannot be empty string or white space!")
-        self.__brand = value
+        self.name = name
+        self.portion = portion
+        self.price = price
+        self.brand = brand
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f" - {self.name} {self.brand} - {self.portion:.2f}ml - {self.price:.2f}lv"
