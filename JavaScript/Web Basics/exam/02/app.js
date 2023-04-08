@@ -49,10 +49,19 @@ function solve() {
 
     const elements = [title, description, label, points, assignee]
 
+    const adjustElements = (elements, value) => {
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].disabled = value
+        }
+    }
+
+
     createBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        const elementsValues = captureDeepCopy(elements);
         if (!checkContent(elements)) {
-            e.preventDefault()
-            const elementsValues = captureDeepCopy(elements);
+            currentPoints += Number(elementsValues[3])
+            pointsElement.textContent = `Total Points ${currentPoints}pts`
             const nextId = parent.getElementsByTagName('article').length + 1
             const html = `
                 <article id="task-${nextId}" class="task-card">
@@ -70,31 +79,30 @@ function solve() {
             form.reset()
             const taskParent = document.getElementById(`task-${nextId}`)
             const taskDelete = taskParent.children[5].children[0]
-            currentPoints += Number(elementsValues[3])
-            pointsElement.textContent = `Total Points ${currentPoints}pts`
             taskDelete.addEventListener('click', (e) => {
-                e.preventDefault()
                 title.value = elementsValues[0];
                 description.value = elementsValues[1];
                 label.value = elementsValues[2];
                 points.value = elementsValues[3];
                 assignee.value = elementsValues[4];
-                elements.forEach(element => element.disabled = true);
+                adjustElements(elements, true)
                 createBtn.disabled = true;
                 deleteBtn.disabled = false;
-                taskInput.value = parent.id
-
-                deleteBtn.addEventListener('click', (e) => {
-                    e.preventDefault()
-                    currentPoints -= Number(elementsValues[3])
-                    pointsElement.textContent = `Total Points ${currentPoints}pts`
-                    taskParent.remove()
-                    form.reset()
-                    createBtn.disabled = false;
-                    deleteBtn.disabled = true;
-                    elements.forEach(element => element.disabled = false);
-                })
+                taskInput.value = taskParent.id
             })
         }
+    })
+
+    deleteBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        const elementsValues = captureDeepCopy(elements);
+        currentPoints -= Number(elementsValues[3])
+        pointsElement.textContent = `Total Points ${currentPoints}pts`
+        const taskParent = document.getElementById(taskInput.value)
+        taskParent.remove()
+        form.reset()
+        createBtn.disabled = false;
+        deleteBtn.disabled = true;
+        adjustElements(elements, false)
     })
 }
