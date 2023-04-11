@@ -11,8 +11,9 @@
 - [Basics](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Basics) | [certificate](https://softuni.bg/certificates/details/131408/bec48461)
 - [Fundamentals](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Fundamentals) | [certificate](https://softuni.bg/certificates/details/138840/125b88f9)
 - [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | [certificate](https://softuni.bg/certificates/details/143074/f9e052d5)
-- [OOP](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/OOP) | No certificate, course in progress
-- [Django] (no certificate, course not started yet)
+- [OOP](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/OOP) | [certificate](https://softuni.bg/certificates/details/150419/e919c5f8)
+- [JS Front-End](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Web%20Basics) | [certificate](https://softuni.bg/certificates/details/168277/be959a0a)
+- [Django](https://github.com/EmilAvramov/django-defense-project) | (no certificate, course not started yet)
 
 ### JavaScript
 
