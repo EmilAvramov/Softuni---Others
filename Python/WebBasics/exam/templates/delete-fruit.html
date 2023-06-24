@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+    <section id="edit">
+        <div class="form">
+            <h2>Delete Fruit</h2>
+            <form class="edit-form" method="POST">
+                {{ form }}
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}
