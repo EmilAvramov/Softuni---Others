@@ -22,8 +22,8 @@
 ### JavaScript
 
 - [Fundamentals](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Fundamentals) | (no certificate, not part of Python curriculum)
-- [Advanced & Web](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Advanced%20%26%20Web) | (no certificate, material passed ahead of schedule)
-- [Applications](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Applications) | (no certificate, material passed ahead of schedule)
+- [Advanced & Web](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Advanced%20%26%20Web) | (no certificate, not part of Python curriculum)
+- [Applications](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Applications) | (no certificate, not part of Python curriculum)
 - [Backend](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Backend) | (no certificate, not part of Python curriculum)
 
 ### HTML/CSS
