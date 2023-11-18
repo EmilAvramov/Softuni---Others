@@ -6,6 +6,10 @@
 - For some HTML/CSS and some JavaScript exercises the HTML/CSS skeleton is supplied by SoftUni in advance and specific tasks need to be performed on the skeleton.
 - For DB courses, students need to create a specific DB based on instructions and perform different operations on the data.
 
+### Diplomas
+- [Python Web Developer](https://softuni.bg/certificates/details/184494/a9e3a24b)
+- [Python Full Stack Developer](https://softuni.bg/certificates/details/192077/7095125e)
+
 ### Python
 
 - [Basics](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Basics) | [certificate](https://softuni.bg/certificates/details/131408/bec48461)
@@ -13,7 +17,7 @@
 - [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | [certificate](https://softuni.bg/certificates/details/143074/f9e052d5)
 - [OOP](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/OOP) | [certificate](https://softuni.bg/certificates/details/150419/e919c5f8)
 - [JS Front-End](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Web%20Basics) | [certificate](https://softuni.bg/certificates/details/168277/be959a0a)
-- [Django](https://github.com/EmilAvramov/django-defense-project) | (no certificate, course not started yet)
+- [Django](https://github.com/EmilAvramov/django-defense-project) | (https://softuni.bg/certificates/details/182360/3fe5c59c)
 
 ### JavaScript
 
