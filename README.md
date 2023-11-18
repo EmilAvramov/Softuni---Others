@@ -17,7 +17,7 @@
 - [Advanced](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/Advanced) | [certificate](https://softuni.bg/certificates/details/143074/f9e052d5)
 - [OOP](https://github.com/EmilAvramov/Softuni---Others/tree/master/Python/OOP) | [certificate](https://softuni.bg/certificates/details/150419/e919c5f8)
 - [JS Front-End](https://github.com/EmilAvramov/Softuni---Others/tree/master/JavaScript/Web%20Basics) | [certificate](https://softuni.bg/certificates/details/168277/be959a0a)
-- [Django](https://github.com/EmilAvramov/django-defense-project) | (https://softuni.bg/certificates/details/182360/3fe5c59c)
+- [Django](https://github.com/EmilAvramov/django-defense-project) | [certificate](https://softuni.bg/certificates/details/182360/3fe5c59c)
 
 ### JavaScript
 
